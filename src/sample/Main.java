@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileInputStream;
 
@@ -37,7 +38,7 @@ public class Main extends Application {
     private static final String MESSAGE_POPUP = "Surprise!";
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(@NotNull Stage primaryStage) throws Exception {
         primaryStage.setTitle(TITRE_FENETRE);
 
 
