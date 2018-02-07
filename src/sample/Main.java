@@ -3,13 +3,11 @@ package sample;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -73,30 +71,21 @@ public class Main extends Application {
         rapetisser.setToY(1);
 
 
-        //Creation des events listeners
-        avatar.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                rapetisser.stop();
-                grandir.play();
-            }
+        //Creation des events listeners (avec lambda)
+        avatar.setOnMouseEntered(event -> {
+            rapetisser.stop();
+            grandir.play();
         });
 
-        avatar.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                grandir.stop();
-                rapetisser.play();
-                popup.setVisible(false);
-            }
+        avatar.setOnMouseExited(event -> {
+            grandir.stop();
+            rapetisser.play();
+            popup.setVisible(false);
         });
 
-        avatar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                popup.setVisible(!popup.isVisible());
-            }
-        });
+        avatar.setOnMouseClicked(event ->
+            popup.setVisible(!popup.isVisible()) //Permet de re-cacher le message en ré-apuyant
+        );
 
 
         //Creation du layout
