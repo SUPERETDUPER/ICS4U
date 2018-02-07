@@ -35,6 +35,9 @@ public class Main extends Application {
     private static final String MESSAGE_SALUTATION = "Bonjour! Mon nom est Martin!";
     private static final String MESSAGE_POPUP = "Surprise!";
 
+    /*
+    Methode appelée automatiquement par 'launch()' dans superclass 'Application'
+     */
     @Override
     public void start(@NotNull Stage primaryStage) throws Exception {
         primaryStage.setTitle(TITRE_FENETRE);
