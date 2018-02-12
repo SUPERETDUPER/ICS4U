@@ -25,12 +25,29 @@
 package main;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 import org.jetbrains.annotations.NotNull;
 
 public class Main extends Application {
+
+    private Text premiereReponse = new Text();
+    private Text deuxiemeReponse = new Text();
+
+    private TextField premierTxtField = getInputField();
+    private TextField deuxiemeTxtField = getInputField();
 
     public static void main(String[] args) {
         launch(args);
@@ -40,11 +57,42 @@ public class Main extends Application {
     public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle("Div et Mod");
 
-        VBox layout = new VBox();
+        GridPane inputPane = new GridPane();
+        inputPane.add(new Label("Premier numéro"), 0, 0);
+        inputPane.add(new Label("Deuxième numéro"), 0, 1);
+        inputPane.add(premierTxtField, 1, 0);
+        inputPane.add(deuxiemeTxtField, 1, 1);
+        inputPane.setVgap(5);
+        inputPane.setHgap(5);
 
+        Button btnCalcul = new Button("Calculez");
+        btnCalcul.setOnMouseClicked(event -> {
+            update();
+        });
+
+
+
+
+        VBox layout = new VBox(inputPane, btnCalcul, premiereReponse, deuxiemeReponse);
+        layout.setSpacing(5);
+        layout.setPadding(new Insets(10));
+        layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void update() {
+        premiereReponse.setText(premierTxtField.getText());
+    }
+
+    @NotNull
+    private static TextField getInputField() {
+        TextField boiteInput = new TextField();
+        boiteInput.setPromptText("Entrez un nombre ici");
+        boiteInput.setAlignment(Pos.CENTER_RIGHT);
+        boiteInput.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+        return boiteInput;
     }
 }
