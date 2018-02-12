@@ -28,6 +28,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 public class Main extends Application {
 
@@ -36,7 +37,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle("Div et Mod");
 
         VBox layout = new VBox();
