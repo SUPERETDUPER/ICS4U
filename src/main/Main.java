@@ -55,9 +55,10 @@ public class Main extends Application {
     private static final int PADDING = 10;
     private static final int SPACING_VBOX = 5;
     private static final int SPACING_TABLEAU = 5;
+    private static final int DIMENSION_FENETRE = 400;
 
     @NotNull
-    private Text reponse = new Text("\n\n");
+    private Text reponse = new Text();
 
     public static void main(String[] args) {
         launch(args);
@@ -74,7 +75,7 @@ public class Main extends Application {
         layout.setPadding(new Insets(PADDING));
         layout.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(layout);
+        Scene scene = new Scene(layout, DIMENSION_FENETRE, DIMENSION_FENETRE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -96,10 +97,8 @@ public class Main extends Application {
 
         //Création du grid
         GridPane inputPane = new GridPane();
-        inputPane.add(description1, 0, 0);
-        inputPane.add(description2, 0, 1);
-        inputPane.add(premierTxtField, 1, 0);
-        inputPane.add(deuxiemeTxtField, 1, 1);
+        inputPane.addColumn(0, description1, description2);
+        inputPane.addColumn(1, premierTxtField, deuxiemeTxtField);
         inputPane.setVgap(SPACING_TABLEAU);
         inputPane.setHgap(SPACING_TABLEAU);
 
