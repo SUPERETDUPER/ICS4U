@@ -28,10 +28,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.Contract;
@@ -41,18 +42,22 @@ public class Main extends Application {
     private static final String SUGGESTION_POUR_FIELD = "Entrez un nombre ici";
     private static final String DESCRIPTION_ENTREE_1 = "Premier numéro";
     private static final String DESCRIPTION_ENTREE_2 = "Deuxième numéro";
+
     private static final String TITRE_DE_FENETRE = "Div et Mod";
+
+    private static final String ERREUR_INPUT_INVALIDE = "'%s' n'est pas un numéro valide";
+
+    private static final int FONT_SIZE = 15;
+    private static final Font FONT_DEFAUT = Font.font(FONT_SIZE);
+    private static final Font FONT_ERREUR = Font.font(null, FontWeight.BOLD, FONT_SIZE);
+    private static final int LINE_SPACING = 2;
+
     private static final int PADDING = 10;
-    private static final int ESPACE_ENTREE_OBJETS = 5;
-    private static final int ESPACE_TABLEAU = 5;
+    private static final int SPACING_VBOX = 5;
+    private static final int SPACING_TABLEAU = 5;
 
     @NotNull
-    private Text premiereReponse = new Text();
-    @NotNull
-    private Text deuxiemeReponse = new Text();
-
-    private String txt1 = "";
-    private String txt2 = "";
+    private Text reponse = new Text("\n\n");
 
     public static void main(String[] args) {
         launch(args);
@@ -62,32 +67,10 @@ public class Main extends Application {
     public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle(TITRE_DE_FENETRE);
 
-        //Creation des deux boites d'entrées de texte
-        TextField premierTxtField = getInputField();
-        TextField deuxiemeTxtField = getInputField();
+        reponse.setLineSpacing(LINE_SPACING);
 
-        premierTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            txt1 = newValue;
-            mettreAJour();
-        });
-
-        deuxiemeTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            txt2 = newValue;
-            mettreAJour();
-        });
-
-
-        GridPane inputPane = new GridPane();
-        inputPane.add(new Label(DESCRIPTION_ENTREE_1), 0, 0);
-        inputPane.add(new Label(DESCRIPTION_ENTREE_2), 0, 1);
-        inputPane.add(premierTxtField, 1, 0);
-        inputPane.add(deuxiemeTxtField, 1, 1);
-        inputPane.setVgap(ESPACE_TABLEAU);
-        inputPane.setHgap(ESPACE_TABLEAU);
-
-
-        VBox layout = new VBox(inputPane, premiereReponse, deuxiemeReponse);
-        layout.setSpacing(ESPACE_ENTREE_OBJETS);
+        VBox layout = new VBox(creeZoneEntree(), reponse);
+        layout.setSpacing(SPACING_VBOX);
         layout.setPadding(new Insets(PADDING));
         layout.setAlignment(Pos.CENTER);
 
@@ -96,11 +79,36 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void mettreAJour() {
+    @NotNull
+    private GridPane creeZoneEntree() {
+        //Création des deux boites d'entrées de texte
+        final TextField premierTxtField = getNewTextField();
+        final TextField deuxiemeTxtField = getNewTextField();
 
-        if (txt1.equals("") || txt2.equals("")) {
-            premiereReponse.setText("");
-            deuxiemeReponse.setText("");
+        premierTxtField.textProperty().addListener((observable, oldValue, newValue) -> mettreAJour(newValue, deuxiemeTxtField.getText()));
+        deuxiemeTxtField.textProperty().addListener((observable, oldValue, newValue) -> mettreAJour(premierTxtField.getText(), newValue));
+
+        //Création des descriptions
+        Text description1 = new Text(DESCRIPTION_ENTREE_1);
+        Text description2 = new Text(DESCRIPTION_ENTREE_2);
+        description1.setFont(FONT_DEFAUT);
+        description2.setFont(FONT_DEFAUT);
+
+        //Création du grid
+        GridPane inputPane = new GridPane();
+        inputPane.add(description1, 0, 0);
+        inputPane.add(description2, 0, 1);
+        inputPane.add(premierTxtField, 1, 0);
+        inputPane.add(deuxiemeTxtField, 1, 1);
+        inputPane.setVgap(SPACING_TABLEAU);
+        inputPane.setHgap(SPACING_TABLEAU);
+
+        return inputPane;
+    }
+
+    private void mettreAJour(@NotNull String entree1, @NotNull String entree2) {
+        if (entree1.equals("") || entree2.equals("")) {
+            reponse.setText("");
             return;
         }
 
@@ -108,31 +116,32 @@ public class Main extends Application {
         long numero2;
 
         try {
-            numero1 = Long.parseLong(txt1);
+            numero1 = Long.parseLong(entree1);
         } catch (NumberFormatException e) {
-            premiereReponse.setText('"' + txt2 + '"' + " est trop grand ou invalide");
-            deuxiemeReponse.setText("");
+            reponse.setFont(FONT_ERREUR);
+            reponse.setText(String.format(ERREUR_INPUT_INVALIDE, entree1));
             return;
         }
 
         try {
-            numero2 = Long.parseLong(txt2);
+            numero2 = Long.parseLong(entree2);
         } catch (NumberFormatException e) {
-            premiereReponse.setText('"' + txt2 + '"' + " est trop grand ou invalide");
-            deuxiemeReponse.setText("");
+            reponse.setFont(FONT_ERREUR);
+            reponse.setText(String.format(ERREUR_INPUT_INVALIDE, entree2));
             return;
         }
 
-        premiereReponse.setText(calculer(numero1, numero2));
-        deuxiemeReponse.setText(calculer(numero2, numero1));
+        reponse.setFont(FONT_DEFAUT);
+        reponse.setText(calculer(numero1, numero2) + "\n" + calculer(numero2, numero1));
     }
 
     @NotNull
     @Contract(pure = true)
-    private String calculer(long dividende, long diviseur) {
+    private static String calculer(long dividende, long diviseur) {
         if (diviseur == 0) {
             return "Impossible de diviser par zéro";
         }
+
         return dividende
                 + " / "
                 + diviseur
@@ -143,8 +152,9 @@ public class Main extends Application {
     }
 
     @NotNull
-    private static TextField getInputField() {
+    private static TextField getNewTextField() {
         TextField boiteInput = new TextField();
+        boiteInput.setFont(FONT_DEFAUT);
         boiteInput.setPromptText(SUGGESTION_POUR_FIELD);
         boiteInput.setAlignment(Pos.CENTER_RIGHT);
         return boiteInput;
