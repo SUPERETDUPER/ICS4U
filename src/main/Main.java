@@ -31,26 +31,23 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Main extends Application {
-    private static final String TITRE = "Div et Mod";
+    private static final String TITRE = "Monnaie";
 
-    private static final String SUGGESTION_BOITE_DE_TEXTE = "Entrez un nombre ici";
-    private static final String DESCRIPTION_ENTREE_1 = "Premier numéro";
-    private static final String DESCRIPTION_ENTREE_2 = "Deuxième numéro";
+    private static final String SUGGESTION_BOITE_DE_TEXTE = "Entrez votre montant ici";
+    private static final String DESCRIPTION_ENTREE = "Montant";
 
-    private static final String MSG_DIVISON_PAR_ZERO = "Impossible de diviser par zéro";
-    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un numéro valide\n"; //New line pour que la hauteur ne change pas
-    private static final String MSG_ENTREE_VIDE = "Entrez les numéros\n"; //New line pour que la hauteur ne change pas
+    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un montant valide\n"; //New line pour que la hauteur ne change pas
+    private static final String MSG_ENTREE_VIDE = "Entrez votre montant\n"; //New line pour que la hauteur ne change pas
 
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 35);
     private static final Font FONT_NORMAL = Font.font(15);
@@ -62,8 +59,7 @@ public class Main extends Application {
     private static final int PADDING_FENETRE = 15;
 
     private static final int ESPACE_VBOX = 30;
-    private static final int ESPACE_H_TABLEAU = 20;
-    private static final int ESPACE_V_TABLEAU = 10;
+    private static final int ESPACE_HBOX = 20;
 
     private Text txtReponse;
 
@@ -102,73 +98,37 @@ public class Main extends Application {
     }
 
     @NotNull
-    private GridPane creeZoneEntree() {
+    private HBox creeZoneEntree() {
         //Création des deux boites d'entrées de texte
-        final TextField premierTxtField = creeBoiteEntreeDeTexte();
-        final TextField deuxiemeTxtField = creeBoiteEntreeDeTexte();
+        TextField boiteMontant = new TextField();
+        boiteMontant.setFont(FONT_NORMAL);
+        boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
+        boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
 
         //Ajouter les listeners
-        premierTxtField.textProperty().addListener(
-                (observable, oldValue, newValue) -> montrerReponse(newValue, deuxiemeTxtField.getText())
+        boiteMontant.textProperty().addListener(
+                (observable, oldValue, newValue) -> montrerReponse(newValue)
         );
 
-        deuxiemeTxtField.textProperty().addListener(
-                (observable, oldValue, newValue) -> montrerReponse(premierTxtField.getText(), newValue)
-        );
 
-        //Création du grid
-        GridPane inputPane = new GridPane();
-
-        inputPane.addRow(0,
-                creeDescription(DESCRIPTION_ENTREE_1),
-                premierTxtField
-        );
-
-        inputPane.addRow(1,
-                creeDescription(DESCRIPTION_ENTREE_2),
-                deuxiemeTxtField
-        );
-
-        inputPane.setVgap(ESPACE_V_TABLEAU);
-        inputPane.setHgap(ESPACE_H_TABLEAU);
-        inputPane.setAlignment(Pos.CENTER);
-
-        return inputPane;
-    }
-
-    @NotNull
-    private static TextField creeBoiteEntreeDeTexte() {
-        TextField boiteInput = new TextField();
-        boiteInput.setFont(FONT_NORMAL);
-        boiteInput.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
-        boiteInput.setAlignment(Pos.BASELINE_RIGHT);
-        return boiteInput;
-    }
-
-    @NotNull
-    private static Text creeDescription(String message) {
-        Text text = new Text(message);
+        Text text = new Text(DESCRIPTION_ENTREE);
         text.setFont(FONT_NORMAL);
-        return text;
+
+        HBox hBox = new HBox(ESPACE_HBOX, text, boiteMontant);
+        hBox.setAlignment(Pos.CENTER);
+
+        return hBox;
     }
 
-    private void montrerReponse(@NotNull String entree1, @NotNull String entree2) {
-        if (entree1.isEmpty() || entree2.isEmpty()) {
+    private void montrerReponse(@NotNull String montant) {
+        if (montant.isEmpty()) {
             setReponseBold(MSG_ENTREE_VIDE);
             return;
         }
 
-        Long numero1 = parseEntree(entree1);
-        Long numero2 = parseEntree(entree2);
+        Long numero1 = parseEntree(montant);
 
-        if (numero1 == null || numero2 == null) {
-            return;
-        }
-
-        setReponseNormal(creeReponse(numero1, numero2)
-                + "\n"
-                + creeReponse(numero2, numero1)
-        );
+        setReponseNormal("Valeur : " + numero1);
     }
 
     @Nullable
@@ -189,21 +149,5 @@ public class Main extends Application {
     private void setReponseNormal(@NotNull String text) {
         txtReponse.setFont(FONT_NORMAL);
         txtReponse.setText(text);
-    }
-
-    @NotNull
-    @Contract(pure = true)
-    private static String creeReponse(long dividende, long diviseur) {
-        if (diviseur == 0) {
-            return MSG_DIVISON_PAR_ZERO;
-        }
-
-        return dividende
-                + " / "
-                + diviseur
-                + "  =  "
-                + dividende / diviseur
-                + " avec reste de "
-                + dividende % diviseur;
     }
 }
