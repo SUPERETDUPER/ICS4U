@@ -42,30 +42,40 @@ class TableauResultat extends GridPane {
     private static final int ESPACE_TABLEAU_V = 15;
 
     private static final float[] typesDePieces = {
-            2,
-            1,
-            0.5F,
+            2.00F,
+            1.00F,
+            0.50F,
             0.25F,
-            0.1F,
+            0.10F,
             0.05F,
             0.01F
     };
 
-    private final ArrayList<Text> reponses = new ArrayList<>(typesDePieces.length);
+    private static final String MSG_QUANTITE = "%sx";
+
+    private final ArrayList<Text> quantites = new ArrayList<>(typesDePieces.length);
 
     TableauResultat() {
         super();
 
+        //Création de l'entête
+        Text headerCol1 = new Text("Quantité");
+        Text headerCol2 = new Text("Types des pièces");
+        headerCol1.setFont(Main.FONT_BOLD);
+        headerCol2.setFont(Main.FONT_BOLD);
+        this.addRow(0, headerCol1, headerCol2);
+
+        //Ajout des rangées
         for (int i = 0; i < typesDePieces.length; i++) {
-            reponses.add(new Text());
-            reponses.get(i).setFont(Constantes.FONT_NORMAL);
+            quantites.add(new Text());
+            quantites.get(i).setFont(Main.FONT_NORMAL);
 
-            Text description = new Text(formatter.format(typesDePieces[i]));
-            description.setFont(Constantes.FONT_NORMAL);
+            Text txtTypeDePiece = new Text(formatter.format(typesDePieces[i]));
+            txtTypeDePiece.setFont(Main.FONT_NORMAL);
 
-            this.addRow(i,
-                    description,
-                    reponses.get(i)
+            this.addRow(i + 1, // +1 à cause de l'entête
+                    quantites.get(i),
+                    txtTypeDePiece
             );
         }
 
@@ -74,25 +84,24 @@ class TableauResultat extends GridPane {
 
         ColumnConstraints constraints0 = new ColumnConstraints();
         constraints0.setHalignment(HPos.RIGHT);
-        constraints0.setHgrow(Priority.ALWAYS);
         constraints0.setPercentWidth(50);
 
         ColumnConstraints constraints1 = new ColumnConstraints();
         constraints1.setHgrow(Priority.ALWAYS);
-        constraints0.setPercentWidth(50);
 
-        this.getColumnConstraints().add(constraints0);
-        this.getColumnConstraints().add(constraints1);
+        this.getColumnConstraints().addAll(
+                constraints0,
+                constraints1
+        );
 
-        this.setAlignment(Pos.CENTER);
+        this.setAlignment(Pos.TOP_CENTER);
     }
 
     void mettreAJour(float montant) {
-        for (int i = 0 ; i < typesDePieces.length ; i++){
-
+        for (int i = 0; i < typesDePieces.length; i++) {
             int nombreDePieces = (int) (montant / typesDePieces[i]);
 
-            reponses.get(i).setText(String.valueOf(nombreDePieces));
+            quantites.get(i).setText(String.format(MSG_QUANTITE, nombreDePieces));
 
             montant -= nombreDePieces * typesDePieces[i];
         }

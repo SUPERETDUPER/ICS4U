@@ -25,8 +25,7 @@
 package main;
 
 import javafx.geometry.Pos;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 class SwitchPane extends StackPane {
@@ -34,23 +33,21 @@ class SwitchPane extends StackPane {
     private final TableauResultat tableauResultat = new TableauResultat();
     private final Text msgReponse = new Text();
 
-    SwitchPane(){
+    SwitchPane() {
         super();
 
         this.setAlignment(Pos.CENTER);
 
-        msgReponse.setFont(Constantes.FONT_BOLD);
+        msgReponse.setFont(Main.FONT_BOLD_LARGE);
     }
 
-    void montrerMessage(String message){
+    void montrerMessage(String message) {
         msgReponse.setText(message);
-
         this.getChildren().setAll(msgReponse);
     }
 
-    void montrerTableau(float montant){
+    void montrerTableau(float montant) {
         this.tableauResultat.mettreAJour(montant);
-
         this.getChildren().setAll(tableauResultat);
     }
 }

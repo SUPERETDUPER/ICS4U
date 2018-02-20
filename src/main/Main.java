@@ -26,7 +26,6 @@ package main;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
@@ -34,26 +33,35 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Main extends Application {
+
     private static final String TITRE = "Monnaie";
 
     private static final String SUGGESTION_BOITE_DE_TEXTE = "Entrez votre montant ici";
     private static final String DESCRIPTION_ENTREE = "Montant";
 
-    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un montant valide\n"; //New line pour que la hauteur ne change pas
-    private static final String MSG_ENTREE_VIDE = "Entrez votre montant\n"; //New line pour que la hauteur ne change pas
+    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un montant valide";
+    private static final String MSG_ENTREE_VIDE = "Entrez votre montant";
+
+    private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
+    static final Font FONT_NORMAL = Font.font(16);
+    static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
+    static final Font FONT_BOLD_LARGE = Font.font(null, FontWeight.BOLD, 20);
 
     private static final int HAUTEUR_FENETRE = 600;
     private static final int LARGUEUR_FENETRE = 800;
     private static final int PADDING_FENETRE = 30;
 
-    private static final int ESPACE_VBOX = 60;
+    private static final int ESPACE_VBOX = 50;
     private static final int ESPACE_HBOX = 20;
+    private static final String UNITE_DE_MONNAIE = "$";
 
     private final SwitchPane switchPane = new SwitchPane();
 
@@ -67,17 +75,18 @@ public class Main extends Application {
 
         //Titre
         Text txtTitre = new Text(TITRE);
-        txtTitre.setFont(Constantes.FONT_TITRE);
+        txtTitre.setFont(FONT_TITRE);
 
         //Création du layout principal
         VBox layout = new VBox(
                 txtTitre,
                 creeZoneEntree(),
-                new Separator(Orientation.HORIZONTAL),
+                new Separator(),
                 switchPane
         );
 
-        VBox.setVgrow(switchPane, Priority.ALWAYS);
+        VBox.setVgrow(switchPane, Priority.SOMETIMES);
+        VBox.setVgrow(txtTitre, Priority.SOMETIMES);
         switchPane.montrerMessage(MSG_ENTREE_VIDE);
 
         layout.setSpacing(ESPACE_VBOX);
@@ -91,9 +100,12 @@ public class Main extends Application {
 
     @NotNull
     private HBox creeZoneEntree() {
+        Text description = new Text(DESCRIPTION_ENTREE);
+        description.setFont(FONT_NORMAL);
+
         //Création des deux boites d'entrées de texte
         TextField boiteMontant = new TextField();
-        boiteMontant.setFont(Constantes.FONT_NORMAL);
+        boiteMontant.setFont(FONT_NORMAL);
         boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
         boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
 
@@ -102,11 +114,11 @@ public class Main extends Application {
                 (observable, oldValue, newValue) -> montrerReponse(newValue)
         );
 
+        Text unite = new Text(UNITE_DE_MONNAIE);
+        unite.setFont(FONT_NORMAL);
 
-        Text text = new Text(DESCRIPTION_ENTREE);
-        text.setFont(Constantes.FONT_NORMAL);
 
-        HBox hBox = new HBox(ESPACE_HBOX, text, boiteMontant);
+        HBox hBox = new HBox(ESPACE_HBOX, description, boiteMontant, unite);
         hBox.setAlignment(Pos.CENTER);
 
         return hBox;
@@ -114,14 +126,13 @@ public class Main extends Application {
 
     private void montrerReponse(@NotNull String montant) {
         if (montant.isEmpty()) {
-            //TODO
+            switchPane.montrerMessage(MSG_ENTREE_VIDE);
             return;
         }
 
         Float numero1 = parseEntree(montant);
 
         if (numero1 == null){
-            //TODO
             return;
         }
 
@@ -131,6 +142,7 @@ public class Main extends Application {
     @Nullable
     private Float parseEntree(@NotNull String entree) {
         try {
+            entree = entree.replaceAll(",","."); // Pour que les virgules soient accéptées
             return Float.parseFloat(entree);
         } catch (NumberFormatException e) {
             switchPane.montrerMessage(String.format(MSG_ENTREE_INVALIDE, entree));
