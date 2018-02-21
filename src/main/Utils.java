@@ -24,41 +24,5 @@
 
 package main;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-
-/**
- * Pane qui montre soit du texte ou le tableau de résultat
- */
-class SwitchPane extends StackPane {
-
-    private final TableauResultat tableauResultat = new TableauResultat();
-    private final Text message = new Text();
-
-    SwitchPane() {
-        super();
-
-        //Formatter
-        this.setAlignment(Pos.CENTER);
-        message.setFont(Main.FONT_BOLD_LARGE);
-    }
-
-    /**
-     * Montrer le message dans le pane
-     * @param message message à afficher
-     */
-    void montrerMessage(String message) {
-        this.message.setText(message);
-        this.getChildren().setAll(this.message);
-    }
-
-    /**
-     * Montrer le tableau de résultat avec le montant
-     * @param montant montant que le tableau de résultat utilise
-     */
-    void montrerTableau(float montant) {
-        this.tableauResultat.mettreAJour(montant);
-        this.getChildren().setAll(tableauResultat);
-    }
+public class Utils {
 }
