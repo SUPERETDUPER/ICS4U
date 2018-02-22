@@ -34,30 +34,44 @@ import javafx.util.Pair;
 import org.jetbrains.annotations.Contract;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Un tableau qui affiche la monnaie pour un certain montant
+ */
 class TableauResultat extends GridPane {
     private static final int ESPACE_TABLEAU_H = 30;
     private static final int ESPACE_TABLEAU_V = 15;
 
-    private static final List<Pair<Float, Text>> typesDePieces = Arrays.asList(
-            new Pair<>(2.00F, Utils.creeTextNormal(null)),
-            new Pair<>(1.00F, Utils.creeTextNormal(null)),
-            new Pair<>(0.50F, Utils.creeTextNormal(null)),
-            new Pair<>(0.25F, Utils.creeTextNormal(null)),
-            new Pair<>(0.10F, Utils.creeTextNormal(null)),
-            new Pair<>(0.05F, Utils.creeTextNormal(null)),
-            new Pair<>(0.01F, Utils.creeTextNormal(null))
-    );
+    private static final float[] typesDePieces = {
+            2.00F,
+            1.00F,
+            0.50F,
+            0.25F,
+            0.10F,
+            0.05F,
+            0.01F
+    };
 
-    private static final String MSG_QUANTITE = "%sx"; //Avec String.format sera ex. 15x
+    private static final String MSG_QUANTITE = "%sx"; //Utilisé pour formatter les quantité ex. 15x ou 25x
 
     private static final String ENTETE_COL1 = "Quantité";
     private static final String ENTETE_COL2 = "Types des pièces";
 
+    //Chaque type de pieces (clé) est associé avec un object "Text" (valeur)
+    private final List<Pair<Float, Text>> quantites = new ArrayList<>(typesDePieces.length);
+
     TableauResultat() {
         super();
+
+        //Initialize la liste quantites avec des pairs (typesDePieces, Text)
+        for (float type : typesDePieces) {
+            quantites.add(new Pair<>(
+                    type,
+                    Utils.creeTextNormal(null)
+            ));
+        }
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance(); //Utilisé pour afficher les types de pièces
 
@@ -68,23 +82,22 @@ class TableauResultat extends GridPane {
         );
 
         //Ajout d'une rangée pour chaque type de pièce
-        for (int i = 0; i < typesDePieces.size(); i++) {
+        for (int i = 0; i < quantites.size(); i++) {
             this.addRow(i + 1, // +1 à cause de l'entête
-                    typesDePieces.get(i).getValue(),
-                    Utils.creeTextNormal(formatter.format(typesDePieces.get(i).getKey()))
+                    quantites.get(i).getValue(),
+                    Utils.creeTextNormal(formatter.format(quantites.get(i).getKey()))
             );
         }
 
+        //Formatter
         this.setHgap(ESPACE_TABLEAU_H);
         this.setVgap(ESPACE_TABLEAU_V);
 
         ColumnConstraints constraints0 = new ColumnConstraints();
         constraints0.setHalignment(HPos.RIGHT);
         constraints0.setPercentWidth(50);
-
         ColumnConstraints constraints1 = new ColumnConstraints();
         constraints1.setHgrow(Priority.ALWAYS);
-
         this.getColumnConstraints().addAll(
                 constraints0,
                 constraints1
@@ -93,18 +106,30 @@ class TableauResultat extends GridPane {
         this.setAlignment(Pos.TOP_CENTER);
     }
 
+
+    /**
+     * Appelé quand un nouveau montant est entrée pour mettre à jour le tableau
+     *
+     * @param montant nouveau montant
+     */
     void mettreAJour(float montant) {
-        montant = arrondir(montant);
+        for (Pair<Float, Text> pair : quantites) {
+            montant = arrondir(montant); //Arrondir pour résoudre des problèmes de manque de précision
 
-        for (Pair<Float, Text> pair : typesDePieces) {
-            int nombreDePieces = (int) (montant / pair.getKey());
+            int nombreDePieces = (int) (montant / pair.getKey());  //Calculer le nombre de pieces de ce type
 
-            pair.getValue().setText(String.format(MSG_QUANTITE, nombreDePieces));
+            pair.getValue().setText(String.format(MSG_QUANTITE, nombreDePieces)); //Mettre à jour la quantité pour ce type de pièces
 
-            montant = arrondir(montant - nombreDePieces * pair.getKey());
+            montant -= nombreDePieces * pair.getKey(); //Soustraire l'argent utilisé au montant actuel
         }
     }
 
+    /**
+     * Arrondi au centième près
+     *
+     * @param montant montant à arrondir
+     * @return montant arrondit
+     */
     @Contract(pure = true)
     private static float arrondir(float montant) {
         return Math.round(montant * 100) / 100.0F;

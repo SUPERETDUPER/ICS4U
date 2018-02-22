@@ -64,8 +64,8 @@ public class Main extends Application implements ChangeListener<String> {
         launch(args);
     }
 
-    /*
-    Appelé au début du programme
+    /**
+     * Appelé au début du programme
      */
     @Override
     public void start(@NotNull Stage primaryStage) {
@@ -77,7 +77,7 @@ public class Main extends Application implements ChangeListener<String> {
         //Création du layout (vertical) principal
         VBox layout = new VBox(
                 Utils.creeTextTitre(TITRE),
-                creeZoneEntree(),
+                creeZoneEntree(this),
                 new Separator(),
                 switchPane
         );
@@ -95,40 +95,13 @@ public class Main extends Application implements ChangeListener<String> {
         primaryStage.show();
     }
 
-    /*
-    Crée la boite d'entrée de texte et sa description
-     */
-    @NotNull
-    private HBox creeZoneEntree() {
-        //Création de la boite d'entrée de texte
-        TextField boiteMontant = new TextField();
-        boiteMontant.setFont(Utils.FONT_NORMAL);
-        boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
-        boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
-
-        //Ajouter le listener
-        boiteMontant.textProperty().addListener(this);
-
-        //Création du layout
-        HBox hBox = new HBox(
-                Utils.creeTextNormal(DESCRIPTION_ENTREE),  //Text de description
-                boiteMontant,
-                Utils.creeTextNormal(UNITE_DE_MONNAIE) // Text avec l'unité
-        );
-
-        hBox.setSpacing(ESPACE_HBOX);
-        hBox.setAlignment(Pos.CENTER);
-
-        return hBox;
-    }
-
     /**
      * Appelé quand la valeur de la boite d'entrée de texte est modifié
      *
      * @param nouvelleValeur utilisé pour recalculer les résultats
      */
     @Override
-    public void changed(ObservableValue observable, String oldValue, String nouvelleValeur) {
+    public void changed(ObservableValue observable, String oldValue, @NotNull String nouvelleValeur) {
         if (nouvelleValeur.isEmpty()) { // Si aucune valeur quitter
             switchPane.montrerMessage(MSG_ENTREE_VIDE);
             return;
@@ -138,7 +111,7 @@ public class Main extends Application implements ChangeListener<String> {
 
         if (montant == null) return; // Quitter si parseEntree n'a pas réussi à parse la valeur
 
-        if (montant.intValue() == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
+        if ((int) (montant * 100) == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
             switchPane.montrerMessage(MSG_MONTANT_TROP_LARGE);
             return;
         }
@@ -167,5 +140,32 @@ public class Main extends Application implements ChangeListener<String> {
             switchPane.montrerMessage(String.format(MSG_ENTREE_INVALIDE, entree));
             return null;
         }
+    }
+
+    /**
+     * Crée la boite d'entrée de texte et sa description
+     *
+     * @param listener listener qui sera appelé quand la valeur est changé
+     */
+    @NotNull
+    private static HBox creeZoneEntree(ChangeListener<String> listener) {
+        //Création de la boite d'entrée de texte
+        TextField boiteMontant = new TextField();
+        boiteMontant.setFont(Utils.FONT_NORMAL);
+        boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
+        boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
+        boiteMontant.textProperty().addListener(listener);
+
+        //Création du layout
+        HBox hBox = new HBox(
+                Utils.creeTextNormal(DESCRIPTION_ENTREE),  //Text de description
+                boiteMontant,
+                Utils.creeTextNormal(UNITE_DE_MONNAIE) // Text avec l'unité
+        );
+
+        hBox.setSpacing(ESPACE_HBOX);
+        hBox.setAlignment(Pos.CENTER);
+
+        return hBox;
     }
 }

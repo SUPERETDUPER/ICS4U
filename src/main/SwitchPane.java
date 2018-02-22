@@ -24,7 +24,6 @@
 
 package main;
 
-import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -32,7 +31,6 @@ import javafx.scene.text.Text;
  * Pane qui montre soit du texte ou le tableau de résultat
  */
 class SwitchPane extends StackPane {
-
     private final TableauResultat tableauResultat = new TableauResultat();
     private final Text message = Utils.creeTextBoldGrand(null);
 

@@ -27,6 +27,7 @@ package main;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Classe qui crée des Objet Text avec des différents Fonts
@@ -38,25 +39,29 @@ class Utils {
     private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
 
+    @NotNull
     static Text creeTextBold(String message){
         Text text = new Text(message);
         text.setFont(FONT_BOLD);
         return text;
     }
 
+    @NotNull
     static Text creeTextNormal(String message){
         Text text = new Text(message);
         text.setFont(FONT_NORMAL);
         return text;
     }
 
-    static Text creeTextBoldGrand(String message){
+    @NotNull
+    static Text creeTextBoldGrand(@SuppressWarnings("SameParameterValue") String message){
         Text text = new Text(message);
         text.setFont(FONT_BOLD_GRAND);
         return text;
     }
 
-    static Text creeTextTitre(String message) {
+    @NotNull
+    static Text creeTextTitre(@SuppressWarnings("SameParameterValue") String message) {
         Text text = new Text(message);
         text.setFont(FONT_TITRE);
         return text;
