@@ -35,18 +35,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Main extends Application implements ChangeListener<String> {
-    private static final String TITRE = "Monnaie";
+    private static final String TITRE = "Vérification pour manège russe";
 
     private static final String SUGGESTION_BOITE_DE_TEXTE = "Entrez votre montant ici";
     private static final String DESCRIPTION_ENTREE = "Montant";
 
     private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un montant valide";
-    private static final String MSG_ENTREE_VIDE = "Entrez votre montant";
+    private static final String MSG_ENTREE_VIDE = "Remplissez toutes les cases";
     private static final String MSG_MONTANT_TROP_LARGE = "Montant trop grand";
     private static final String MSG_INFERIEUR_A_ZERO = "Montant doit être supérieur à zéro";
 
@@ -58,7 +59,7 @@ public class Main extends Application implements ChangeListener<String> {
     private static final int ESPACE_HBOX = 20;
     private static final String UNITE_DE_MONNAIE = "$";
 
-    private final SwitchPane switchPane = new SwitchPane(); // Zone qui montre soit le tableau de résultat ou un message
+    private final Text reponse = Utils.creeTextBoldGrand(null); // Zone qui montre soit le tableau de résultat ou un message
 
     public static void main(String[] args) {
         launch(args);
@@ -72,19 +73,18 @@ public class Main extends Application implements ChangeListener<String> {
         primaryStage.setTitle(TITRE);
 
         //Montrer le message "Entrez votre montant"
-        switchPane.montrerMessage(MSG_ENTREE_VIDE);
+        reponse.setText(MSG_ENTREE_VIDE);
 
         //Création du layout (vertical) principal
         VBox layout = new VBox(
                 Utils.creeTextTitre(TITRE),
-                creeZoneEntree(this),
+                creeZoneEntree(this, DESCRIPTION_ENTREE),
                 new Separator(),
-                switchPane
+                reponse
         );
 
         //Formatter
-        switchPane.setAlignment(Pos.CENTER);
-        VBox.setVgrow(switchPane, Priority.SOMETIMES);
+        VBox.setVgrow(reponse, Priority.SOMETIMES);
         layout.setSpacing(ESPACE_VBOX);
         layout.setPadding(new Insets(PADDING_FENETRE));
         layout.setAlignment(Pos.CENTER);
@@ -103,7 +103,7 @@ public class Main extends Application implements ChangeListener<String> {
     @Override
     public void changed(ObservableValue observable, String oldValue, @NotNull String nouvelleValeur) {
         if (nouvelleValeur.isEmpty()) { // Si aucune valeur quitter
-            switchPane.montrerMessage(MSG_ENTREE_VIDE);
+            reponse.setText(MSG_ENTREE_VIDE);
             return;
         }
 
@@ -112,16 +112,16 @@ public class Main extends Application implements ChangeListener<String> {
         if (montant == null) return; // Quitter si parseEntree n'a pas réussi à parse la valeur
 
         if ((int) (montant * 100) == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
-            switchPane.montrerMessage(MSG_MONTANT_TROP_LARGE);
+            reponse.setText(MSG_MONTANT_TROP_LARGE);
             return;
         }
 
         if (montant < 0) { //Vérifier que c'est un nombre positif
-            switchPane.montrerMessage(MSG_INFERIEUR_A_ZERO);
+            reponse.setText(MSG_INFERIEUR_A_ZERO);
             return;
         }
 
-        switchPane.montrerTableau(montant); // Montrer le tableau de résultat
+        //TODO
     }
 
     /**
@@ -137,7 +137,7 @@ public class Main extends Application implements ChangeListener<String> {
             entree = entree.replaceAll(",", "."); // Pour que les virgules soient accéptées
             return Float.parseFloat(entree);
         } catch (NumberFormatException e) {
-            switchPane.montrerMessage(String.format(MSG_ENTREE_INVALIDE, entree));
+            reponse.setText(String.format(MSG_ENTREE_INVALIDE, entree));
             return null;
         }
     }
@@ -146,9 +146,10 @@ public class Main extends Application implements ChangeListener<String> {
      * Crée la boite d'entrée de texte et sa description
      *
      * @param listener listener qui sera appelé quand la valeur est changé
+     * @param nom
      */
     @NotNull
-    private static HBox creeZoneEntree(ChangeListener<String> listener) {
+    private static HBox creeZoneEntree(ChangeListener<String> listener, String nom) {
         //Création de la boite d'entrée de texte
         TextField boiteMontant = new TextField();
         boiteMontant.setFont(Utils.FONT_NORMAL);
@@ -158,7 +159,7 @@ public class Main extends Application implements ChangeListener<String> {
 
         //Création du layout
         HBox hBox = new HBox(
-                Utils.creeTextNormal(DESCRIPTION_ENTREE),  //Text de description
+                Utils.creeTextNormal(nom),  //Text de description
                 boiteMontant,
                 Utils.creeTextNormal(UNITE_DE_MONNAIE) // Text avec l'unité
         );
