@@ -35,9 +35,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,11 +49,6 @@ public class Main extends Application implements ChangeListener<String> {
     private static final String MSG_ENTREE_VIDE = "Entrez votre montant";
     private static final String MSG_MONTANT_TROP_LARGE = "Montant trop grand";
     private static final String MSG_INFERIEUR_A_ZERO = "Montant doit être supérieur à zéro";
-
-    private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
-    static final Font FONT_NORMAL = Font.font(16);
-    static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
-    static final Font FONT_BOLD_LARGE = Font.font(null, FontWeight.BOLD, 20);
 
     private static final int HAUTEUR_FENETRE = 600;
     private static final int LARGUEUR_FENETRE = 800;
@@ -79,22 +71,19 @@ public class Main extends Application implements ChangeListener<String> {
     public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle(TITRE);
 
-        //Création du titre
-        Text txtTitre = new Text(TITRE);
-        txtTitre.setFont(FONT_TITRE);
-
         //Montrer le message "Entrez votre montant"
         switchPane.montrerMessage(MSG_ENTREE_VIDE);
 
         //Création du layout (vertical) principal
         VBox layout = new VBox(
-                txtTitre,
+                Utils.creeTextTitre(TITRE),
                 creeZoneEntree(),
                 new Separator(),
                 switchPane
         );
 
         //Formatter
+        switchPane.setAlignment(Pos.CENTER);
         VBox.setVgrow(switchPane, Priority.SOMETIMES);
         layout.setSpacing(ESPACE_VBOX);
         layout.setPadding(new Insets(PADDING_FENETRE));
@@ -111,25 +100,23 @@ public class Main extends Application implements ChangeListener<String> {
      */
     @NotNull
     private HBox creeZoneEntree() {
-        //Création de la description de la boite d'entrée de texte
-        Text description = new Text(DESCRIPTION_ENTREE);
-        description.setFont(FONT_NORMAL);
-
         //Création de la boite d'entrée de texte
         TextField boiteMontant = new TextField();
-        boiteMontant.setFont(FONT_NORMAL);
+        boiteMontant.setFont(Utils.FONT_NORMAL);
         boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
         boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
 
         //Ajouter le listener
         boiteMontant.textProperty().addListener(this);
 
-        //Création du txt pour l'unité
-        Text unite = new Text(UNITE_DE_MONNAIE);
-        unite.setFont(FONT_NORMAL);
-
         //Création du layout
-        HBox hBox = new HBox(ESPACE_HBOX, description, boiteMontant, unite);
+        HBox hBox = new HBox(
+                Utils.creeTextNormal(DESCRIPTION_ENTREE),  //Text de description
+                boiteMontant,
+                Utils.creeTextNormal(UNITE_DE_MONNAIE) // Text avec l'unité
+        );
+
+        hBox.setSpacing(ESPACE_HBOX);
         hBox.setAlignment(Pos.CENTER);
 
         return hBox;
@@ -138,30 +125,30 @@ public class Main extends Application implements ChangeListener<String> {
     /**
      * Appelé quand la valeur de la boite d'entrée de texte est modifié
      *
-     * @param newValue utilisé pour recalculer les résultats
+     * @param nouvelleValeur utilisé pour recalculer les résultats
      */
     @Override
-    public void changed(ObservableValue observable, String oldValue, String newValue) {
-        if (newValue.isEmpty()) { // Si aucune valeur quitter
+    public void changed(ObservableValue observable, String oldValue, String nouvelleValeur) {
+        if (nouvelleValeur.isEmpty()) { // Si aucune valeur quitter
             switchPane.montrerMessage(MSG_ENTREE_VIDE);
             return;
         }
 
-        Float numero1 = parseEntree(newValue);
+        Float montant = parseEntree(nouvelleValeur);
 
-        if (numero1 == null) return; // Quitter si parseEntree n'a pas réussi à parse la valeur
+        if (montant == null) return; // Quitter si parseEntree n'a pas réussi à parse la valeur
 
-        if (numero1.intValue() == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
+        if (montant.intValue() == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
             switchPane.montrerMessage(MSG_MONTANT_TROP_LARGE);
             return;
         }
 
-        if (numero1 < 0) { //Vérifier que c'est un nombre positif
+        if (montant < 0) { //Vérifier que c'est un nombre positif
             switchPane.montrerMessage(MSG_INFERIEUR_A_ZERO);
             return;
         }
 
-        switchPane.montrerTableau(numero1); // Montrer le tableau de résultat
+        switchPane.montrerTableau(montant); // Montrer le tableau de résultat
     }
 
     /**

@@ -34,15 +34,7 @@ import javafx.scene.text.Text;
 class SwitchPane extends StackPane {
 
     private final TableauResultat tableauResultat = new TableauResultat();
-    private final Text message = new Text();
-
-    SwitchPane() {
-        super();
-
-        //Formatter
-        this.setAlignment(Pos.CENTER);
-        message.setFont(Main.FONT_BOLD_LARGE);
-    }
+    private final Text message = Utils.creeTextBoldGrand(null);
 
     /**
      * Montrer le message dans le pane

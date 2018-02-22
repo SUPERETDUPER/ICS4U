@@ -24,5 +24,41 @@
 
 package main;
 
-public class Utils {
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
+/**
+ * Classe qui crée des Objet Text avec des différents Fonts
+ */
+class Utils {
+    static final Font FONT_NORMAL = Font.font(16);
+
+    private static final Font FONT_BOLD_GRAND = Font.font(null, FontWeight.BOLD, 20);
+    private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
+    private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
+
+    static Text creeTextBold(String message){
+        Text text = new Text(message);
+        text.setFont(FONT_BOLD);
+        return text;
+    }
+
+    static Text creeTextNormal(String message){
+        Text text = new Text(message);
+        text.setFont(FONT_NORMAL);
+        return text;
+    }
+
+    static Text creeTextBoldGrand(String message){
+        Text text = new Text(message);
+        text.setFont(FONT_BOLD_GRAND);
+        return text;
+    }
+
+    static Text creeTextTitre(String message) {
+        Text text = new Text(message);
+        text.setFont(FONT_TITRE);
+        return text;
+    }
 }

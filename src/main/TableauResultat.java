@@ -30,59 +30,48 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import org.jetbrains.annotations.Contract;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class TableauResultat extends GridPane {
     private static final int ESPACE_TABLEAU_H = 30;
     private static final int ESPACE_TABLEAU_V = 15;
 
-    private static final float[] typesDePieces = {
-            2.00F,
-            1.00F,
-            0.50F,
-            0.25F,
-            0.10F,
-            0.05F,
-            0.01F
-    };
+    private static final List<Pair<Float, Text>> typesDePieces = Arrays.asList(
+            new Pair<>(2.00F, Utils.creeTextNormal(null)),
+            new Pair<>(1.00F, Utils.creeTextNormal(null)),
+            new Pair<>(0.50F, Utils.creeTextNormal(null)),
+            new Pair<>(0.25F, Utils.creeTextNormal(null)),
+            new Pair<>(0.10F, Utils.creeTextNormal(null)),
+            new Pair<>(0.05F, Utils.creeTextNormal(null)),
+            new Pair<>(0.01F, Utils.creeTextNormal(null))
+    );
 
     private static final String MSG_QUANTITE = "%sx"; //Avec String.format sera ex. 15x
 
     private static final String ENTETE_COL1 = "Quantité";
     private static final String ENTETE_COL2 = "Types des pièces";
 
-    private final ArrayList<Text> quantites = new ArrayList<>(typesDePieces.length); //List de Text qui est mise à jour un calculant les résultats
-
     TableauResultat() {
         super();
 
-        //Initialize "quantites" avec des "Text" vide
-        for (float type : typesDePieces) {
-            Text placeholderText = new Text();
-            placeholderText.setFont(Main.FONT_NORMAL);
-            quantites.add(placeholderText);
-        }
-
-        //Création de l'entête
-        Text headerCol1 = new Text(ENTETE_COL1);
-        headerCol1.setFont(Main.FONT_BOLD);
-        Text headerCol2 = new Text(ENTETE_COL2);
-        headerCol2.setFont(Main.FONT_BOLD);
-        this.addRow(0, headerCol1, headerCol2);
-
         NumberFormat formatter = NumberFormat.getCurrencyInstance(); //Utilisé pour afficher les types de pièces
 
-        //Ajout d'une rangée pour chaque type de pièce
-        for (int i = 0; i < typesDePieces.length; i++) {
-            Text txtTypeDePiece = new Text(formatter.format(typesDePieces[i]));
-            txtTypeDePiece.setFont(Main.FONT_NORMAL);
+        //Ajouter l'en-tête
+        this.addRow(0,
+                Utils.creeTextBold(ENTETE_COL1),
+                Utils.creeTextBold(ENTETE_COL2)
+        );
 
+        //Ajout d'une rangée pour chaque type de pièce
+        for (int i = 0; i < typesDePieces.size(); i++) {
             this.addRow(i + 1, // +1 à cause de l'entête
-                    quantites.get(i),
-                    txtTypeDePiece
+                    typesDePieces.get(i).getValue(),
+                    Utils.creeTextNormal(formatter.format(typesDePieces.get(i).getKey()))
             );
         }
 
@@ -107,12 +96,12 @@ class TableauResultat extends GridPane {
     void mettreAJour(float montant) {
         montant = arrondir(montant);
 
-        for (int i = 0; i < typesDePieces.length; i++) {
-            int nombreDePieces = (int) (montant / typesDePieces[i]);
+        for (Pair<Float, Text> pair : typesDePieces) {
+            int nombreDePieces = (int) (montant / pair.getKey());
 
-            quantites.get(i).setText(String.format(MSG_QUANTITE, nombreDePieces));
+            pair.getValue().setText(String.format(MSG_QUANTITE, nombreDePieces));
 
-            montant = arrondir(montant - nombreDePieces * typesDePieces[i]);
+            montant = arrondir(montant - nombreDePieces * pair.getKey());
         }
     }
 
