@@ -24,13 +24,49 @@
 
 package main;
 
-import java.util.ArrayList;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Checker {
-    private static final List<Critere> criteres = Arrays.asList(
-      new CritereOuiNon(true),
-            new CritereOuiNon(true)
+public class Checker extends VBox implements UpdateListener {
+
+    private final List<Critere> criteres = Arrays.asList(
+            new CritereOuiNon("Mal de dos?", false, this),
+            new CritereOuiNon("Malaise cardiaque",false, this),
+            new CritereMinMax(122, 188, "Hauteur", "Rentrez votre hauteur ici", this)
     );
+
+    private final Text txtReponse;
+
+    Checker(Text txtReponse) {
+        super();
+
+        this.txtReponse = txtReponse;
+
+        for (Critere critere : criteres){
+            HBox critereDisplayable = critere.creeDisplayable();
+            critereDisplayable.setAlignment(Pos.CENTER);
+            this.getChildren().add(critereDisplayable);
+        }
+    }
+
+    @Override
+    public void notifyChange() {
+        boolean isPass = true;
+
+        for (Critere critere : criteres){
+            try {
+                isPass = isPass && critere.isPass();
+            } catch (Exception e){
+                txtReponse.setText(e.getMessage());
+                break;
+            }
+        }
+
+        txtReponse.setText(isPass ? "Peut passer" : "Peut pas passer");
+    }
 }

@@ -24,45 +24,36 @@
 
 package main;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
 
-public class CritereOuiNon implements Critere, ChangeListener<Number> {
+public class CritereOuiNon extends Critere {
 
     private static final ObservableList<String> OPTIONS = FXCollections.observableArrayList(
             "Oui",
             "Non"
     );
 
-    private final HBox displayable;
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>(OPTIONS);
     private final boolean necessiteOui;
-    private boolean estOui = true;
 
-    CritereOuiNon(boolean necessiteOui) {
+    CritereOuiNon(String description, boolean necessiteOui, UpdateListener listener) {
+        super(description);
         this.necessiteOui = necessiteOui;
 
-        displayable
-
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener(this);
-    }
-
-    @Override
-    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        estOui = (newValue.intValue() == 0);
+        choiceBox.getSelectionModel().selectedIndexProperty().addListener(
+                (observable, oldValue, newValue) -> listener.notifyChange()
+        );
     }
 
     @Override
     public boolean isPass() {
-        return necessiteOui == estOui;
+        return necessiteOui == choiceBox.getSelectionModel().isSelected(0);
     }
 
-    public Node getDisplayable() {
-        return choiceBox;
+    public HBox creeDisplayable() {
+        return creeDisplayable(choiceBox);
     }
 }

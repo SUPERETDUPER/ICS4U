@@ -24,26 +24,6 @@
 
 package main;
 
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
-
-import java.lang.Exception;
-
-abstract class Critere {
-    private static final int ESPACE_HBOX = 20;
-    private final String description;
-
-    Critere(String nom) {
-        this.description = nom;
-    }
-
-    abstract boolean isPass() throws Exception;
-    abstract HBox creeDisplayable();
-
-    HBox creeDisplayable(Node object) {
-        HBox hBox = new HBox(Utils.creeTextNormal(description), object);
-        hBox.setSpacing(ESPACE_HBOX);
-
-        return hBox;
-    }
+public interface UpdateListener {
+    void notifyChange();
 }

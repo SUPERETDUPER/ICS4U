@@ -54,14 +54,14 @@ class Utils {
     }
 
     @NotNull
-    static Text creeTextBoldGrand(@SuppressWarnings("SameParameterValue") String message){
+    static Text creeTextBoldGrand(String message){
         Text text = new Text(message);
         text.setFont(FONT_BOLD_GRAND);
         return text;
     }
 
     @NotNull
-    static Text creeTextTitre(@SuppressWarnings("SameParameterValue") String message) {
+    static Text creeTextTitre(String message) {
         Text text = new Text(message);
         text.setFont(FONT_TITRE);
         return text;

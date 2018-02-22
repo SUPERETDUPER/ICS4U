@@ -40,13 +40,11 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Main extends Application implements ChangeListener<String> {
+public class Main extends Application {
     private static final String TITRE = "Vérification pour manège russe";
 
     private static final String SUGGESTION_BOITE_DE_TEXTE = "Entrez votre montant ici";
-    private static final String DESCRIPTION_ENTREE = "Montant";
 
-    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un montant valide";
     private static final String MSG_ENTREE_VIDE = "Remplissez toutes les cases";
     private static final String MSG_MONTANT_TROP_LARGE = "Montant trop grand";
     private static final String MSG_INFERIEUR_A_ZERO = "Montant doit être supérieur à zéro";
@@ -56,8 +54,6 @@ public class Main extends Application implements ChangeListener<String> {
     private static final int PADDING_FENETRE = 30;
 
     private static final int ESPACE_VBOX = 50;
-    private static final int ESPACE_HBOX = 20;
-    private static final String UNITE_DE_MONNAIE = "$";
 
     private final Text reponse = Utils.creeTextBoldGrand(null); // Zone qui montre soit le tableau de résultat ou un message
 
@@ -78,7 +74,7 @@ public class Main extends Application implements ChangeListener<String> {
         //Création du layout (vertical) principal
         VBox layout = new VBox(
                 Utils.creeTextTitre(TITRE),
-                creeZoneEntree(this, DESCRIPTION_ENTREE),
+                new Checker(reponse),
                 new Separator(),
                 reponse
         );
@@ -93,80 +89,5 @@ public class Main extends Application implements ChangeListener<String> {
         Scene scene = new Scene(layout, LARGUEUR_FENETRE, HAUTEUR_FENETRE);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    /**
-     * Appelé quand la valeur de la boite d'entrée de texte est modifié
-     *
-     * @param nouvelleValeur utilisé pour recalculer les résultats
-     */
-    @Override
-    public void changed(ObservableValue observable, String oldValue, @NotNull String nouvelleValeur) {
-        if (nouvelleValeur.isEmpty()) { // Si aucune valeur quitter
-            reponse.setText(MSG_ENTREE_VIDE);
-            return;
-        }
-
-        Float montant = parseEntree(nouvelleValeur);
-
-        if (montant == null) return; // Quitter si parseEntree n'a pas réussi à parse la valeur
-
-        if ((int) (montant * 100) == Integer.MAX_VALUE) { // Vérifier que la valeur n'est pas trop large pour les calculs à venir
-            reponse.setText(MSG_MONTANT_TROP_LARGE);
-            return;
-        }
-
-        if (montant < 0) { //Vérifier que c'est un nombre positif
-            reponse.setText(MSG_INFERIEUR_A_ZERO);
-            return;
-        }
-
-        //TODO
-    }
-
-    /**
-     * Converti du texte en valeur numérique
-     * Si c'est impossible montre une erreur sur l'interface
-     *
-     * @param entree le string à parser
-     * @return la valeur résultante ou null si échec
-     */
-    @Nullable
-    private Float parseEntree(@NotNull String entree) {
-        try {
-            entree = entree.replaceAll(",", "."); // Pour que les virgules soient accéptées
-            return Float.parseFloat(entree);
-        } catch (NumberFormatException e) {
-            reponse.setText(String.format(MSG_ENTREE_INVALIDE, entree));
-            return null;
-        }
-    }
-
-    /**
-     * Crée la boite d'entrée de texte et sa description
-     *
-     * @param listener listener qui sera appelé quand la valeur est changé
-     * @param nom
-     */
-    @NotNull
-    private static HBox creeZoneEntree(ChangeListener<String> listener, String nom) {
-        //Création de la boite d'entrée de texte
-        TextField boiteMontant = new TextField();
-        boiteMontant.setFont(Utils.FONT_NORMAL);
-        boiteMontant.setPromptText(SUGGESTION_BOITE_DE_TEXTE);
-        boiteMontant.setAlignment(Pos.BASELINE_RIGHT);
-        boiteMontant.textProperty().addListener(listener);
-
-        //Création du layout
-        HBox hBox = new HBox(
-                Utils.creeTextNormal(nom),  //Text de description
-                boiteMontant,
-                Utils.creeTextNormal(UNITE_DE_MONNAIE) // Text avec l'unité
-        );
-
-        hBox.setSpacing(ESPACE_HBOX);
-        hBox.setAlignment(Pos.CENTER);
-
-        return hBox;
     }
 }
