@@ -29,11 +29,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Main extends Application {
     private static final String TITRE = "Vérification pour manège russe";
@@ -46,7 +50,14 @@ public class Main extends Application {
 
     private static final int ESPACE_VBOX = 50;
 
+    private static final Critere[] criteres = {
+            new CritereOuiNon("Mal de dos?", false),
+            new CritereOuiNon("Malaise cardiaque", false),
+            new CritereMinMax("Hauteur", 122, 188, "Rentrez votre hauteur ici")
+    };
+
     private static final Text reponse = Utils.creeTextBoldGrand(null); // Zone qui montre soit le message
+    private static final GridPane tableaudeCriteres = Critere.creeTableauDeCritere(criteres);
 
     public static void main(String[] args) {
         launch(args);
@@ -65,13 +76,13 @@ public class Main extends Application {
         //Création du layout (vertical) principal
         VBox layout = new VBox(
                 Utils.creeTextTitre(TITRE),
-                Verificateur.getTableauDeCriteres(),
+                tableaudeCriteres,
                 new Separator(),
                 reponse
         );
 
         //Formatter
-        Verificateur.getTableauDeCriteres().setAlignment(Pos.CENTER);
+        tableaudeCriteres.setAlignment(Pos.CENTER);
         VBox.setVgrow(reponse, Priority.SOMETIMES);
         layout.setSpacing(ESPACE_VBOX);
         layout.setPadding(new Insets(PADDING_FENETRE));
@@ -84,6 +95,17 @@ public class Main extends Application {
     }
 
     static void notifierChangement(){
-        reponse.setText(Verificateur.getResultatDesCriteres());
+        boolean isPass = true;
+
+        for (Critere critere : criteres) {
+            try {
+                isPass = isPass && critere.isPass();
+            } catch (Exception e) {
+                reponse.setText(e.getMessage());
+                return;
+            }
+        }
+
+        reponse.setText(isPass ? "Peut passer" : "Peut pas passer");
     }
 }

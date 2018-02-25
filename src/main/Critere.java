@@ -27,8 +27,7 @@ package main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-
-import java.lang.Exception;
+import javafx.scene.layout.GridPane;
 
 abstract class Critere implements ChangeListener<Object> {
     private final String nom;
@@ -46,6 +45,22 @@ abstract class Critere implements ChangeListener<Object> {
         Main.notifierChangement();
     }
 
+    static GridPane creeTableauDeCritere(Critere[] criteres) {
+        GridPane tableauDeCriteres = new GridPane();
+
+        for (int i = 0; i < criteres.length; i++) {
+            tableauDeCriteres.addRow(i,
+                    Utils.creeTextNormal(criteres[i].getNom()),
+                    criteres[i].getNode()
+            );
+        }
+
+        tableauDeCriteres.setHgap(20);
+        tableauDeCriteres.setVgap(10);
+        return tableauDeCriteres;
+    }
+
     abstract boolean isPass() throws Exception;
+
     abstract Node getNode();
 }
