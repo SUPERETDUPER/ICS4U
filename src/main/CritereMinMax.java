@@ -24,10 +24,8 @@
 
 package main;
 
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
 public class CritereMinMax extends Critere {
@@ -39,30 +37,30 @@ public class CritereMinMax extends Critere {
 
     private final TextField textField;
 
-    public CritereMinMax(Integer min, Integer max, String nom, String indice, UpdateListener listener) {
+    CritereMinMax(String nom, Integer min, Integer max, String indicePourBoiteDeText) {
         super(nom);
+
         this.min = min;
         this.max = max;
-        textField = createTextField(indice, listener);
+
+        textField = Utils.creeBoiteDeTexte(indicePourBoiteDeText);
+        textField.textProperty().addListener(this);
     }
 
     @Override
     public boolean isPass() throws Exception {
-        Integer valeur = parseEntree(textField.getText());
+        String entree = textField.getText();
+
+        if (entree.isEmpty()){
+            throw new Exception("Remplisser critère : " + this.getNom());
+        }
+
+        Integer valeur = parseEntree(entree);
         return min <= valeur && valeur <= max;
     }
 
     @Override
-    public HBox creeDisplayable() {
-        return creeDisplayable(textField);
-    }
-
-    private static TextField createTextField(String indice, UpdateListener listener){
-        TextField textField = new TextField();
-        textField.setFont(Utils.FONT_NORMAL);
-        textField.setPromptText(indice);
-        textField.setAlignment(Pos.BASELINE_RIGHT);
-        textField.textProperty().addListener((observable, oldValue, newValue) -> listener.notifyChange());
+    public Node getNode() {
         return textField;
     }
 

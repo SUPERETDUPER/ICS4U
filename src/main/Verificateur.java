@@ -24,49 +24,49 @@
 
 package main;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Checker extends VBox implements UpdateListener {
+class Verificateur {
+    private static final GridPane tableauDeCriteres;
 
-    private final List<Critere> criteres = Arrays.asList(
-            new CritereOuiNon("Mal de dos?", false, this),
-            new CritereOuiNon("Malaise cardiaque",false, this),
-            new CritereMinMax(122, 188, "Hauteur", "Rentrez votre hauteur ici", this)
+    private static final List<Critere> criteres = Arrays.asList(
+            new CritereOuiNon("Mal de dos?", false),
+            new CritereOuiNon("Malaise cardiaque", false),
+            new CritereMinMax("Hauteur", 122, 188, "Rentrez votre hauteur ici")
     );
 
-    private final Text txtReponse;
+    static {
+        tableauDeCriteres = new GridPane();
 
-    Checker(Text txtReponse) {
-        super();
-
-        this.txtReponse = txtReponse;
-
-        for (Critere critere : criteres){
-            HBox critereDisplayable = critere.creeDisplayable();
-            critereDisplayable.setAlignment(Pos.CENTER);
-            this.getChildren().add(critereDisplayable);
+        for (int i = 0; i < criteres.size(); i++) {
+            tableauDeCriteres.addRow(i,
+                    Utils.creeTextNormal(criteres.get(i).getNom()),
+                    criteres.get(i).getNode()
+            );
         }
+
+        tableauDeCriteres.setHgap(20);
+        tableauDeCriteres.setVgap(10);
     }
 
-    @Override
-    public void notifyChange() {
+    static GridPane getTableauDeCriteres() {
+        return tableauDeCriteres;
+    }
+
+    static String getResultatDesCriteres() {
         boolean isPass = true;
 
-        for (Critere critere : criteres){
+        for (Critere critere : criteres) {
             try {
                 isPass = isPass && critere.isPass();
-            } catch (Exception e){
-                txtReponse.setText(e.getMessage());
-                break;
+            } catch (Exception e) {
+                return e.getMessage();
             }
         }
 
-        txtReponse.setText(isPass ? "Peut passer" : "Peut pas passer");
+        return isPass ? "Peut passer" : "Peut pas passer";
     }
 }

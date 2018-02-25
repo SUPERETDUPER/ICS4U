@@ -26,8 +26,8 @@ package main;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 
 public class CritereOuiNon extends Critere {
 
@@ -39,13 +39,12 @@ public class CritereOuiNon extends Critere {
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>(OPTIONS);
     private final boolean necessiteOui;
 
-    CritereOuiNon(String description, boolean necessiteOui, UpdateListener listener) {
-        super(description);
+    CritereOuiNon(String nom, boolean necessiteOui) {
+        super(nom);
+
         this.necessiteOui = necessiteOui;
 
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener(
-                (observable, oldValue, newValue) -> listener.notifyChange()
-        );
+        choiceBox.getSelectionModel().selectedIndexProperty().addListener(this);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class CritereOuiNon extends Critere {
         return necessiteOui == choiceBox.getSelectionModel().isSelected(0);
     }
 
-    public HBox creeDisplayable() {
-        return creeDisplayable(choiceBox);
+    public Node getNode() {
+        return choiceBox;
     }
 }

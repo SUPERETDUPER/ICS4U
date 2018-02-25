@@ -24,6 +24,8 @@
 
 package main;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -33,8 +35,7 @@ import org.jetbrains.annotations.NotNull;
  * Classe qui crée des Objet Text avec des différents Fonts
  */
 class Utils {
-    static final Font FONT_NORMAL = Font.font(16);
-
+    private static final Font FONT_NORMAL = Font.font(16);
     private static final Font FONT_BOLD_GRAND = Font.font(null, FontWeight.BOLD, 20);
     private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
@@ -65,5 +66,13 @@ class Utils {
         Text text = new Text(message);
         text.setFont(FONT_TITRE);
         return text;
+    }
+
+    static TextField creeBoiteDeTexte(String indice){
+        TextField textField = new TextField();
+        textField.setFont(FONT_NORMAL);
+        textField.setPromptText(indice);
+        textField.setAlignment(Pos.BASELINE_RIGHT);
+        return textField;
     }
 }
