@@ -22,45 +22,35 @@
  * SOFTWARE.
  */
 
-package main;
+package main.Critere;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
 
-abstract class Critere implements ChangeListener<Object> {
-    private final String nom;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
-    Critere(String nom) {
-        this.nom = nom;
+public class IndicateurStatus extends Rectangle {
+
+    private static final Paint REFUSE = Color.RED;
+
+    private static final Paint INCOMPLET = Color.YELLOW;
+    private static final Paint PASSE = Color.GREEN;
+
+    public IndicateurStatus(int dimension){
+        super(dimension, dimension);
     }
 
-    String getNom() {
-        return nom;
-    }
-
-    @Override
-    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        Main.notifierChangement();
-    }
-
-    static GridPane creeTableauDeCritere(Critere[] criteres) {
-        GridPane tableauDeCriteres = new GridPane();
-
-        for (int i = 0; i < criteres.length; i++) {
-            tableauDeCriteres.addRow(i,
-                    Utils.creeTextNormal(criteres[i].getNom()),
-                    criteres[i].getNode()
-            );
+    public void mettreAJour(Critere.Status status){
+        switch (status) {
+            case INCOMPLET:
+                this.setFill(INCOMPLET);
+                break;
+            case PASSE:
+                this.setFill(PASSE);
+                break;
+            case REFUSE:
+                this.setFill(REFUSE);
+                break;
         }
-
-        tableauDeCriteres.setHgap(20);
-        tableauDeCriteres.setVgap(10);
-        return tableauDeCriteres;
     }
-
-    abstract boolean isPass() throws Exception;
-
-    abstract Node getNode();
 }

@@ -29,35 +29,40 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.Critere.Critere;
+import main.Critere.CritereMinMax;
+import main.Critere.CritereOuiNon;
+import main.Critere.IndicateurStatus;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Main extends Application {
     private static final String TITRE = "Vérification pour manège russe";
 
-    private static final String MSG_ENTREE_VIDE = "Remplissez toutes les cases";
-
-    private static final int HAUTEUR_FENETRE = 600;
-    private static final int LARGUEUR_FENETRE = 800;
-    private static final int PADDING_FENETRE = 30;
+    private static final int PADDING_FENETRE = 80;
 
     private static final int ESPACE_VBOX = 50;
+    private static final int ESPACE_HBOX_ZONE_REPONSE = 10;
 
+    private static final int DIMENSION_INDICATEUR_STATUS_FINAL = 30;
+
+    private static final String MSG_PASSE = "Accès autorisé";
+    private static final String MSG_INCOMPLET = "Remplir tous les critères";
+    private static final String MSG_REFUSE = "Accès refusé";
+
+    //Liste de tous les critères
     private static final Critere[] criteres = {
             new CritereOuiNon("Mal de dos?", false),
             new CritereOuiNon("Malaise cardiaque", false),
             new CritereMinMax("Hauteur", 122, 188, "Rentrez votre hauteur ici")
     };
 
-    private static final Text reponse = Utils.creeTextBoldGrand(null); // Zone qui montre soit le message
-    private static final GridPane tableaudeCriteres = Critere.creeTableauDeCritere(criteres);
+    private static final Text reponseFinale = Utils.creeTextBoldGrand(null);
+    private static final IndicateurStatus indicateurFinale = new IndicateurStatus(DIMENSION_INDICATEUR_STATUS_FINAL);
+
 
     public static void main(String[] args) {
         launch(args);
@@ -70,42 +75,66 @@ public class Main extends Application {
     public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle(TITRE);
 
-        //Montrer le message "Entrez votre montant"
-        reponse.setText(MSG_ENTREE_VIDE);
+        //Création de la zone de réponse (indicateurStatus + réponse)
+        HBox zoneReponse = new HBox(indicateurFinale, reponseFinale);
+        zoneReponse.setAlignment(Pos.CENTER);
+        zoneReponse.setSpacing(ESPACE_HBOX_ZONE_REPONSE);
 
         //Création du layout (vertical) principal
         VBox layout = new VBox(
-                Utils.creeTextTitre(TITRE),
-                tableaudeCriteres,
+                Utils.creeTextTitre(TITRE), //Titre
+                Critere.creeTableauDeCritere(criteres), //Tableau de critères
                 new Separator(),
-                reponse
+                Critere.creeTableauDeResultat(criteres),  //Tableau de resultat
+                zoneReponse  //Zone de réponse
         );
 
         //Formatter
-        tableaudeCriteres.setAlignment(Pos.CENTER);
-        VBox.setVgrow(reponse, Priority.SOMETIMES);
         layout.setSpacing(ESPACE_VBOX);
         layout.setPadding(new Insets(PADDING_FENETRE));
         layout.setAlignment(Pos.CENTER);
 
         //Commencer l'interface
-        Scene scene = new Scene(layout, LARGUEUR_FENETRE, HAUTEUR_FENETRE);
+        Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        calculerResultat(); //Calculer les résultats pour la première fois. Après sera calculer quand il y a un changement de l'utilisateur
     }
 
-    static void notifierChangement(){
-        boolean isPass = true;
+    /**
+     * Repasse tout les critères pour savoir leur status. Calcule puis affiche le resultat finale
+     */
+    public static void calculerResultat() {
+        Critere.Status statusFinale = Critere.Status.PASSE;
 
         for (Critere critere : criteres) {
-            try {
-                isPass = isPass && critere.isPass();
-            } catch (Exception e) {
-                reponse.setText(e.getMessage());
-                return;
+            //Si le status est bon passer immédiatement au prochain
+            if (critere.getStatus() == Critere.Status.PASSE){
+                continue;
+            }
+
+            statusFinale = critere.getStatus();
+
+            //Si il manque des résultats arrêter immédiatement et demander de remplir tous les critères
+            if (statusFinale == Critere.Status.INCOMPLET){
+                break;
             }
         }
 
-        reponse.setText(isPass ? "Peut passer" : "Peut pas passer");
+        indicateurFinale.mettreAJour(statusFinale); //Mettre à jour l'indicateur
+
+        //Mettre à jour le message
+        switch (statusFinale) {
+            case PASSE:
+                reponseFinale.setText(MSG_PASSE);
+                break;
+            case INCOMPLET:
+                reponseFinale.setText(MSG_INCOMPLET);
+                break;
+            case REFUSE:
+                reponseFinale.setText(MSG_REFUSE);
+                break;
+        }
     }
 }

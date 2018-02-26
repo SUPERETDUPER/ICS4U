@@ -22,61 +22,61 @@
  * SOFTWARE.
  */
 
-package main;
+package main.Critere;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import org.jetbrains.annotations.NotNull;
+import main.Utils;
 
-public class CritereMinMax extends Critere {
+public class CritereMinMax extends Critere implements ChangeListener<String> {
 
     private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un numéro valide";
 
     private final Integer min;
     private final Integer max;
 
-    private final TextField textField;
+    private final TextField textFieldEntree;
 
-    CritereMinMax(String nom, Integer min, Integer max, String indicePourBoiteDeText) {
+    public CritereMinMax(String nom, Integer min, Integer max, String indicePourBoiteDeText) {
         super(nom);
 
         this.min = min;
         this.max = max;
 
-        textField = Utils.creeBoiteDeTexte(indicePourBoiteDeText);
-        textField.textProperty().addListener(this);
+        textFieldEntree = Utils.creeBoiteDeTexte(indicePourBoiteDeText);
+        textFieldEntree.textProperty().addListener(this);
     }
 
     @Override
-    public boolean isPass() throws Exception {
-        String entree = textField.getText();
+    public Node getObjetEntree() {
+        return textFieldEntree;
+    }
 
-        if (entree.isEmpty()){
-            throw new Exception("Remplisser critère : " + this.getNom());
+    @Override
+    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+        if (newValue.isEmpty()) {
+            setStatus(Status.INCOMPLET);
+            return;
         }
 
-        Integer valeur = parseEntree(entree);
-        return min <= valeur && valeur <= max;
-    }
+        int valeur;
 
-    @Override
-    public Node getNode() {
-        return textField;
-    }
-
-    /**
-     * Converti du texte en valeur numérique
-     * Si c'est impossible montre une erreur sur l'interface
-     *
-     * @param entree le string à parser
-     * @return la valeur résultante ou null si échec
-     */
-    @NotNull
-    private static Integer parseEntree(@NotNull String entree) throws Exception{
         try {
-            return Integer.parseInt(entree);
+            valeur = Integer.parseInt(newValue);
         } catch (NumberFormatException e) {
-            throw new Exception(String.format(MSG_ENTREE_INVALIDE, entree));
+            setStatus(Status.REFUSE, String.format(MSG_ENTREE_INVALIDE, newValue));
+            return;
+        }
+
+        if (valeur < min) {
+            setStatus(Status.REFUSE, "Valeur trop petite");
+        } else if (valeur > max) {
+            setStatus(Status.REFUSE, "Valeur trop grande");
+        } else {
+            setStatus(Status.PASSE);
         }
     }
 }

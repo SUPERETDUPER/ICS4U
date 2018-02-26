@@ -32,23 +32,15 @@ import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Classe qui crée des Objet Text avec des différents Fonts
+ * Classe qui crée des Objet Text ou TextField avec des différents Fonts
  */
-class Utils {
+public class Utils {
     private static final Font FONT_NORMAL = Font.font(16);
     private static final Font FONT_BOLD_GRAND = Font.font(null, FontWeight.BOLD, 20);
-    private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 16);
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
 
     @NotNull
-    static Text creeTextBold(String message){
-        Text text = new Text(message);
-        text.setFont(FONT_BOLD);
-        return text;
-    }
-
-    @NotNull
-    static Text creeTextNormal(String message){
+    public static Text creeTextNormal(String message){
         Text text = new Text(message);
         text.setFont(FONT_NORMAL);
         return text;
@@ -68,7 +60,7 @@ class Utils {
         return text;
     }
 
-    static TextField creeBoiteDeTexte(String indice){
+    public static TextField creeBoiteDeTexte(String indice){
         TextField textField = new TextField();
         textField.setFont(FONT_NORMAL);
         textField.setPromptText(indice);

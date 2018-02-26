@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-package main;
+package main.Critere;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 
-public class CritereOuiNon extends Critere {
+public class CritereOuiNon extends Critere implements ChangeListener<Number> {
 
     private static final ObservableList<String> OPTIONS = FXCollections.observableArrayList(
             "Oui",
@@ -37,22 +39,29 @@ public class CritereOuiNon extends Critere {
     );
 
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>(OPTIONS);
-    private final boolean necessiteOui;
 
-    CritereOuiNon(String nom, boolean necessiteOui) {
+    private final boolean passeAvecOui;
+
+    public CritereOuiNon(String nom, boolean passeAvecOui) {
         super(nom);
 
-        this.necessiteOui = necessiteOui;
+        this.passeAvecOui = passeAvecOui;
 
         choiceBox.getSelectionModel().selectedIndexProperty().addListener(this);
     }
 
     @Override
-    public boolean isPass() {
-        return necessiteOui == choiceBox.getSelectionModel().isSelected(0);
+    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        if (newValue == null) {
+            setStatus(Status.INCOMPLET);
+        } else if (passeAvecOui == choiceBox.getSelectionModel().isSelected(0)) {
+            setStatus(Status.PASSE);
+        } else {
+            setStatus(Status.REFUSE);
+        }
     }
 
-    public Node getNode() {
+    public Node getObjetEntree() {
         return choiceBox;
     }
 }
