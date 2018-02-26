@@ -50,10 +50,11 @@ public final class Main extends Application implements ChangeListener<String> {
 
     private static final String INDICE_ENTREE_TEXTE_BASE = "Entrez la base ici";
     private static final String INDICE_ENTREE_TEXT_BASE = "Entrez l'exposant ici";
+
     private static final String DESCRIPTION_BASE = "Base";
     private static final String DESCRIPTION_EXPOSANT = "Exposant";
 
-    private static final int INTERLINE_REPONSE = 2;
+    private static final int INTERLINE_REPONSE = 10;
 
     private static final int PADDING_FENETRE = 80;
 
@@ -101,6 +102,7 @@ public final class Main extends Application implements ChangeListener<String> {
 
         zoneEntree.setHgap(HGAP_TABLEAU);
         zoneEntree.setVgap(VGAP_TABLEAU);
+        zoneEntree.setAlignment(Pos.CENTER);
 
         //Créer le layout principale
         VBox layoutPrincipale = new VBox(
@@ -112,7 +114,7 @@ public final class Main extends Application implements ChangeListener<String> {
 
         //Formatter
         txtReponse.setLineSpacing(INTERLINE_REPONSE);
-        layoutPrincipale.setAlignment(Pos.CENTER);
+        layoutPrincipale.setAlignment(Pos.TOP_CENTER);
         layoutPrincipale.setPadding(new Insets(PADDING_FENETRE));
         layoutPrincipale.setSpacing(ESPACE_LAYOUT_PRINCIPALE);
 
