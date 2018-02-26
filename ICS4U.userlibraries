@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<eclipse-userlibraries>
-  <library name="annotations-java8">
-    <archive path="/home/tech/IdeaProjects/ICS4U/lib/annotations-java8.jar" />
-  </library>
-</eclipse-userlibraries>
-
