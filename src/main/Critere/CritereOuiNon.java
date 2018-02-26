@@ -30,7 +30,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+/**
+ * Critère qui peut soit être oui ou non
+ */
 public class CritereOuiNon extends Critere implements ChangeListener<Number> {
 
     private static final ObservableList<String> OPTIONS = FXCollections.observableArrayList(
@@ -38,8 +43,11 @@ public class CritereOuiNon extends Critere implements ChangeListener<Number> {
             "Non"
     );
 
+    //La boîte de choix qui est soit oui ou non
     private final ChoiceBox<String> choiceBox = new ChoiceBox<>(OPTIONS);
 
+    //Si vrai : necessite Oui pour que le critère passe
+    //Si faux : necessite Non pour que le critère passe
     private final boolean passeAvecOui;
 
     public CritereOuiNon(String nom, boolean passeAvecOui) {
@@ -50,17 +58,27 @@ public class CritereOuiNon extends Critere implements ChangeListener<Number> {
         choiceBox.getSelectionModel().selectedIndexProperty().addListener(this);
     }
 
+    /**
+     * Appelé quand la valeur de la boîte de choix change
+     *
+     * @param observable voir documentation ChangeListener
+     * @param oldValue   voir documentation ChangeListener
+     * @param newValue   voir documentation ChangeListener
+     */
     @Override
-    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        if (newValue == null) {
-            setStatus(Status.INCOMPLET);
-        } else if (passeAvecOui == choiceBox.getSelectionModel().isSelected(0)) {
-            setStatus(Status.PASSE);
+    public void changed(ObservableValue<? extends Number> observable, Number oldValue, @Nullable Number newValue) {
+        /*
+        Vrai si passeAvecOui = vrai et "Oui" selectionné
+        Vrai si passeAvecOui = faux et "Non" selectionné
+         */
+        if (passeAvecOui == choiceBox.getSelectionModel().isSelected(0)) {
+            setStatusDuCritere(Status.PASSE);
         } else {
-            setStatus(Status.REFUSE);
+            setStatusDuCritere(Status.REFUSE);
         }
     }
 
+    @NotNull
     public Node getObjetEntree() {
         return choiceBox;
     }

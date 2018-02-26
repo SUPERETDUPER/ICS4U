@@ -24,28 +24,24 @@
 
 package main.Critere;
 
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.Main;
 import main.Utils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class abstraite qui represente un critère pour le manège
  * <p>
  * Chaque critère contient un
  * <p>
- * nom
- * indicateur de status (rouge, jaune ou vert)
- * message de resultat (txtResultat)
+ * nomDuCritere
+ * indicateur de statusDuCritere (rouge, jaune ou vert)
+ * message de resultat (txtMessageDeResultat)
  */
 public abstract class Critere {
-    //Different status possible pour un critère
+    //Different statusDuCritere possible pour un critère
     public enum Status {
         PASSE,
         INCOMPLET,
@@ -57,94 +53,76 @@ public abstract class Critere {
     private static final String MSG_REFUSE = "Refusé";
 
     //Nom du critère
-    private final String nom;
+    private final String nomDuCritere;
 
     //Status du critère
-    private Status status;
+    private Status statusDuCritere;
 
     //Message associé au critère (ex. Passe ou refusé)
-    private final Text txtResultat = Utils.creeTextNormal(null);
+    private final Text txtMessageDeResultat = Utils.creeTextNormal(null);
 
-    //Indicateur affichant le status du critère
+    //Indicateur affichant le statusDuCritere du critère
     private final IndicateurStatus rectIndicateurDeStatus = new IndicateurStatus(15);
 
     /**
      * Creer un nouveau critère
      *
-     * @param nom nom du critère
+     * @param nomDuCritere nomDuCritere du critère
      */
-    Critere(String nom) {
-        this.nom = nom;
+    Critere(String nomDuCritere) {
+        this.nomDuCritere = nomDuCritere;
 
-        status = Status.INCOMPLET;
-        txtResultat.setText(MSG_INCOMPLET);
+        statusDuCritere = Status.INCOMPLET;
+        txtMessageDeResultat.setText(MSG_INCOMPLET);
         rectIndicateurDeStatus.mettreAJour(Status.INCOMPLET);
     }
 
-    /**
-     * Retourne le nom du critère
-     *
-     * @return nom du critère
-     */
-    private String getNom() {
-        return this.nom;
+    public String getNomDuCritere() {
+        return this.nomDuCritere;
     }
 
-    /**
-     * Retourne un rectangle-indicateur
-     *
-     * @return le rectangle-indicateur
-     */
-    private Rectangle getRectIndicateurDeStatus() {
+    @NotNull
+    public Rectangle getRectIndicateurDeStatus() {
         return this.rectIndicateurDeStatus;
     }
 
-    /**
-     * Retourne le message du critère
-     *
-     * @return le message
-     */
-    private Text getTxtResultat() {
-        return this.txtResultat;
+    @NotNull
+    public Text getTxtMessageDeResultat() {
+        return this.txtMessageDeResultat;
+    }
+
+    public Status getStatusDuCritere() {
+        return this.statusDuCritere;
     }
 
     /**
-     * Indique le status du critère
-     *
-     * @return le status
+     * Mets à jour le statusDuCritere utilisant le message par défaut
+     * @param statusDuCritere le statusDuCritere
      */
-    public Status getStatus() {
-        return this.status;
-    }
-
-    /**
-     * Mets à jour le status utilisant le message par défaut
-     * @param status le status
-     */
-    void setStatus(Status status) {
-        switch (status) {
+    void setStatusDuCritere(@NotNull Status statusDuCritere) {
+        switch (statusDuCritere) {
             case PASSE:
-                setStatus(status, MSG_PASSE);
+                setStatus(statusDuCritere, MSG_PASSE);
                 break;
             case INCOMPLET:
-                setStatus(status, MSG_INCOMPLET);
+                setStatus(statusDuCritere, MSG_INCOMPLET);
                 break;
             default:
-                setStatus(status, MSG_REFUSE);
+                setStatus(statusDuCritere, MSG_REFUSE);
                 break;
         }
     }
 
     /**
-     * Mets à jour le status du critère. Mets à jour l'indicateur, le status et le message
+     * Mets à jour le statusDuCritere du critère. Mets à jour l'indicateur, le statusDuCritere et le message
      *
-     * @param status  si le critère passe ou ne passe pas
+     * @param nouveauStatus  si le critère passe ou ne passe pas
      * @param message message associé avec le critère
      */
-    void setStatus(Status status, String message) {
-        this.status = status;
-        this.txtResultat.setText(message);
-        this.rectIndicateurDeStatus.mettreAJour(status);
+    void setStatus(Status nouveauStatus, String message) {
+        this.statusDuCritere = nouveauStatus;
+        this.txtMessageDeResultat.setText(message);
+        this.rectIndicateurDeStatus.mettreAJour(nouveauStatus);
 
         Main.calculerResultat();
     }
@@ -154,65 +132,5 @@ public abstract class Critere {
      *
      * @return objet à mettre sur l'interface graphique
      */
-    abstract Node getObjetEntree();
-
-    /**
-     * Utilisé par "Main" pour construire un tableau contenant les options pour entrer les critères (nom + objet d'entree)
-     *
-     * @param criteres criteres à utiliser
-     * @return tableau
-     */
-    public static GridPane creeTableauDeCritere(Critere[] criteres) {
-        GridPane tableauDeCriteres = new GridPane();
-
-        //Pour chaque rangée ajouter le nom du critère et son objet d'entrée (getObjetEntree())
-        for (int i = 0; i < criteres.length; i++) {
-            tableauDeCriteres.addRow(i,
-                    Utils.creeTextNormal(criteres[i].getNom()),
-                    criteres[i].getObjetEntree()
-            );
-        }
-
-        //Formatter
-        tableauDeCriteres.setAlignment(Pos.CENTER);
-        tableauDeCriteres.setHgap(20);
-        tableauDeCriteres.setVgap(10);
-        return tableauDeCriteres;
-    }
-
-    /**
-     * Utilisé par "Main" pour construire un tableau contenant les résultats des critères (rectIndicateurDeStatus + nom + message)
-     *
-     * @param criteres critères à utiliser
-     * @return tableau de résultat
-     */
-    public static GridPane creeTableauDeResultat(Critere[] criteres) {
-        GridPane tableauDeResultat = new GridPane();
-
-        for (int i = 0; i < criteres.length; i++) {
-            tableauDeResultat.addRow(i,
-                    criteres[i].getRectIndicateurDeStatus(),
-                    Utils.creeTextNormal(criteres[i].getNom()),
-                    criteres[i].getTxtResultat()
-            );
-        }
-
-        tableauDeResultat.setHgap(20);
-        tableauDeResultat.setVgap(10);
-        tableauDeResultat.setAlignment(Pos.CENTER);
-
-        ColumnConstraints columnConstraints1 = new ColumnConstraints();
-        columnConstraints1.setHgrow(Priority.SOMETIMES);
-        columnConstraints1.setHalignment(HPos.RIGHT);
-
-        ColumnConstraints columnConstraints3 = new ColumnConstraints();
-        columnConstraints3.setPercentWidth(50);
-        columnConstraints3.setHgrow(Priority.SOMETIMES);
-
-        tableauDeResultat.getColumnConstraints().setAll(
-                columnConstraints1, new ColumnConstraints(), columnConstraints3
-        );
-
-        return tableauDeResultat;
-    }
+    public abstract Node getObjetEntree();
 }

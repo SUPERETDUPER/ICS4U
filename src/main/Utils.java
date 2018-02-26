@@ -60,6 +60,7 @@ public class Utils {
         return text;
     }
 
+    @NotNull
     public static TextField creeBoiteDeTexte(String indice){
         TextField textField = new TextField();
         textField.setFont(FONT_NORMAL);

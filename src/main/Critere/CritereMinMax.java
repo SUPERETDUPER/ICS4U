@@ -29,7 +29,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import main.Utils;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * Critère qui prends un nombre comme entrée
+ */
 public class CritereMinMax extends Critere implements ChangeListener<String> {
 
     private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un numéro valide";
@@ -54,11 +58,17 @@ public class CritereMinMax extends Critere implements ChangeListener<String> {
         return textFieldEntree;
     }
 
+    /**
+     * Appelé quand l'entrée dans la boîte de texte change
+     *
+     * @param observable voir documentation ChangeListener
+     * @param oldValue   voir documentation ChangeListener
+     * @param newValue   voir documentation ChangeListener
+     */
     @Override
-    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
+    public void changed(ObservableValue<? extends String> observable, String oldValue, @NotNull String newValue) {
         if (newValue.isEmpty()) {
-            setStatus(Status.INCOMPLET);
+            setStatusDuCritere(Status.INCOMPLET);
             return;
         }
 
@@ -76,7 +86,7 @@ public class CritereMinMax extends Critere implements ChangeListener<String> {
         } else if (valeur > max) {
             setStatus(Status.REFUSE, "Valeur trop grande");
         } else {
-            setStatus(Status.PASSE);
+            setStatusDuCritere(Status.PASSE);
         }
     }
 }

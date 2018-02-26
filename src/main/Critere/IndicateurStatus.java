@@ -28,11 +28,14 @@ package main.Critere;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * Un rectangle qui est soit vert, jaune ou rouge dépendant du status
+ */
 public class IndicateurStatus extends Rectangle {
 
     private static final Paint REFUSE = Color.RED;
-
     private static final Paint INCOMPLET = Color.YELLOW;
     private static final Paint PASSE = Color.GREEN;
 
@@ -40,7 +43,11 @@ public class IndicateurStatus extends Rectangle {
         super(dimension, dimension);
     }
 
-    public void mettreAJour(Critere.Status status){
+    /**
+     * Appelé quand le status change
+     * @param status le nouveau status
+     */
+    public void mettreAJour(@NotNull Critere.Status status){
         switch (status) {
             case INCOMPLET:
                 this.setFill(INCOMPLET);
