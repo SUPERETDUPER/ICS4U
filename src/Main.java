@@ -22,9 +22,46 @@
  * SOFTWARE.
  */
 
-public class Main{
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-    public static void main(String[] args){
+public class Main extends Application {
+    private static final String TITRE_APPLICATION = "Puissances";
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Text txtTitre = new Text(TITRE_APPLICATION);
+
+        GridPane zoneEntree = new GridPane();
+        zoneEntree.addRow(0,
+                new Text("Base"),
+                new TextField("Entrez la base ici")
+        );
+        zoneEntree.addRow(1,
+                new Text("Exposant"),
+                new TextField("Entrez l'exposant ici")
+        );
+
+        Text txtReponse = new Text();
+
+        VBox layoutPrincipale = new VBox(
+                txtTitre,
+                zoneEntree,
+                new Separator(),
+                txtReponse
+        );
+
+        primaryStage.setScene(new Scene(layoutPrincipale));
+        primaryStage.show();
     }
 }
