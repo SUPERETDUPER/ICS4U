@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +48,7 @@ public final class Main extends Application implements ChangeListener<String> {
     private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
     private static final String MSG_BASE_VIDE = "Indiquer la base";
     private static final String MSG_EXPOSANT_VIDE = "Indiquer l'exposant";
+    private static final String MSG_MAXIMUM = "Maximum atteint";
 
     private static final String INDICE_ENTREE_TEXTE_BASE = "Entrez la base ici";
     private static final String INDICE_ENTREE_TEXT_BASE = "Entrez l'exposant ici";
@@ -114,12 +116,14 @@ public final class Main extends Application implements ChangeListener<String> {
 
         //Formatter
         txtReponse.setLineSpacing(INTERLINE_REPONSE);
+        txtReponse.setTextAlignment(TextAlignment.CENTER);
         layoutPrincipale.setAlignment(Pos.TOP_CENTER);
         layoutPrincipale.setPadding(new Insets(PADDING_FENETRE));
         layoutPrincipale.setSpacing(ESPACE_LAYOUT_PRINCIPALE);
 
         //Afficher l'interface
         primaryStage.setScene(new Scene(layoutPrincipale));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -145,8 +149,8 @@ public final class Main extends Application implements ChangeListener<String> {
             return;
         }
 
-        Integer base = stringToInt(txtBase);
-        Integer exposant = stringToInt(txtExposant);
+        Long base = stringToInt(txtBase);
+        Long exposant = stringToInt(txtExposant);
 
         if (base == null || exposant == null) {
             return;
@@ -182,9 +186,9 @@ public final class Main extends Application implements ChangeListener<String> {
      * @return le numéro
      */
     @Nullable
-    private Integer stringToInt(@NotNull String entree) {
+    private Long stringToInt(@NotNull String entree) {
         try {
-            return Integer.parseInt(entree);
+            return Long.parseLong(entree);
         } catch (NumberFormatException e) {
             setReponseBold(String.format(MSG_ENTREE_INVALIDE, entree));
             return null;
@@ -193,15 +197,23 @@ public final class Main extends Application implements ChangeListener<String> {
 
     /**
      * Génère le message de résultat
-     * @param base base à utiliser
+     *
+     * @param base     base à utiliser
      * @param exposant exposant à utiliser
      * @return le message de resultat
      */
-    private static String calculerReponse(int base, int exposant) {
+    private static String calculerReponse(long base, long exposant) {
         StringBuilder message = new StringBuilder();
 
         for (int i = 1; i <= exposant; i++) {
-            message.append(String.format(MSG_RESULTAT, base, i, (int) Math.pow(base, i)));
+            long resultat = (long) Math.pow(base, i);
+
+            if (resultat == Long.MAX_VALUE) {
+                message.append(MSG_MAXIMUM);
+                break;
+            }
+
+            message.append(String.format(MSG_RESULTAT, base, i, resultat));
             message.append("\n");
         }
 
@@ -210,6 +222,7 @@ public final class Main extends Application implements ChangeListener<String> {
 
     /**
      * Crée un objet {@link Text} avec font normal
+     *
      * @param message message à mettre dans l'objet {@link Text}
      * @return l'objet {@link Text}
      */
@@ -222,7 +235,8 @@ public final class Main extends Application implements ChangeListener<String> {
 
     /**
      * Génère une nouvelle boite de texte {@link TextField}
-     * @param indice l'indice à utiliser (texte qui s'affiche dans la boite vide)
+     *
+     * @param indice   l'indice à utiliser (texte qui s'affiche dans la boite vide)
      * @param listener un listener qui sera appelé quand la valeur change
      * @return la boite de texte
      */
