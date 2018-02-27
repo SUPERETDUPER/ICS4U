@@ -49,10 +49,10 @@ public final class Main extends Application implements ChangeListener<String> {
 
     private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un entier valide\n";
     private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
+    private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = 1 / %d";
     private static final String MSG_BASE_VIDE = "Indiquer la base";
     private static final String MSG_EXPOSANT_VIDE = "Indiquer l'exposant";
     private static final String MSG_MAXIMUM = "Maximum atteint";
-    private static final String MSG_INFERIEUR_ZERO = "Exposant doit être supérieur à zéro";
 
     private static final String INDICE_ENTREE_TEXTE_BASE = "Entrez la base ici";
     private static final String INDICE_ENTREE_TEXT_BASE = "Entrez l'exposant ici";
@@ -89,6 +89,8 @@ public final class Main extends Application implements ChangeListener<String> {
      */
     @Override
     public void start(@NotNull Stage primaryStage) {
+        primaryStage.setTitle(TITRE_APPLICATION);
+
         //Créer le titre
         Text txtTitre = new Text(TITRE_APPLICATION);
         txtTitre.setFont(FONT_TITRE);
@@ -166,12 +168,7 @@ public final class Main extends Application implements ChangeListener<String> {
             return;
         }
 
-        if (exposant < 0){
-            setReponseBold(MSG_INFERIEUR_ZERO);
-            return;
-        }
-
-        setReponseNormal(calculerReponse(base, exposant));
+        setReponseNormal(calculerReponse(base, exposant)); //Calculer la réponse et l'afficher
     }
 
     /**
@@ -220,15 +217,22 @@ public final class Main extends Application implements ChangeListener<String> {
     private static String calculerReponse(long base, long exposant) {
         StringBuilder message = new StringBuilder();
 
-        for (int i = 0; i <= exposant; i++) {
+        //Ajouter une ligne pour chaque exposant
+        for (int i = 0; i <= Math.abs(exposant); i++) {
             long resultat = (long) Math.pow(base, i);
 
+            //Vérifier que le maximum n'a pas été atteint
             if (resultat == Long.MAX_VALUE) {
                 message.append(MSG_MAXIMUM);
                 break;
             }
 
-            message.append(String.format(MSG_RESULTAT, base, i, resultat));
+            if (Math.signum(exposant) == 1) {
+                message.append(String.format(MSG_RESULTAT, base, i, resultat));
+            } else {
+                message.append(String.format(MSG_RESULTAT_FRACTION, base, i ,resultat)); //Si exposant négatif, montrer fraction
+            }
+
             message.append("\n");
         }
 
