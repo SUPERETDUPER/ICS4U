@@ -60,7 +60,7 @@ public class Main extends Application {
     private static final Critere[] listeDeCriteres = {
             new CritereOuiNon("Mal de dos?", false),
             new CritereOuiNon("Malaise cardiaque", false),
-            new CritereMinMax("Hauteur", 122, 188, "Rentrez votre hauteur ici")
+            new CritereMinMax("Hauteur (cm)", 122, 188, "Rentrez votre hauteur en cm ici")
     };
 
 
