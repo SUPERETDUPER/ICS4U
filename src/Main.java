@@ -47,11 +47,12 @@ public final class Main extends Application implements ChangeListener<String> {
     //CONSTANTES
     private static final String TITRE_APPLICATION = "Puissances";
 
-    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un numéro valide\n";
+    private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un entier valide\n";
     private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
     private static final String MSG_BASE_VIDE = "Indiquer la base";
     private static final String MSG_EXPOSANT_VIDE = "Indiquer l'exposant";
     private static final String MSG_MAXIMUM = "Maximum atteint";
+    private static final String MSG_INFERIEUR_ZERO = "Exposant doit être supérieur à zéro";
 
     private static final String INDICE_ENTREE_TEXTE_BASE = "Entrez la base ici";
     private static final String INDICE_ENTREE_TEXT_BASE = "Entrez l'exposant ici";
@@ -109,6 +110,7 @@ public final class Main extends Application implements ChangeListener<String> {
         zoneEntree.setVgap(VGAP_TABLEAU);
         zoneEntree.setAlignment(Pos.CENTER);
 
+        //Mettre la réponse dans un scroll pane pour qu'on puisse scroll
         ScrollPane zoneReponse = new ScrollPane(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
 
         //Créer le layout principale
@@ -130,7 +132,7 @@ public final class Main extends Application implements ChangeListener<String> {
 
         //Afficher l'interface
         primaryStage.setScene(new Scene(layoutPrincipale));
-        primaryStage.setMaximized(true);
+        primaryStage.setMaximized(true); //Commence en plein écran
         primaryStage.show();
     }
 
@@ -143,23 +145,29 @@ public final class Main extends Application implements ChangeListener<String> {
      */
     @Override
     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        //Lire les entrées
         String txtBase = entreeBase.getText();
         String txtExposant = entreeExposant.getText();
 
+        //Si entrée vide arrêter et afficher message
         if (txtBase.isEmpty()) {
             setReponseBold(MSG_BASE_VIDE);
             return;
-        }
-
-        if (txtExposant.isEmpty()) {
+        } else if (txtExposant.isEmpty()) {
             setReponseBold(MSG_EXPOSANT_VIDE);
             return;
         }
 
+        //Convertir entrée en numéro
         Long base = stringToInt(txtBase);
         Long exposant = stringToInt(txtExposant);
 
         if (base == null || exposant == null) {
+            return;
+        }
+
+        if (exposant < 0){
+            setReponseBold(MSG_INFERIEUR_ZERO);
             return;
         }
 
@@ -212,7 +220,7 @@ public final class Main extends Application implements ChangeListener<String> {
     private static String calculerReponse(long base, long exposant) {
         StringBuilder message = new StringBuilder();
 
-        for (int i = 1; i <= exposant; i++) {
+        for (int i = 0; i <= exposant; i++) {
             long resultat = (long) Math.pow(base, i);
 
             if (resultat == Long.MAX_VALUE) {
