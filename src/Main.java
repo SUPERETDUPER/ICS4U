@@ -28,9 +28,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -66,7 +69,7 @@ public final class Main extends Application implements ChangeListener<String> {
     private static final int ESPACE_LAYOUT_PRINCIPALE = 50;
 
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
-    private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 15);
+    private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 20);
     private static final Font FONT_NORMAL = Font.font(16);
 
     //VARIABLES D'INSTANCES
@@ -106,15 +109,19 @@ public final class Main extends Application implements ChangeListener<String> {
         zoneEntree.setVgap(VGAP_TABLEAU);
         zoneEntree.setAlignment(Pos.CENTER);
 
+        ScrollPane zoneReponse = new ScrollPane(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
+
         //Créer le layout principale
         VBox layoutPrincipale = new VBox(
                 txtTitre,
                 zoneEntree,
                 new Separator(),
-                txtReponse
+                zoneReponse
         );
 
         //Formatter
+        zoneReponse.setFitToWidth(true);
+        VBox.setVgrow(zoneReponse, Priority.ALWAYS);
         txtReponse.setLineSpacing(INTERLINE_REPONSE);
         txtReponse.setTextAlignment(TextAlignment.CENTER);
         layoutPrincipale.setAlignment(Pos.TOP_CENTER);
