@@ -31,10 +31,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -114,6 +112,7 @@ public final class Main extends Application implements ChangeListener<String> {
 
         //Mettre la réponse dans un scroll pane pour qu'on puisse scroll
         ScrollPane zoneReponse = new ScrollPane(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
+        zoneReponse.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null))); //Pour enlever la bordure
 
         //Créer le layout principale
         VBox layoutPrincipale = new VBox(
@@ -230,7 +229,7 @@ public final class Main extends Application implements ChangeListener<String> {
             if (Math.signum(exposant) == 1) {
                 message.append(String.format(MSG_RESULTAT, base, i, resultat));
             } else {
-                message.append(String.format(MSG_RESULTAT_FRACTION, base, i ,resultat)); //Si exposant négatif, montrer fraction
+                message.append(String.format(MSG_RESULTAT_FRACTION, base, i, resultat)); //Si exposant négatif, montrer fraction
             }
 
             message.append("\n");
