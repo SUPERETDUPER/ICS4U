@@ -39,7 +39,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class Main extends Application implements ChangeListener<String> {
     //CONSTANTES
@@ -113,6 +112,7 @@ public final class Main extends Application implements ChangeListener<String> {
         //Mettre la réponse dans un scroll pane pour qu'on puisse scroll
         ScrollPane zoneReponse = new ScrollPane(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
         zoneReponse.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null))); //Pour enlever la bordure
+        setReponseBold(MSG_BASE_VIDE); //Montrer le premier message (base vide)
 
         //Créer le layout principale
         VBox layoutPrincipale = new VBox(
@@ -159,11 +159,14 @@ public final class Main extends Application implements ChangeListener<String> {
             return;
         }
 
-        //Convertir entrée en numéro
-        Long base = stringToInt(txtBase);
-        Long exposant = stringToInt(txtExposant);
+        Long base;
+        Long exposant;
 
-        if (base == null || exposant == null) {
+        try {
+            //Convertir entrée en numéro
+            base = stringToInt(txtBase);
+            exposant = stringToInt(txtExposant);
+        } catch (NumberFormatException e) {
             return;
         }
 
@@ -196,13 +199,12 @@ public final class Main extends Application implements ChangeListener<String> {
      * @param entree la valeur dans l'entrée
      * @return le numéro
      */
-    @Nullable
-    private Long stringToInt(@NotNull String entree) {
+    private Long stringToInt(@NotNull String entree) throws NumberFormatException {
         try {
             return Long.parseLong(entree);
         } catch (NumberFormatException e) {
             setReponseBold(String.format(MSG_ENTREE_INVALIDE, entree));
-            return null;
+            throw new NumberFormatException();
         }
     }
 
