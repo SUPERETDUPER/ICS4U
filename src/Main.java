@@ -28,15 +28,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,19 +42,14 @@ public final class Main extends Application implements ChangeListener<String> {
     private static final String TITRE_APPLICATION = "Puissances";
 
     private static final String MSG_ENTREE_INVALIDE = "'%s' n'est pas un entier valide\n";
-    private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
-    private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = 1 / %d";
     private static final String MSG_BASE_VIDE = "Indiquer la base";
     private static final String MSG_EXPOSANT_VIDE = "Indiquer l'exposant";
-    private static final String MSG_MAXIMUM = "Maximum atteint";
 
     private static final String INDICE_ENTREE_TEXTE_BASE = "Entrez la base ici";
     private static final String INDICE_ENTREE_TEXT_BASE = "Entrez l'exposant ici";
 
     private static final String DESCRIPTION_BASE = "Base";
     private static final String DESCRIPTION_EXPOSANT = "Exposant";
-
-    private static final int INTERLINE_REPONSE = 10;
 
     private static final int PADDING_FENETRE = 80;
 
@@ -67,13 +59,13 @@ public final class Main extends Application implements ChangeListener<String> {
     private static final int ESPACE_LAYOUT_PRINCIPALE = 50;
 
     private static final Font FONT_TITRE = Font.font(null, FontWeight.EXTRA_BOLD, 34);
-    private static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 20);
-    private static final Font FONT_NORMAL = Font.font(16);
+    static final Font FONT_BOLD = Font.font(null, FontWeight.BOLD, 20);
+    static final Font FONT_NORMAL = Font.font(16);
 
     //VARIABLES D'INSTANCES
-    private final Text txtReponse = new Text();
     private final TextField entreeBase = creeBoiteDeTexte(INDICE_ENTREE_TEXTE_BASE, this);
     private final TextField entreeExposant = creeBoiteDeTexte(INDICE_ENTREE_TEXT_BASE, this);
+    private final ZoneReponse zoneReponse = new ZoneReponse();
 
     public static void main(String[] args) {
         launch(args);
@@ -109,11 +101,6 @@ public final class Main extends Application implements ChangeListener<String> {
         zoneEntree.setVgap(VGAP_TABLEAU);
         zoneEntree.setAlignment(Pos.CENTER);
 
-        //Mettre la réponse dans un scroll pane pour qu'on puisse scroll
-        ScrollPane zoneReponse = new ScrollPane(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
-        zoneReponse.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null))); //Pour enlever la bordure
-        setReponseBold(MSG_BASE_VIDE); //Montrer le premier message (base vide)
-
         //Créer le layout principale
         VBox layoutPrincipale = new VBox(
                 txtTitre,
@@ -122,23 +109,22 @@ public final class Main extends Application implements ChangeListener<String> {
                 zoneReponse
         );
 
+        zoneReponse.montrerMessageErreur(MSG_BASE_VIDE); //Montrer le premier message (base vide)
+
         //Formatter
-        zoneReponse.setFitToWidth(true);
         VBox.setVgrow(zoneReponse, Priority.ALWAYS);
-        txtReponse.setLineSpacing(INTERLINE_REPONSE);
-        txtReponse.setTextAlignment(TextAlignment.CENTER);
         layoutPrincipale.setAlignment(Pos.TOP_CENTER);
         layoutPrincipale.setPadding(new Insets(PADDING_FENETRE));
         layoutPrincipale.setSpacing(ESPACE_LAYOUT_PRINCIPALE);
 
         //Afficher l'interface
         primaryStage.setScene(new Scene(layoutPrincipale));
-        primaryStage.setMaximized(true); //Commence en plein écran
+        primaryStage.setMaximized(true); //Commencer en plein écran
         primaryStage.show();
     }
 
     /**
-     * Appelé quand une valeur dans les entrees de texts est changé
+     * Appelé quand une valeur dans les entrees de texts est changée
      *
      * @param observable voir documentation {@link ChangeListener}
      * @param oldValue   voir documentation {@link ChangeListener}
@@ -150,47 +136,28 @@ public final class Main extends Application implements ChangeListener<String> {
         String txtBase = entreeBase.getText();
         String txtExposant = entreeExposant.getText();
 
-        //Si entrée vide arrêter et afficher message
+        //Si entrée vide, arrêter et afficher message d'erreur
         if (txtBase.isEmpty()) {
-            setReponseBold(MSG_BASE_VIDE);
+            zoneReponse.montrerMessageErreur(MSG_BASE_VIDE);
             return;
         } else if (txtExposant.isEmpty()) {
-            setReponseBold(MSG_EXPOSANT_VIDE);
+            zoneReponse.montrerMessageErreur(MSG_EXPOSANT_VIDE);
             return;
         }
 
         Long base;
         Long exposant;
 
+        //Essayer de convertir les entrées en numéro
         try {
-            //Convertir entrée en numéro
             base = stringToInt(txtBase);
             exposant = stringToInt(txtExposant);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e){
+            zoneReponse.montrerMessageErreur(e.toString());
             return;
         }
 
-        setReponseNormal(calculerReponse(base, exposant)); //Calculer la réponse et l'afficher
-    }
-
-    /**
-     * Mets à jour la réponse en gras
-     *
-     * @param reponse nouvelle réponse
-     */
-    private void setReponseBold(String reponse) {
-        txtReponse.setFont(FONT_BOLD);
-        txtReponse.setText(reponse);
-    }
-
-    /**
-     * Mets à jour la réponse (font normal)
-     *
-     * @param reponse la nouvelle réponse
-     */
-    private void setReponseNormal(String reponse) {
-        txtReponse.setFont(FONT_NORMAL);
-        txtReponse.setText(reponse);
+        zoneReponse.calculerEtAfficherReponse(base, exposant); //Calculer la réponse et l'afficher
     }
 
     /**
@@ -199,45 +166,12 @@ public final class Main extends Application implements ChangeListener<String> {
      * @param entree la valeur dans l'entrée
      * @return le numéro
      */
-    private Long stringToInt(@NotNull String entree) throws NumberFormatException {
+    private static Long stringToInt(@NotNull String entree) throws NumberFormatException{
         try {
             return Long.parseLong(entree);
         } catch (NumberFormatException e) {
-            setReponseBold(String.format(MSG_ENTREE_INVALIDE, entree));
-            throw new NumberFormatException();
+            throw new NumberFormatException(String.format(MSG_ENTREE_INVALIDE, entree));
         }
-    }
-
-    /**
-     * Génère le message de résultat
-     *
-     * @param base     base à utiliser
-     * @param exposant exposant à utiliser
-     * @return le message de resultat
-     */
-    private static String calculerReponse(long base, long exposant) {
-        StringBuilder message = new StringBuilder();
-
-        //Ajouter une ligne pour chaque exposant
-        for (int i = 0; i <= Math.abs(exposant); i++) {
-            long resultat = (long) Math.pow(base, i);
-
-            //Vérifier que le maximum n'a pas été atteint
-            if (resultat == Long.MAX_VALUE) {
-                message.append(MSG_MAXIMUM);
-                break;
-            }
-
-            if (Math.signum(exposant) == 1) {
-                message.append(String.format(MSG_RESULTAT, base, i, resultat));
-            } else {
-                message.append(String.format(MSG_RESULTAT_FRACTION, base, i, resultat)); //Si exposant négatif, montrer fraction
-            }
-
-            message.append("\n");
-        }
-
-        return message.toString();
     }
 
     /**
