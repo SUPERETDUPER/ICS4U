@@ -34,6 +34,8 @@ class ZoneReponse extends ScrollPane {
     private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
     private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = 1 / %d";
     private static final String MSG_MAXIMUM = "Maximum atteint";
+    private static final String MSG_ZERO_A_ZERO = "0 à l'exposant 0 est indéterminé";
+    private static final String MSG_ZERO_A_X = "0 à tout autre exposant est 0";
 
     private static final int INTERLINE_REPONSE = 10;
 
@@ -60,23 +62,34 @@ class ZoneReponse extends ScrollPane {
     void calculerEtAfficherReponse(long base, long exposant) {
         StringBuilder message = new StringBuilder();
 
-        //Ajouter une ligne pour chaque exposant
-        for (int i = 0; i <= Math.abs(exposant); i++) {
-            long resultat = (long) Math.pow(base, i);
-
-            //Vérifier que le maximum n'a pas été atteint
-            if (resultat == Long.MAX_VALUE) {
-                message.append(MSG_MAXIMUM);
-                break;
+        //Si la base est zéro montrer des messages différents
+        if (base == 0) {
+            message.append(MSG_ZERO_A_ZERO);
+            //Si plus d'exposant que juste 0 ajouter un autre message
+            if (exposant != 0) {
+                message.append("\n");
+                message.append(MSG_ZERO_A_X);
             }
+        } else {
+            //Ajouter une ligne pour chaque exposant
+            for (int i = 0; i <= Math.abs(exposant); i++) {
+                long resultat = (long) Math.pow(base, i);
 
-            if (Math.signum(exposant) == 1) {
-                message.append(String.format(MSG_RESULTAT, base, i, resultat));
-            } else {
-                message.append(String.format(MSG_RESULTAT_FRACTION, base, i, resultat)); //Si exposant négatif, montrer fraction
+                //Vérifier que le maximum n'a pas été atteint
+                if (resultat == Long.MAX_VALUE) {
+                    message.append(MSG_MAXIMUM);
+                    break;
+                }
+
+                //Si exposant négatif, montrer une fraction
+                if (Math.signum(exposant) == 1) {
+                    message.append(String.format(MSG_RESULTAT, base, i, resultat));
+                } else {
+                    message.append(String.format(MSG_RESULTAT_FRACTION, base, i, resultat));
+                }
+
+                message.append("\n");
             }
-
-            message.append("\n");
         }
 
         txtReponse.setFont(Main.FONT_NORMAL);
