@@ -30,7 +30,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -87,15 +89,8 @@ public final class Main extends Application implements ChangeListener<String> {
         //Crée la zone où l'utilisateur rentre la base et l'exposant
         GridPane zoneEntree = new GridPane();
 
-        zoneEntree.addRow(0,
-                creeTextNormal(DESCRIPTION_BASE),
-                entreeBase
-        );
-
-        zoneEntree.addRow(1,
-                creeTextNormal(DESCRIPTION_EXPOSANT),
-                entreeExposant
-        );
+        zoneEntree.addRow(0, creeTextNormal(DESCRIPTION_BASE), entreeBase);
+        zoneEntree.addRow(1, creeTextNormal(DESCRIPTION_EXPOSANT), entreeExposant);
 
         zoneEntree.setHgap(HGAP_TABLEAU);
         zoneEntree.setVgap(VGAP_TABLEAU);
@@ -150,28 +145,20 @@ public final class Main extends Application implements ChangeListener<String> {
 
         //Essayer de convertir les entrées en numéro
         try {
-            base = stringToInt(txtBase);
-            exposant = stringToInt(txtExposant);
-        } catch (NumberFormatException e){
-            zoneReponse.montrerMessageErreur(e.toString());
+            base = Long.parseLong(txtBase);
+        } catch (NumberFormatException e) {
+            zoneReponse.montrerMessageErreur(String.format(MSG_ENTREE_INVALIDE, txtBase));
+            return;
+        }
+
+        try {
+            exposant = Long.parseLong(txtExposant);
+        } catch (NumberFormatException e) {
+            zoneReponse.montrerMessageErreur(String.format(MSG_ENTREE_INVALIDE, txtExposant));
             return;
         }
 
         zoneReponse.calculerEtAfficherReponse(base, exposant); //Calculer la réponse et l'afficher
-    }
-
-    /**
-     * Converti une entree en numéro
-     *
-     * @param entree la valeur dans l'entrée
-     * @return le numéro
-     */
-    private static Long stringToInt(@NotNull String entree) throws NumberFormatException{
-        try {
-            return Long.parseLong(entree);
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException(String.format(MSG_ENTREE_INVALIDE, entree));
-        }
     }
 
     /**

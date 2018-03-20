@@ -30,6 +30,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * Zone de reponse où les résultats sont affichés
+ */
 class ZoneReponse extends ScrollPane {
     private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
     private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = 1 / %d";
@@ -41,7 +44,7 @@ class ZoneReponse extends ScrollPane {
 
     private final Text txtReponse = new Text();
 
-    ZoneReponse(){
+    ZoneReponse() {
         super();
 
         this.setContent(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
