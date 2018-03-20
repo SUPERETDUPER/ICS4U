@@ -42,7 +42,7 @@ class ZoneReponse extends ScrollPane {
     ZoneReponse(){
         super();
 
-        this.getChildren().add(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
+        this.setContent(new StackPane(txtReponse)); //Dans StackPane pour que le Text soit centré
 
         //Formatter
         this.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null))); //Pour enlever la bordure
