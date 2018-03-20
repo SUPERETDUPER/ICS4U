@@ -34,11 +34,11 @@ import javafx.scene.text.TextAlignment;
  * Zone de reponse où les résultats sont affichés
  */
 class ZoneReponse extends ScrollPane {
-    private static final String MSG_RESULTAT = "%d à l'exposant %d = %d";
-    private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = 1 / %d";
+    private static final String MSG_RESULTAT = "%d à l'exposant %s = %s";
+    private static final String MSG_RESULTAT_FRACTION = "%d à l'exposant %d = %d \\ %d";
+
     private static final String MSG_MAXIMUM = "Maximum atteint";
-    private static final String MSG_ZERO_A_ZERO = "0 à l'exposant 0 est indéterminé";
-    private static final String MSG_ZERO_A_X = "0 à tout autre exposant est 0";
+    private static final String INDETERMINE = "Indéterminé";
 
     private static final int INTERLINE_REPONSE = 10;
 
@@ -67,11 +67,11 @@ class ZoneReponse extends ScrollPane {
 
         //Si la base est zéro montrer des messages différents
         if (base == 0) {
-            message.append(MSG_ZERO_A_ZERO);
+            message.append(String.format(MSG_RESULTAT, base, 0, INDETERMINE));
             //Si plus d'exposant que juste 0 ajouter un autre message
             if (exposant != 0) {
                 message.append("\n");
-                message.append(MSG_ZERO_A_X);
+                message.append(String.format(MSG_RESULTAT, base, "n", 0));
             }
         } else {
             //Ajouter une ligne pour chaque exposant
@@ -84,11 +84,13 @@ class ZoneReponse extends ScrollPane {
                     break;
                 }
 
+                int vraiExposant = i * (int) Math.signum(exposant);
+
                 //Si exposant négatif, montrer une fraction
-                if (Math.signum(exposant) == 1) {
-                    message.append(String.format(MSG_RESULTAT, base, i, resultat));
+                if (vraiExposant >= 0) {
+                    message.append(String.format(MSG_RESULTAT, base, vraiExposant, resultat));
                 } else {
-                    message.append(String.format(MSG_RESULTAT_FRACTION, base, i, resultat));
+                    message.append(String.format(MSG_RESULTAT_FRACTION, base, vraiExposant, (int) Math.signum(resultat), Math.abs(resultat))); //signum et abs deplacent le sign du résultat devant la fraction
                 }
 
                 message.append("\n");
