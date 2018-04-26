@@ -22,16 +22,31 @@
  * SOFTWARE.
  */
 
-import javafx.application.Application;
-import javafx.stage.Stage;
+import java.util.List;
 
-public class Main extends Application {
-    public static void main(String[] args){
-        launch(args);
+/**
+ * Représente un client
+ */
+public class Client {
+    private final String prenom;
+    private final String nom;
+    private final List<Integer> points;
+
+    public Client(String prenom, String nom, List<Integer> points) {
+        this.prenom = prenom;
+        this.nom = nom;
+        this.points = points;
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public List<Integer> getPoints() {
+        return points;
+    }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
     }
 }

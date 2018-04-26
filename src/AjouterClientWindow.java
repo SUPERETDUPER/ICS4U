@@ -22,16 +22,22 @@
  * SOFTWARE.
  */
 
-import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
-public class Main extends Application {
-    public static void main(String[] args){
-        launch(args);
-    }
+public class AjouterClientWindow {
+    private Client nouveauClient;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public Client afficher(){
+        Stage stage = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
+        fxmlLoader
+
+
+        stage.showAndWait();
+
+        return nouveauClient;
 
     }
 }
