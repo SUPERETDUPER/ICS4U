@@ -51,4 +51,16 @@ public class Client {
     public String getPrenom() {
         return prenom;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append(prenom).append(" ").append(nom).append(": ");
+
+        for (Integer point : points) {
+            string.append(point).append(", ");
+        }
+
+        return string.toString();
+    }
 }

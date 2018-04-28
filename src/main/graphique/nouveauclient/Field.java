@@ -25,16 +25,17 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public abstract class Field extends HBox {
+abstract class Field extends BorderPane {
     @FXML
     private Text description;
 
@@ -60,12 +61,14 @@ public abstract class Field extends HBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        update(getResultat(field.getText()));
     }
 
     @FXML
     private void initialize() {
         description.setText(nom);
-        field.textProperty().addListener((observable, oldValue, newValue) -> update(isValid(newValue)));
+        field.textProperty().addListener((observable, oldValue, newValue) -> update(getResultat(newValue)));
     }
 
     private void update(Resultat resultat) {
@@ -78,5 +81,9 @@ public abstract class Field extends HBox {
         }
     }
 
-    public abstract Resultat isValid(String newValue);
+    abstract Resultat getResultat(String newValue);
+
+    ReadOnlyBooleanProperty isValidProperty() {
+        return isValid.getReadOnlyProperty();
+    }
 }

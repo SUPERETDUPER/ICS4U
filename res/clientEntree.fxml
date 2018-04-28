@@ -24,16 +24,23 @@
   ~ SOFTWARE.
   -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.layout.VBox?>
 <?import main.graphique.nouveauclient.NameField?>
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="main.graphique.nouveauclient.ClientEntreeController">
-    <NameField nom="Prénom"/>
-    <NameField nom="Nom"/>
-    <HBox>
-        <Button text="Ajouter"/>
-        <Button text="Annuler"/>
-    </HBox>
-</VBox>
+<DialogPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.graphique.nouveauclient.ClientEntreeController" fx:id="root">
+    <content>
+        <VBox spacing="10" fx:id="fieldContainer">
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <NameField nom="Prénom"/>
+            <NameField nom="Nom"/>
+        </VBox>
+    </content>
+    <ButtonType text="Ajouter" buttonData="APPLY" fx:id="appliquer"/>
+    <ButtonType text="Annuler" buttonData="CANCEL_CLOSE"/>
+</DialogPane>

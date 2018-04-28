@@ -25,29 +25,26 @@
 package main.graphique.nouveauclient;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.Dialog;
 import main.Client;
 
 import java.io.IOException;
 
-public class AjouterClientWindow {
-    private Client nouveauClient;
+public class AjouterClientDialog extends Dialog<Client> {
+    public AjouterClientDialog() {
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
 
-    public Client afficher(){
-        Stage stage = new Stage();
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
+        this.setHeaderText("Ajouter un client");
 
         try {
-            stage.setScene(new Scene(fxmlLoader.load()));
+            this.setDialogPane(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        stage.showAndWait();
-
-        return nouveauClient;
-
+        this.setResultConverter(param -> {
+            System.out.println(param);
+            return null;
+        });
     }
 }

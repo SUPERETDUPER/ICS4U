@@ -26,7 +26,7 @@ package main;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.graphique.nouveauclient.AjouterClientWindow;
+import main.graphique.nouveauclient.AjouterClientDialog;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -35,6 +35,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new AjouterClientWindow().afficher();
+        System.out.println(new AjouterClientDialog().showAndWait());
     }
 }

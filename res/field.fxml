@@ -25,11 +25,17 @@
   -->
 
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 <fx:root xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml" type="HBox" spacing="10">
-    <Text fx:id="description"/>
-    <TextField fx:id="field"/>
-    <Text fx:id="warning"/>
+         xmlns:fx="http://javafx.com/fxml" type="BorderPane">
+    <left>
+        <Text fx:id="description"/>
+    </left>
+    <center>
+        <TextField fx:id="field"/>
+    </center>
+    <right>
+        <Text fx:id="warning"/>
+    </right>
 </fx:root>

@@ -24,5 +24,34 @@
 
 package main.graphique.nouveauclient;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.layout.VBox;
+
+
+
 public class ClientEntreeController {
+    @FXML
+    private VBox fieldContainer;
+
+    @FXML
+    private DialogPane root;
+
+    @FXML
+    private ButtonType appliquer;
+
+    @FXML
+    private void initialize() {
+        BooleanBinding disableBinding = Bindings.createBooleanBinding(() -> true);
+
+        for (Node field : fieldContainer.getChildren()) {
+            disableBinding.and(((Field) field).isValidProperty());
+        }
+
+        root.lookupButton(appliquer).disableProperty().bind(disableBinding);
+    }
 }

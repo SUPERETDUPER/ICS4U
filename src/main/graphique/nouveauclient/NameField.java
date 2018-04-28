@@ -32,9 +32,9 @@ public class NameField extends Field {
     }
 
     @Override
-    public Resultat isValid(String newValue) {
+    public Resultat getResultat(String newValue) {
         if (newValue.equals("")) {
-            return new Resultat(false, "main.graphique.nouveauclient.Field vide");
+            return new Resultat(false, "Field vide");
         }
 
         return new Resultat(true);
