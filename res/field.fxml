@@ -35,7 +35,4 @@
     <center>
         <TextField fx:id="field"/>
     </center>
-    <right>
-        <Text fx:id="warning"/>
-    </right>
 </fx:root>

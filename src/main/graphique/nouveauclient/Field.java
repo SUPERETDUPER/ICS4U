@@ -25,11 +25,12 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
-import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -40,14 +41,13 @@ abstract class Field extends BorderPane {
     private Text description;
 
     @FXML
-    private TextField field;
+    TextField field;
 
     @FXML
     private Text warning;
 
-
     private final String nom;
-    private final ReadOnlyBooleanWrapper isValid = new ReadOnlyBooleanWrapper(false);
+    private final ReadOnlyBooleanWrapper isValid = new ReadOnlyBooleanWrapper();
 
     Field(@NamedArg("nom") String nom) {
         this.nom = nom;
@@ -61,29 +61,17 @@ abstract class Field extends BorderPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        update(getResultat(field.getText()));
     }
 
     @FXML
     private void initialize() {
         description.setText(nom);
-        field.textProperty().addListener((observable, oldValue, newValue) -> update(getResultat(newValue)));
+        field.setTextFormatter(getTextFormatter());
     }
 
-    private void update(Resultat resultat) {
-        isValid.set(resultat.isValid);
+    abstract TextFormatter getTextFormatter();
 
-        if (resultat.isValid) {
-            warning.setText(null);
-        } else {
-            warning.setText(resultat.message == null ? "Valeur invalide" : resultat.message);
-        }
-    }
-
-    abstract Resultat getResultat(String newValue);
-
-    ReadOnlyBooleanProperty isValidProperty() {
-        return isValid.getReadOnlyProperty();
+    BooleanBinding isEmptyProperty() {
+        return field.textProperty().isEmpty();
     }
 }

@@ -25,13 +25,11 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.VBox;
-
+import main.Client;
 
 
 public class ClientEntreeController {
@@ -45,13 +43,19 @@ public class ClientEntreeController {
     private ButtonType appliquer;
 
     @FXML
+    private NameField prenom;
+
+    @FXML
+    private NameField nom;
+
+    @FXML
     private void initialize() {
-        BooleanBinding isValid = Bindings.createBooleanBinding(() -> true);
+        root.lookupButton(appliquer).disableProperty().bind(
+                Bindings.or(prenom.isEmptyProperty(), nom.isEmptyProperty())
+        );
+    }
 
-        for (Node field : fieldContainer.getChildren()) {
-            isValid.and(((Field) field).isValidProperty());
-        }
-
-        root.lookupButton(appliquer).disableProperty().bind(isValid);
+    Client creerClient() {
+        return new Client(prenom.getValue(), nom.getValue(), null);
     }
 }

@@ -25,6 +25,7 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
+import javafx.scene.control.TextFormatter;
 
 public class NameField extends Field {
     public NameField(@NamedArg("nom") String nom) {
@@ -32,11 +33,11 @@ public class NameField extends Field {
     }
 
     @Override
-    public Resultat getResultat(String newValue) {
-        if (newValue.equals("")) {
-            return new Resultat(false, "Field vide");
-        }
+    TextFormatter getTextFormatter() {
+        return null;
+    }
 
-        return new Resultat(true);
+    String getValue() {
+        return field.getText();
     }
 }

@@ -39,8 +39,8 @@
                 <Insets topRightBottomLeft="10"/>
             </padding>
 
-            <NameField nom="Prénom"/>
-            <NameField nom="Nom"/>
+            <NameField nom="Prénom" fx:id="prenom"/>
+            <NameField nom="Nom" fx:id="nom"/>
         </VBox>
     </content>
     <ButtonType text="Ajouter" buttonData="APPLY" fx:id="appliquer"/>

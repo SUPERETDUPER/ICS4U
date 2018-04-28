@@ -25,6 +25,7 @@
 package main.graphique.nouveauclient;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Dialog;
 import main.Client;
 
@@ -43,8 +44,11 @@ public class AjouterClientDialog extends Dialog<Client> {
         }
 
         this.setResultConverter(param -> {
-            System.out.println(param);
-            return null;
+            if (param.getButtonData() == ButtonBar.ButtonData.APPLY) {
+                return ((ClientEntreeController) fxmlLoader.getController()).creerClient();
+            } else {
+                return null;
+            }
         });
     }
 }
