@@ -30,8 +30,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import main.graphique.nouveauclient.NameField?>
-<?import main.graphique.nouveauclient.PointField?>
+<?import main.graphique.nouveauclient.*?>
 <DialogPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="main.graphique.nouveauclient.ClientEntreeController" fx:id="root">
     <content>
@@ -45,6 +44,9 @@
             <Separator/>
             <Text text="Points"/>
             <PointField fx:id="semaineUn" nom="1e semaine"/>
+            <PointField fx:id="semaineDeux" nom="2e semaine"/>
+            <PointField fx:id="semaineTrois" nom="3e semaine"/>
+            <PointField fx:id="semaineQuatre" nom="4e semaine"/>
         </VBox>
     </content>
     <ButtonType text="Ajouter" buttonData="APPLY" fx:id="appliquer"/>

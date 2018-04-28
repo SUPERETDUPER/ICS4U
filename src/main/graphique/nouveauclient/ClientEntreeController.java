@@ -50,14 +50,33 @@ public class ClientEntreeController {
     private PointField semaineUn;
 
     @FXML
+    private PointField semaineDeux;
+
+    @FXML
+    private PointField semaineTrois;
+
+    @FXML
+    private PointField semaineQuatre;
+
+    @FXML
     private void initialize() {
         root.lookupButton(appliquer).disableProperty().bind(
                 Bindings.or(prenom.isEmptyProperty(), nom.isEmptyProperty())
                         .or(semaineUn.isEmptyProperty())
+                        .or(semaineDeux.isEmptyProperty())
+                        .or(semaineTrois.isEmptyProperty())
+                        .or(semaineQuatre.isEmptyProperty())
         );
     }
 
     Client creerClient() {
-        return new Client(prenom.getValue(), nom.getValue(), Arrays.asList(semaineUn.getValue()));
+        return new Client(prenom.getValue(), nom.getValue(),
+                Arrays.asList(
+                        semaineUn.getValue(),
+                        semaineDeux.getValue(),
+                        semaineTrois.getValue(),
+                        semaineQuatre.getValue()
+                )
+        );
     }
 }
