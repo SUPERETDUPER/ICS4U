@@ -24,23 +24,27 @@
   ~ SOFTWARE.
   -->
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <?import main.graphique.nouveauclient.NameField?>
+<?import main.graphique.nouveauclient.PointField?>
 <DialogPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="main.graphique.nouveauclient.ClientEntreeController" fx:id="root">
     <content>
-        <!--Peut seulement contenire des objet Field-->
-        <VBox spacing="10" fx:id="fieldContainer">
+        <VBox spacing="10">
             <padding>
                 <Insets topRightBottomLeft="10"/>
             </padding>
 
             <NameField nom="Prénom" fx:id="prenom"/>
             <NameField nom="Nom" fx:id="nom"/>
+            <Separator/>
+            <Text text="Points"/>
+            <PointField fx:id="semaineUn" nom="1e semaine"/>
         </VBox>
     </content>
     <ButtonType text="Ajouter" buttonData="APPLY" fx:id="appliquer"/>

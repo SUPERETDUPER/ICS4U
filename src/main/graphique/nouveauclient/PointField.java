@@ -25,47 +25,21 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
-import javafx.beans.binding.BooleanBinding;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextFormatter;
+import javafx.util.converter.IntegerStringConverter;
 
-import java.io.IOException;
+public class PointField extends Field {
 
-class Field extends HBox {
-    @FXML
-    private Text description;
+    private final TextFormatter<Integer> textFormatter;
 
-    @FXML
-    protected TextField field;
+    public PointField(@NamedArg("nom") String nom) {
+        super(nom);
 
-    @FXML
-    private Text warning;
-
-    private final String nom;
-
-    Field(@NamedArg("nom") String nom) {
-        this.nom = nom;
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/field.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        textFormatter = new TextFormatter<>(new IntegerStringConverter());
+        field.setTextFormatter(textFormatter);
     }
 
-    @FXML
-    private void initialize() {
-        description.setText(nom);
-    }
-
-    BooleanBinding isEmptyProperty() {
-        return field.textProperty().isEmpty();
+    int getValue() {
+        return textFormatter.getValue();
     }
 }

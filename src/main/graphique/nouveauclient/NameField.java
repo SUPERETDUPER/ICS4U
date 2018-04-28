@@ -25,16 +25,10 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
-import javafx.scene.control.TextFormatter;
 
 public class NameField extends Field {
     public NameField(@NamedArg("nom") String nom) {
         super(nom);
-    }
-
-    @Override
-    TextFormatter getTextFormatter() {
-        return null;
     }
 
     String getValue() {

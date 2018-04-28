@@ -28,14 +28,12 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
-import javafx.scene.layout.VBox;
 import main.Client;
+
+import java.util.Arrays;
 
 
 public class ClientEntreeController {
-    @FXML
-    private VBox fieldContainer;
-
     @FXML
     private DialogPane root;
 
@@ -49,13 +47,17 @@ public class ClientEntreeController {
     private NameField nom;
 
     @FXML
+    private PointField semaineUn;
+
+    @FXML
     private void initialize() {
         root.lookupButton(appliquer).disableProperty().bind(
                 Bindings.or(prenom.isEmptyProperty(), nom.isEmptyProperty())
+                        .or(semaineUn.isEmptyProperty())
         );
     }
 
     Client creerClient() {
-        return new Client(prenom.getValue(), nom.getValue(), null);
+        return new Client(prenom.getValue(), nom.getValue(), Arrays.asList(semaineUn.getValue()));
     }
 }

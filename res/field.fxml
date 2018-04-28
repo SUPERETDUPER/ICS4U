@@ -25,14 +25,12 @@
   -->
 
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
 <fx:root xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml" type="BorderPane">
-    <left>
-        <Text fx:id="description"/>
-    </left>
-    <center>
-        <TextField fx:id="field"/>
-    </center>
+         xmlns:fx="http://javafx.com/fxml" type="HBox" spacing="10">
+    <Text fx:id="description"/>
+    <Region HBox.hgrow="ALWAYS"/>
+    <TextField fx:id="field"/>
 </fx:root>
