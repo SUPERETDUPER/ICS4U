@@ -33,10 +33,12 @@
 <DialogPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="main.graphique.nouveauclient.ClientEntreeController" fx:id="root">
     <content>
+        <!--Peut seulement contenire des objet Field-->
         <VBox spacing="10" fx:id="fieldContainer">
             <padding>
                 <Insets topRightBottomLeft="10"/>
             </padding>
+
             <NameField nom="Prénom"/>
             <NameField nom="Nom"/>
         </VBox>

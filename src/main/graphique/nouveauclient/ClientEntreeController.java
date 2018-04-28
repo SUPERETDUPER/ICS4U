@@ -46,12 +46,12 @@ public class ClientEntreeController {
 
     @FXML
     private void initialize() {
-        BooleanBinding disableBinding = Bindings.createBooleanBinding(() -> true);
+        BooleanBinding isValid = Bindings.createBooleanBinding(() -> true);
 
         for (Node field : fieldContainer.getChildren()) {
-            disableBinding.and(((Field) field).isValidProperty());
+            isValid.and(((Field) field).isValidProperty());
         }
 
-        root.lookupButton(appliquer).disableProperty().bind(disableBinding);
+        root.lookupButton(appliquer).disableProperty().bind(isValid);
     }
 }
