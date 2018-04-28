@@ -22,31 +22,21 @@
  * SOFTWARE.
  */
 
-import java.util.List;
+package main.graphique.nouveauclient;
 
-/**
- * Représente un client
- */
-public class Client {
-    private final String prenom;
-    private final String nom;
-    private final List<Integer> points;
+import javafx.beans.NamedArg;
 
-    public Client(String prenom, String nom, List<Integer> points) {
-        this.prenom = prenom;
-        this.nom = nom;
-        this.points = points;
+public class NameField extends Field {
+    public NameField(@NamedArg("nom") String nom) {
+        super(nom);
     }
 
-    public List<Integer> getPoints() {
-        return points;
-    }
+    @Override
+    public Resultat isValid(String newValue) {
+        if (newValue.equals("")) {
+            return new Resultat(false, "main.graphique.nouveauclient.Field vide");
+        }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
+        return new Resultat(true);
     }
 }

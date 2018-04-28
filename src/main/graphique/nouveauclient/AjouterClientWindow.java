@@ -22,8 +22,14 @@
  * SOFTWARE.
  */
 
+package main.graphique.nouveauclient;
+
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.Client;
+
+import java.io.IOException;
 
 public class AjouterClientWindow {
     private Client nouveauClient;
@@ -32,8 +38,12 @@ public class AjouterClientWindow {
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
-        fxmlLoader
 
+        try {
+            stage.setScene(new Scene(fxmlLoader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         stage.showAndWait();
 
