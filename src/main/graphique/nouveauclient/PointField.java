@@ -36,6 +36,7 @@ public class PointField extends Field {
         super(nom);
 
         textFormatter = new TextFormatter<>(new IntegerStringConverter());
+        textFormatter.setValue(0);
         field.setTextFormatter(textFormatter);
     }
 
