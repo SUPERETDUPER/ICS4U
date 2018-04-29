@@ -28,9 +28,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import main.donnee.BaseDeDonnees;
 import main.donnee.Client;
@@ -40,6 +38,8 @@ import main.graphique.nouveauclient.AjouterClientDialog;
 import java.util.Optional;
 
 public class MainController {
+    private static final String MSG_CONFIRMER_SUPPRIMER = "Voulez-vous vraiment supprimer ce client?";
+
     @FXML
     private TableView<Client> table;
 
@@ -106,6 +106,10 @@ public class MainController {
 
     @FXML
     private void supprimer() {
-        donnees.supprimer(table.getSelectionModel().getSelectedIndex());
+        Optional<ButtonType> buttonType = new Alert(Alert.AlertType.CONFIRMATION, MSG_CONFIRMER_SUPPRIMER, (ButtonType[]) null).showAndWait();
+
+        if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
+            donnees.supprimer(table.getSelectionModel().getSelectedIndex());
+        }
     }
 }
