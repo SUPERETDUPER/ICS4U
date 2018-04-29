@@ -33,7 +33,7 @@ import java.io.IOException;
 
 public class AjouterClientDialog extends Dialog<ClientInfo> {
     public AjouterClientDialog() {
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/clientEntree.fxml"));
 
         this.setHeaderText("Ajouter un client");
 

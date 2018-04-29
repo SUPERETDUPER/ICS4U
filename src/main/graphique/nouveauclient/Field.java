@@ -49,7 +49,7 @@ class Field extends HBox {
     Field(@NamedArg("nom") String nom) {
         this.nom = nom;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/field.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/field.fxml"));
         loader.setController(this);
         loader.setRoot(this);
 

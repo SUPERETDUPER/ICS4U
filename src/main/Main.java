@@ -42,7 +42,7 @@ public class Main extends Application {
 
         BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new PlaceHolderDataAccess());
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         fxmlLoader.setControllerFactory(param -> {
             if (param == MainController.class) return new MainController(baseDeDonnees);
             throw new RuntimeException("Controller inconnue");

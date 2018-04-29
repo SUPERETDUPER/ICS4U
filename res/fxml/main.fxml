@@ -68,14 +68,14 @@
             <Button onAction="#ajouter">
                 <graphic>
                     <ImageView fitWidth="${imageContainer.prefWidth}" preserveRatio="true">
-                        <Image url="image/ic_add_black_48dp_2x.png"/>
+                        <Image url="/images/ic_add_black_48dp_2x.png"/>
                     </ImageView>
                 </graphic>
             </Button>
             <Button onAction="#supprimer" fx:id="buttonSupprimer">
                 <graphic>
                     <ImageView fitWidth="${imageContainer.prefWidth}" preserveRatio="true">
-                        <Image url="image/ic_remove_black_48dp_2x.png"/>
+                        <Image url="/images/ic_remove_black_48dp_2x.png"/>
                     </ImageView>
                 </graphic>
             </Button>
