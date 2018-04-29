@@ -28,7 +28,7 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
-import main.ClientInfo;
+import main.donnee.ClientInfo;
 
 import java.util.Arrays;
 

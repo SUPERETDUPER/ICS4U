@@ -24,6 +24,8 @@
 
 package main;
 
+import main.donnee.Client;
+import main.donnee.ClientInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

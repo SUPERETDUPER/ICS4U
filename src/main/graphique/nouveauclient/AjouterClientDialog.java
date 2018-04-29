@@ -27,7 +27,7 @@ package main.graphique.nouveauclient;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Dialog;
-import main.ClientInfo;
+import main.donnee.ClientInfo;
 
 import java.io.IOException;
 

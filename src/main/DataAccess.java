@@ -24,6 +24,9 @@
 
 package main;
 
+import main.donnee.Client;
+import main.donnee.ClientInfo;
+
 public interface DataAccess extends Iterable<Client> {
     int ajouter(ClientInfo clientInfo);
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnee;
 
 import java.util.List;
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package main;
+package main.graphique.main;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -31,6 +31,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
+import main.donnee.BaseDeDonnees;
+import main.donnee.Client;
+import main.donnee.ClientInfo;
 import main.graphique.nouveauclient.AjouterClientDialog;
 
 import java.util.Optional;
@@ -65,22 +69,30 @@ public class MainController {
 
     private final BaseDeDonnees donnees;
 
-    MainController(BaseDeDonnees donnees) {
+    public MainController(BaseDeDonnees donnees) {
         this.donnees = donnees;
     }
 
     @FXML
     private void initialize() {
         table.setItems(donnees.getClients());
-        colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().info.getPrenom()));
-        colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().info.getNom()));
-        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.getPoints().get(0)));
-        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.getPoints().get(1)));
-        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.getPoints().get(2)));
-        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.getPoints().get(3)));
-        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateSomme()));
-        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateBonus()));
-        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateTotal()));
+
+        colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getPrenom()));
+        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getNom()));
+        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(0)));
+//        colPSem1.setCellFactory(TextFieldTableCell.forTableColumn());
+
+
+        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(1)));
+        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(2)));
+        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(3)));
+        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateSomme()));
+        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateBonus()));
+        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateTotal()));
 
         buttonSupprimer.disableProperty().bind(Bindings.equal(table.getSelectionModel().selectedIndexProperty(), -1));
     }

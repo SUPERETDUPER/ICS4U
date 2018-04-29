@@ -22,18 +22,37 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnee;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import main.DataAccess;
 import org.jetbrains.annotations.NotNull;
 
-public class Client {
-    final int id;
+public class BaseDeDonnees {
+    private ObservableList<Client> clients = FXCollections.observableArrayList();
 
-    @NotNull
-    final ClientInfo info;
+    private DataAccess dataAccess;
 
-    public Client(int id, @NotNull ClientInfo info) {
-        this.id = id;
-        this.info = info;
+    public BaseDeDonnees(@NotNull DataAccess dataLoader) {
+        this.dataAccess = dataLoader;
+
+        for (Client client : dataLoader) {
+            clients.add(client);
+        }
+    }
+
+    public void ajouter(ClientInfo info) {
+        int id = dataAccess.ajouter(info);
+        clients.add(new Client(id, info));
+    }
+
+    public void supprimer(int index) {
+        dataAccess.supprimer(clients.get(index).getId());
+        clients.remove(index);
+    }
+
+    public ObservableList<Client> getClients() {
+        return clients;
     }
 }
