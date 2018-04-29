@@ -29,7 +29,6 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
 import main.donnee.BaseDeDonnees;
 import main.donnee.Client;
 import main.donnee.ClientInfo;
@@ -78,10 +77,10 @@ public class MainController {
         table.setItems(donnees.getClients());
 
         colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getPrenom()));
-        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
+//        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
 
         colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getNom()));
-        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
+//        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
 
         colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(0)));
 //        colPSem1.setCellFactory(TextFieldTableCell.forTableColumn());
