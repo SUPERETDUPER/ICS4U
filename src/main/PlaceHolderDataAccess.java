@@ -26,10 +26,11 @@ package main;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class PlaceHolderDataAccess implements DataAccess {
-    private int lastID = 0;
+    private int lastID = 1;
 
     @Override
     public int ajouter(ClientInfo clientInfo) {
@@ -50,14 +51,17 @@ public class PlaceHolderDataAccess implements DataAccess {
     @Override
     public Iterator<Client> iterator() {
         return new Iterator<Client>() {
+            boolean hasNext = true;
+
             @Override
             public boolean hasNext() {
-                return false;
+                return hasNext;
             }
 
             @Override
             public Client next() {
-                return null;
+                hasNext = false;
+                return new Client(0, new ClientInfo("SUP", "DUP", Arrays.asList(10, 20, 30, 40)));
             }
         };
     }

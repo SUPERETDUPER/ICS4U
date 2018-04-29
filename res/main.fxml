@@ -46,17 +46,17 @@
     <HBox spacing="10">
         <TableView HBox.hgrow="SOMETIMES" fx:id="table">
             <columns>
-                <TableColumn text="Prénom"/>
-                <TableColumn text="Nom"/>
+                <TableColumn fx:id="colPrenom" text="Prénom"/>
+                <TableColumn fx:id="colNom" text="Nom"/>
                 <TableColumn text="Points">
                     <columns>
-                        <TableColumn text="Semaine 1"/>
-                        <TableColumn text="Semaine 2"/>
-                        <TableColumn text="Semaine 3"/>
-                        <TableColumn text="Semaine 4"/>
-                        <TableColumn text="Somme"/>
-                        <TableColumn text="Bonus"/>
-                        <TableColumn text="Total"/>
+                        <TableColumn fx:id="colPSem1" text="Semaine 1"/>
+                        <TableColumn fx:id="colPSem2" text="Semaine 2"/>
+                        <TableColumn fx:id="colPSem3" text="Semaine 3"/>
+                        <TableColumn fx:id="colPSem4" text="Semaine 4"/>
+                        <TableColumn fx:id="colPSomme" text="Somme"/>
+                        <TableColumn fx:id="colPBonus" text="Bonus"/>
+                        <TableColumn fx:id="colPTotal" text="Total"/>
                     </columns>
                 </TableColumn>
             </columns>

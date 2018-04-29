@@ -52,6 +52,28 @@ public class ClientInfo {
         return prenom;
     }
 
+    public int calculateSomme() {
+        int somme = 0;
+        for (Integer point : points) {
+            somme += point;
+        }
+
+        return somme;
+    }
+
+    public int calculateBonus(int somme) {
+        return somme > 5000 ? 1000 : 0;
+    }
+
+    public int calculateBonus() {
+        return calculateBonus(calculateSomme());
+    }
+
+    public int calculateTotal() {
+        int somme = calculateSomme();
+        return somme + calculateBonus(somme);
+    }
+
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();

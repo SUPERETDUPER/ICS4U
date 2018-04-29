@@ -24,27 +24,34 @@
 
 package main;
 
-import javafx.collections.ObservableMap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
 public class BaseDeDonnees {
-    private ObservableMap<Integer, ClientInfo> clients;
+    private ObservableList<Client> clients = FXCollections.observableArrayList();
 
     private DataAccess dataAccess;
 
     public BaseDeDonnees(@NotNull DataAccess dataLoader) {
         this.dataAccess = dataLoader;
 
-        for (Client client : dataLoader) clients.put(client.id, client.info);
+        for (Client client : dataLoader) {
+            clients.add(client);
+        }
     }
 
     public void ajouter(ClientInfo info) {
         int id = dataAccess.ajouter(info);
-        clients.put(id, info);
+        clients.add(new Client(id, info));
     }
 
-    public void supprimer(int id) {
-        dataAccess.supprimer(id);
-        clients.remove(id);
+    public void supprimer(int index) {
+        dataAccess.supprimer(clients.get(index).id);
+        clients.remove(index);
+    }
+
+    public ObservableList<Client> getClients() {
+        return clients;
     }
 }
