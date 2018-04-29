@@ -24,24 +24,5 @@
 
 package main;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-public class Main extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Clients");
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-
-        primaryStage.setScene(new Scene(fxmlLoader.load()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
-    }
+public class MainController {
 }
