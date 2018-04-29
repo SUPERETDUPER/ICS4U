@@ -44,7 +44,7 @@
         </font>
     </Text>
     <HBox spacing="10">
-        <TableView HBox.hgrow="SOMETIMES">
+        <TableView HBox.hgrow="SOMETIMES" fx:id="table">
             <columns>
                 <TableColumn text="Prénom"/>
                 <TableColumn text="Nom"/>

@@ -24,30 +24,10 @@
 
 package main;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+public interface DataAccess extends Iterable<Client> {
+    int ajouter(ClientInfo clientInfo);
 
-public class Main extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+    void supprimer(int id);
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Clients");
-
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new PlaceHolderDataAccess());
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setControllerFactory(param -> {
-            if (param == MainController.class) return new MainController(baseDeDonnees);
-            throw new RuntimeException("Controller inconnue");
-        });
-
-        primaryStage.setScene(new Scene(fxmlLoader.load()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
-    }
+    ClientInfo get(int id);
 }

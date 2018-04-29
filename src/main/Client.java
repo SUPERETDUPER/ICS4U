@@ -24,43 +24,16 @@
 
 package main;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Représente un client
- */
 public class Client {
-    private final String prenom;
-    private final String nom;
-    private final List<Integer> points;
+    final int id;
 
-    public Client(String prenom, String nom, List<Integer> points) {
-        this.prenom = prenom;
-        this.nom = nom;
-        this.points = points;
-    }
+    @NotNull
+    final ClientInfo info;
 
-    public List<Integer> getPoints() {
-        return points;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder string = new StringBuilder();
-        string.append(prenom).append(" ").append(nom).append(": ");
-
-        for (Integer point : points) {
-            string.append(point).append(", ");
-        }
-
-        return string.toString();
+    public Client(int id, @NotNull ClientInfo info) {
+        this.id = id;
+        this.info = info;
     }
 }

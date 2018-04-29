@@ -24,30 +24,27 @@
 
 package main;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.collections.ObservableMap;
+import org.jetbrains.annotations.NotNull;
 
-public class Main extends Application {
-    public static void main(String[] args) {
-        launch(args);
+public class BaseDeDonnees {
+    private ObservableMap<Integer, ClientInfo> clients;
+
+    private DataAccess dataAccess;
+
+    public BaseDeDonnees(@NotNull DataAccess dataLoader) {
+        this.dataAccess = dataLoader;
+
+        for (Client client : dataLoader) clients.put(client.id, client.info);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Clients");
+    public void ajouter(ClientInfo info) {
+        int id = dataAccess.ajouter(info);
+        clients.put(id, info);
+    }
 
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new PlaceHolderDataAccess());
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setControllerFactory(param -> {
-            if (param == MainController.class) return new MainController(baseDeDonnees);
-            throw new RuntimeException("Controller inconnue");
-        });
-
-        primaryStage.setScene(new Scene(fxmlLoader.load()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+    public void supprimer(int id) {
+        dataAccess.supprimer(id);
+        clients.remove(id);
     }
 }

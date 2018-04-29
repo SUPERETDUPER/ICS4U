@@ -27,11 +27,11 @@ package main.graphique.nouveauclient;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Dialog;
-import main.Client;
+import main.ClientInfo;
 
 import java.io.IOException;
 
-public class AjouterClientDialog extends Dialog<Client> {
+public class AjouterClientDialog extends Dialog<ClientInfo> {
     public AjouterClientDialog() {
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/clientEntree.fxml"));
 

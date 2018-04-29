@@ -24,30 +24,43 @@
 
 package main;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.util.List;
 
-public class Main extends Application {
-    public static void main(String[] args) {
-        launch(args);
+/**
+ * Représente un client
+ */
+public class ClientInfo {
+    private final String prenom;
+    private final String nom;
+    private final List<Integer> points;
+
+    public ClientInfo(String prenom, String nom, List<Integer> points) {
+        this.prenom = prenom;
+        this.nom = nom;
+        this.points = points;
+    }
+
+    public List<Integer> getPoints() {
+        return points;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Clients");
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append(prenom).append(" ").append(nom).append(": ");
 
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new PlaceHolderDataAccess());
+        for (Integer point : points) {
+            string.append(point).append(", ");
+        }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setControllerFactory(param -> {
-            if (param == MainController.class) return new MainController(baseDeDonnees);
-            throw new RuntimeException("Controller inconnue");
-        });
-
-        primaryStage.setScene(new Scene(fxmlLoader.load()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+        return string.toString();
     }
 }

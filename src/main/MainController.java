@@ -24,5 +24,13 @@
 
 package main;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
+
 public class MainController {
+    @FXML
+    private TableView table;
+
+    public MainController(BaseDeDonnees donnees) {
+    }
 }
