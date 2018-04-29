@@ -22,49 +22,12 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnee;
 
-import main.donnee.Client;
-import main.donnee.ClientInfo;
-import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
-import java.util.Arrays;
-import java.util.Iterator;
+public interface DataAccess {
+    List<Client> load();
 
-public class PlaceHolderDataAccess implements DataAccess {
-    private int lastID = 1;
-
-    @Override
-    public int ajouter(ClientInfo clientInfo) {
-        return lastID++;
-    }
-
-    @Override
-    public void supprimer(int id) {
-
-    }
-
-    @Override
-    public ClientInfo get(int id) {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Iterator<Client> iterator() {
-        return new Iterator<Client>() {
-            boolean hasNext = true;
-
-            @Override
-            public boolean hasNext() {
-                return hasNext;
-            }
-
-            @Override
-            public Client next() {
-                hasNext = false;
-                return new Client(0, new ClientInfo("SUP", "DUP", Arrays.asList(10, 20, 30, 40)));
-            }
-        };
-    }
+    void write(List<Client> clients);
 }

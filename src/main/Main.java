@@ -29,6 +29,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.donnee.BaseDeDonnees;
+import main.donnee.XMLAccess;
 import main.graphique.main.MainController;
 
 public class Main extends Application {
@@ -40,7 +41,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clients");
 
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new PlaceHolderDataAccess());
+        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new XMLAccess());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         fxmlLoader.setControllerFactory(param -> {

@@ -24,37 +24,50 @@
 
 package main.donnee;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import org.jetbrains.annotations.NotNull;
+import com.thoughtworks.xstream.XStream;
 
-public class BaseDeDonnees {
-    private ObservableList<Client> clients = FXCollections.observableArrayList();
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-    private DataAccess dataAccess;
+public class XMLAccess implements DataAccess {
+    private static final String PATHNAME = "res/donneeClient.xml";
 
-    private int nextID = 0;
+    private final File file = new File(PATHNAME);
 
-    public BaseDeDonnees(@NotNull DataAccess dataLoader) {
-        this.dataAccess = dataLoader;
 
-        for (Client client : dataLoader.load()) {
-            clients.add(client);
-            nextID = Math.max(nextID, client.getId() + 1);
+    private final XStream xStream = new XStream();
+
+    public XMLAccess() {
+        xStream.alias("client", Client.class);
+    }
+
+    @Override
+    public List<Client> load() {
+        if (!file.exists()) {
+            return new ArrayList<>();
         }
+
+        return (List<Client>) xStream.fromXML(file);
     }
 
-    public void ajouter(ClientInfo info) {
-        clients.add(new Client(nextID++, info));
-        dataAccess.write(clients);
-    }
+    @Override
+    public void write(List<Client> clients) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-    public void supprimer(int index) {
-        clients.remove(index);
-        dataAccess.write(clients);
-    }
-
-    public ObservableList<Client> getClients() {
-        return clients;
+        try {
+            xStream.toXML(new ArrayList<>(clients), new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
