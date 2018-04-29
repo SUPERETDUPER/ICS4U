@@ -24,11 +24,16 @@
 
 package main;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import main.graphique.nouveauclient.AjouterClientDialog;
+
+import java.util.Optional;
 
 public class MainController {
     @FXML
@@ -55,6 +60,9 @@ public class MainController {
     @FXML
     private TableColumn<Client, Integer> colPTotal;
 
+    @FXML
+    private Button buttonSupprimer;
+
     private final BaseDeDonnees donnees;
 
     MainController(BaseDeDonnees donnees) {
@@ -73,5 +81,19 @@ public class MainController {
         colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateSomme()));
         colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateBonus()));
         colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().info.calculateTotal()));
+
+        buttonSupprimer.disableProperty().bind(Bindings.equal(table.getSelectionModel().selectedIndexProperty(), -1));
+    }
+
+    @FXML
+    private void ajouter() {
+        Optional<ClientInfo> clientInfo = new AjouterClientDialog().showAndWait();
+
+        clientInfo.ifPresent(donnees::ajouter);
+    }
+
+    @FXML
+    private void supprimer() {
+        donnees.supprimer(table.getSelectionModel().getSelectedIndex());
     }
 }
