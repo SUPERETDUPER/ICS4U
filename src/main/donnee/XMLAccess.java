@@ -35,6 +35,7 @@ import java.util.List;
 
 public class XMLAccess implements DataAccess {
     private static final String PATHNAME = "res/donneeClient.xml";
+    private static final String PATHNAME_DEFAULT = "res/donneeClient_default.xml";
 
     private final File file = new File(PATHNAME);
 
@@ -47,11 +48,7 @@ public class XMLAccess implements DataAccess {
 
     @Override
     public List<Client> load() {
-        if (!file.exists()) {
-            return new ArrayList<>();
-        }
-
-        return (List<Client>) xStream.fromXML(file);
+        return (List<Client>) xStream.fromXML(file.exists() ? file : new File(PATHNAME_DEFAULT));
     }
 
     @Override
