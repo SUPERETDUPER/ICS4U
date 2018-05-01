@@ -34,7 +34,7 @@ import java.io.*;
 /**
  * Représente un client
  */
-public class Client implements Serializable{
+public class Client implements Serializable {
     private final SimpleStringProperty prenom = new SimpleStringProperty();
     private final SimpleStringProperty nom = new SimpleStringProperty();
     private final SimpleIntegerProperty semaineUn = new SimpleIntegerProperty();
@@ -63,7 +63,7 @@ public class Client implements Serializable{
         //La somme est automatiquement attaché aux points pour chaque semaine
         somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
         //Le bonus est automatiquement attaché à la somme
-        bonus.bind(Bindings.createIntegerBinding(() -> somme.get() > 5000 ? 1000 : 0, somme));
+        bonus.bind(Bindings.createIntegerBinding(() -> somme.get() < 5000 ? 0 : 1000, somme));
         //Le total est l'addition de la somme et du bonus
         total.bind(this.somme.add(this.bonus));
     }
@@ -128,7 +128,7 @@ public class Client implements Serializable{
         outputStream.writeInt(semaineQuatre.get());
     }
 
-    public void readObject(@NotNull DataInputStream inputStream) throws IOException{
+    public void readObject(@NotNull DataInputStream inputStream) throws IOException {
         prenom.set(inputStream.readUTF());
         nom.set(inputStream.readUTF());
         semaineUn.set(inputStream.readInt());
