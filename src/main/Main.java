@@ -46,7 +46,7 @@ public class Main extends Application {
         //Créer la class qui permet d'accéder les fichiers de données
         FileAccess fileAccess = new FileAccess();
 
-        BaseDeDonnees baseDeDonnees = fileAccess.load();
+        BaseDeDonnees baseDeDonnees = fileAccess.read();
         baseDeDonnees.setListener(fileAccess::write);
 
         //Créer l'interface

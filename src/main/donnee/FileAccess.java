@@ -32,7 +32,7 @@ public class FileAccess {
 
     private final File file = new File(PATHNAME);
 
-    public BaseDeDonnees load() {
+    public BaseDeDonnees read() {
         File file;
 
         if (this.file.exists()){
