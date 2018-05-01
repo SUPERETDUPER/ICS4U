@@ -44,8 +44,9 @@ public class FileAccess {
 
         try {
             BaseDeDonnees baseDeDonnees = new BaseDeDonnees();
-            return (BaseDeDonnees) new DataOutputStream(new FileInputStream(file)).readObject();
-        } catch (IOException | ClassNotFoundException e) {
+            baseDeDonnees.readObject(new DataInputStream(new FileInputStream(file)));
+            return baseDeDonnees;
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Impossible de charger le fichier");
         }
@@ -61,7 +62,7 @@ public class FileAccess {
         }
 
         try {
-            new ObjectOutputStream(new FileOutputStream(file)).writeObject(donnees);
+            donnees.writeObject(new DataOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             e.printStackTrace();
         }

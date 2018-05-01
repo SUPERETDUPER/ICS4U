@@ -26,10 +26,8 @@ package main.donnee;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -46,9 +44,6 @@ public class BaseDeDonnees {
      * La fonction a executer quand les données changent
      */
     private Consumer<BaseDeDonnees> writeFunction;
-
-    public BaseDeDonnees() {
-    }
 
     public void setWriteFunction(Consumer<BaseDeDonnees> writeFunction) {
         this.writeFunction = writeFunction;
@@ -68,19 +63,20 @@ public class BaseDeDonnees {
         return clients;
     }
 
-    private void writeObject(DataOutputStream outputStream) throws IOException {
+    void writeObject(DataOutputStream outputStream) throws IOException {
         outputStream.writeInt(clients.size());
         for (Client client : clients) {
             client.writeObject(outputStream);
         }
     }
 
-    public void readObject(DataInputStream inputStream) throws IOException {
+    void readObject(DataInputStream inputStream) throws IOException {
         int size = inputStream.readInt();
 
         for (int i = 0; i < size; i++) {
             Client client = new Client();
             client.readObject(inputStream);
+            clients.add(client);
         }
     }
 }
