@@ -29,7 +29,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.donnee.BaseDeDonnees;
-import main.donnee.XMLAccess;
+import main.donnee.FileAccess;
 import main.graphique.main.MainController;
 
 public class Main extends Application {
@@ -44,11 +44,10 @@ public class Main extends Application {
         primaryStage.setTitle(TITRE);
 
         //Créer la class qui permet d'accéder les fichiers de données
-        XMLAccess xmlAccess = new XMLAccess();
+        FileAccess fileAccess = new FileAccess();
 
-        //Créer l'objet qui contrôle les données avec les données du fichier
-        //xmlAccess::write est une référence a une méthode qui va modifier les données
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(xmlAccess.load(), xmlAccess::write);
+        BaseDeDonnees baseDeDonnees = fileAccess.load();
+        baseDeDonnees.setWriteFunction(fileAccess::write);
 
         //Créer l'interface
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));

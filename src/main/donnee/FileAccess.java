@@ -24,40 +24,33 @@
 
 package main.donnee;
 
-import com.thoughtworks.xstream.XStream;
+import java.io.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class XMLAccess implements DataAccess {
-    private static final String PATHNAME = "res/donneeClient.xml";
-    private static final String PATHNAME_DEFAULT = "res/donneeClient_default.xml";
+public class FileAccess {
+    private static final String PATHNAME = "res/donneeClient.txt";
+    private static final String PATHNAME_DEFAULT = "res/donneeClient_default.txt";
 
     private final File file = new File(PATHNAME);
 
+    public BaseDeDonnees load() {
+        File file;
 
-    private final XStream xStream = new XStream();
+        if (this.file.exists()){
+            file = this.file;
+        } else {
+            file = new File(PATHNAME_DEFAULT);
+            if (!file.exists()) return new BaseDeDonnees();
+        }
 
-    public XMLAccess() {
-        XStream.setupDefaultSecurity(xStream);
-        xStream.allowTypes(new Class[]{Client.class});
+        try {
+            return (BaseDeDonnees) new ObjectInputStream(new FileInputStream(file)).readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Impossible de charger le fichier");
+        }
     }
 
-    @Override
-    public List<Client> load() {
-        File defaultFile = new File(PATHNAME_DEFAULT);
-
-        if (!file.exists()) return new ArrayList<>();
-
-        return (List<Client>) xStream.fromXML(this.file.exists() ? this.file : defaultFile);
-    }
-
-    @Override
-    public void write(List<Client> clients) {
+    public void write(BaseDeDonnees donnees) {
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -67,8 +60,8 @@ public class XMLAccess implements DataAccess {
         }
 
         try {
-            xStream.toXML(new ArrayList<>(clients), new FileOutputStream(file));
-        } catch (FileNotFoundException e) {
+            new ObjectOutputStream(new FileOutputStream(file)).writeObject(donnees);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

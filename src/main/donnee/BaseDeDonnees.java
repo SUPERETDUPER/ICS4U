@@ -28,6 +28,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -35,37 +39,50 @@ import java.util.function.Consumer;
  * Donne accès à une liste de clients.
  * Permet d'ajouter ou de supprimer des clients de la liste
  */
-public class BaseDeDonnees {
+public class BaseDeDonnees implements Serializable {
     /**
      * La liste de clients
      */
-    private final ObservableList<Client> clients;
+    private final ObservableList<Client> clients = FXCollections.observableArrayList();
 
     /**
      * La fonction a executer quand les données changent
      */
-    private final Consumer<List<Client>> writeFunction;
+    private Consumer<BaseDeDonnees> writeFunction;
 
-    /**
-     * @param clientsInitials la liste de clients initiales
-     * @param writeFunction   la fonction à appeler quand les clients changent
-     */
-    public BaseDeDonnees(@NotNull List<Client> clientsInitials, Consumer<List<Client>> writeFunction) {
+    public BaseDeDonnees() {
+    }
+
+    public void setWriteFunction(Consumer<BaseDeDonnees> writeFunction) {
         this.writeFunction = writeFunction;
-        this.clients = FXCollections.observableArrayList(clientsInitials);
     }
 
     public void ajouter(Client client) {
         clients.add(client);
-        writeFunction.accept(clients);
+        writeFunction.accept(this);
     }
 
     public void supprimer(int index) {
         clients.remove(index);
-        writeFunction.accept(clients);
+        writeFunction.accept(this);
     }
 
     public ObservableList<Client> getClients() {
         return clients;
+    }
+
+    private void writeObject(ObjectOutputStream outputStream) throws IOException {
+        outputStream.writeInt(clients.size());
+        for (Client client : clients) {
+            outputStream.writeObject(client);
+        }
+    }
+
+    public void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
+        int size = inputStream.readInt();
+
+        for (int i = 0; i < size; i++) {
+            clients.add((Client) inputStream.readObject());
+        }
     }
 }

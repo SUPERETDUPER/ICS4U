@@ -27,11 +27,17 @@ package main.donnee;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Représente un client
  */
-public class Client {
+public class Client implements Serializable {
     private final SimpleStringProperty prenom;
     private final SimpleStringProperty nom;
     private final SimpleIntegerProperty semaineUn;
@@ -92,7 +98,6 @@ public class Client {
 
     @Override
     public String toString() {
-
         return prenom +
                 " " +
                 nom +
@@ -104,5 +109,23 @@ public class Client {
                 semaineTrois +
                 " " +
                 semaineQuatre;
+    }
+
+    private void writeObject(@NotNull ObjectOutputStream outputStream) throws IOException {
+        outputStream.writeUTF(prenom.get());
+        outputStream.writeUTF(nom.get());
+        outputStream.writeInt(semaineUn.get());
+        outputStream.writeInt(semaineDeux.get());
+        outputStream.writeInt(semaineTrois.get());
+        outputStream.writeInt(semaineQuatre.get());
+    }
+
+    private void readObject(@NotNull ObjectInputStream inputStream) throws IOException{
+        prenom.set(inputStream.readUTF());
+        nom.set(inputStream.readUTF());
+        semaineUn.set(inputStream.readInt());
+        semaineDeux.set(inputStream.readInt());
+        semaineTrois.set(inputStream.readInt());
+        semaineQuatre.set(inputStream.readInt());
     }
 }
