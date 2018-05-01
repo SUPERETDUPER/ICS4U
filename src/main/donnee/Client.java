@@ -35,6 +35,9 @@ import java.io.*;
  * Représente un client
  */
 public class Client implements Serializable {
+    private static final int LIMITE_POUR_BONUS = 5000;
+    private static final int BONUS = 1000;
+
     private final SimpleStringProperty prenom = new SimpleStringProperty();
     private final SimpleStringProperty nom = new SimpleStringProperty();
     private final SimpleIntegerProperty semaineUn = new SimpleIntegerProperty();
@@ -63,7 +66,7 @@ public class Client implements Serializable {
         //La somme est automatiquement attaché aux points pour chaque semaine
         somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
         //Le bonus est automatiquement attaché à la somme
-        bonus.bind(Bindings.createIntegerBinding(() -> somme.get() < 5000 ? 0 : 1000, somme));
+        bonus.bind(Bindings.createIntegerBinding(() -> somme.get() < LIMITE_POUR_BONUS ? 0 : BONUS, somme));
         //Le total est l'addition de la somme et du bonus
         total.bind(this.somme.add(this.bonus));
     }
