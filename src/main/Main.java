@@ -41,13 +41,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clients");
 
-        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(new XMLAccess());
+        XMLAccess xmlAccess = new XMLAccess();
+        BaseDeDonnees baseDeDonnees = new BaseDeDonnees(xmlAccess.load(), xmlAccess::write);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        fxmlLoader.setControllerFactory(param -> {
-            if (param == MainController.class) return new MainController(baseDeDonnees);
-            throw new RuntimeException("Controller inconnue");
-        });
+        fxmlLoader.setController(new MainController(baseDeDonnees));
 
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.setMaximized(true);
