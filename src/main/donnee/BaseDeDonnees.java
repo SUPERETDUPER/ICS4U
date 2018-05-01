@@ -29,36 +29,40 @@ import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
- * Donne accès à une liste de clients
+ * Donne accès à une liste de clients.
+ * Permet d'ajouter ou de supprimer des clients de la liste
  */
 public class BaseDeDonnees {
-    public interface DonneesListener {
-        void notifierChangement(ObservableList<Client> clients);
-    }
-
     /**
      * La liste de clients
      */
-    private ObservableList<Client> clients = FXCollections.observableArrayList();
+    private final ObservableList<Client> clients;
 
-    private DonneesListener listener;
+    /**
+     * La fonction a executer quand les données changent
+     */
+    private final Consumer<List<Client>> writeFunction;
 
-    public BaseDeDonnees(@NotNull List<Client> clientsInitials, DonneesListener listener) {
-        this.listener = listener;
-
-        clients.addAll(clientsInitials);
+    /**
+     * @param clientsInitials la liste de clients initiales
+     * @param writeFunction   la fonction à appeler quand les clients changent
+     */
+    public BaseDeDonnees(@NotNull List<Client> clientsInitials, Consumer<List<Client>> writeFunction) {
+        this.writeFunction = writeFunction;
+        this.clients = FXCollections.observableArrayList(clientsInitials);
     }
 
     public void ajouter(Client client) {
         clients.add(client);
-        listener.notifierChangement(clients);
+        writeFunction.accept(clients);
     }
 
     public void supprimer(int index) {
         clients.remove(index);
-        listener.notifierChangement(clients);
+        writeFunction.accept(clients);
     }
 
     public ObservableList<Client> getClients() {

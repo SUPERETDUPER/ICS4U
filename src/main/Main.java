@@ -33,20 +33,29 @@ import main.donnee.XMLAccess;
 import main.graphique.main.MainController;
 
 public class Main extends Application {
+    private static final String TITRE = "Clients";
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Clients");
+        primaryStage.setTitle(TITRE);
 
+        //Créer la class qui permet d'accéder les fichiers de données
         XMLAccess xmlAccess = new XMLAccess();
+
+        //Créer l'objet qui contrôle les données avec les données du fichier
+        //xmlAccess::write est une référence a une méthode qui va modifier les données
         BaseDeDonnees baseDeDonnees = new BaseDeDonnees(xmlAccess.load(), xmlAccess::write);
 
+        //Créer l'interface
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        //Créer un controlleur d'interface avec la base de donnees
         fxmlLoader.setController(new MainController(baseDeDonnees));
 
+        //Afficher l'interface
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.setMaximized(true);
         primaryStage.show();
