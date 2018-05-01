@@ -28,10 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,7 +36,7 @@ import java.util.function.Consumer;
  * Donne accès à une liste de clients.
  * Permet d'ajouter ou de supprimer des clients de la liste
  */
-public class BaseDeDonnees implements Serializable {
+public class BaseDeDonnees {
     /**
      * La liste de clients
      */
@@ -71,18 +68,19 @@ public class BaseDeDonnees implements Serializable {
         return clients;
     }
 
-    private void writeObject(ObjectOutputStream outputStream) throws IOException {
+    private void writeObject(DataOutputStream outputStream) throws IOException {
         outputStream.writeInt(clients.size());
         for (Client client : clients) {
-            outputStream.writeObject(client);
+            client.writeObject(outputStream);
         }
     }
 
-    public void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException {
+    public void readObject(DataInputStream inputStream) throws IOException {
         int size = inputStream.readInt();
 
         for (int i = 0; i < size; i++) {
-            clients.add((Client) inputStream.readObject());
+            Client client = new Client();
+            client.readObject(inputStream);
         }
     }
 }

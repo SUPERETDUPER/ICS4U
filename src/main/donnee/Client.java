@@ -29,32 +29,32 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Représente un client
  */
-public class Client implements Serializable {
-    private final SimpleStringProperty prenom;
-    private final SimpleStringProperty nom;
-    private final SimpleIntegerProperty semaineUn;
-    private final SimpleIntegerProperty semaineDeux;
-    private final SimpleIntegerProperty semaineTrois;
-    private final SimpleIntegerProperty semaineQuatre;
+public class Client {
+    private final SimpleStringProperty prenom = new SimpleStringProperty();
+    private final SimpleStringProperty nom = new SimpleStringProperty();
+    private final SimpleIntegerProperty semaineUn = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty semaineDeux = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty semaineTrois = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty semaineQuatre = new SimpleIntegerProperty();
     private final SimpleIntegerProperty somme = new SimpleIntegerProperty();
     private final SimpleIntegerProperty bonus = new SimpleIntegerProperty();
     private final SimpleIntegerProperty total = new SimpleIntegerProperty();
 
+    public Client() {
+    }
+
     public Client(String prenom, String nom, int semaineUn, int semaineDeux, int semaineTrois, int semaineQuatre) {
-        this.prenom = new SimpleStringProperty(prenom);
-        this.nom = new SimpleStringProperty(nom);
-        this.semaineUn = new SimpleIntegerProperty(semaineUn);
-        this.semaineDeux = new SimpleIntegerProperty(semaineDeux);
-        this.semaineTrois = new SimpleIntegerProperty(semaineTrois);
-        this.semaineQuatre = new SimpleIntegerProperty(semaineQuatre);
+        this.prenom.set(prenom);
+        this.nom.set(nom);
+        this.semaineUn.set(semaineUn);
+        this.semaineDeux.set(semaineDeux);
+        this.semaineTrois.set(semaineTrois);
+        this.semaineQuatre.set(semaineQuatre);
         somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
         bonus.bind(Bindings.createIntegerBinding(() -> somme.get() > 5000 ? 1000 : 0, somme));
         total.bind(this.somme.add(this.bonus));
@@ -111,7 +111,7 @@ public class Client implements Serializable {
                 semaineQuatre;
     }
 
-    private void writeObject(@NotNull ObjectOutputStream outputStream) throws IOException {
+    void writeObject(@NotNull DataOutputStream outputStream) throws IOException {
         outputStream.writeUTF(prenom.get());
         outputStream.writeUTF(nom.get());
         outputStream.writeInt(semaineUn.get());
@@ -120,7 +120,7 @@ public class Client implements Serializable {
         outputStream.writeInt(semaineQuatre.get());
     }
 
-    private void readObject(@NotNull ObjectInputStream inputStream) throws IOException{
+    void readObject(@NotNull DataInputStream inputStream) throws IOException{
         prenom.set(inputStream.readUTF());
         nom.set(inputStream.readUTF());
         semaineUn.set(inputStream.readInt());
