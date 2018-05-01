@@ -28,7 +28,7 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
-import main.donnee.ClientInfo;
+import main.donnee.Client;
 
 import java.util.Arrays;
 
@@ -69,8 +69,8 @@ public class ClientEntreeController {
         );
     }
 
-    ClientInfo creerClient() {
-        return new ClientInfo(prenom.getValue(), nom.getValue(),
+    Client creerClient() {
+        return new Client(prenom.getValue(), nom.getValue(),
                 Arrays.asList(
                         semaineUn.getValue(),
                         semaineDeux.getValue(),

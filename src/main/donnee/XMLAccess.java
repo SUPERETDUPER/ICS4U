@@ -43,7 +43,8 @@ public class XMLAccess implements DataAccess {
     private final XStream xStream = new XStream();
 
     public XMLAccess() {
-        xStream.alias("client", Client.class);
+        XStream.setupDefaultSecurity(xStream);
+        xStream.allowTypes(new Class[]{Client.class});
     }
 
     @Override

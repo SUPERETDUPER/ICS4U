@@ -23,34 +23,28 @@
   -->
 
 <list>
-    <client>
-        <id>1</id>
-        <info>
-            <prenom>Jaime</prenom>
-            <nom>Voyager</nom>
-            <points class="java.util.Arrays$ArrayList">
-                <a class="java.lang.Integer-array">
-                    <int>330</int>
-                    <int>1700</int>
-                    <int>1500</int>
-                    <int>220</int>
-                </a>
-            </points>
-        </info>
-    </client>
-    <client>
-        <id>2</id>
-        <info>
-            <prenom>Paul</prenom>
-            <nom>Avion</nom>
-            <points class="java.util.Arrays$ArrayList">
-                <a class="java.lang.Integer-array">
-                    <int>750</int>
-                    <int>1700</int>
-                    <int>1500</int>
-                    <int>800</int>
-                </a>
-            </points>
-        </info>
-    </client>
+    <main.donnee.Client>
+        <prenom>Jaime</prenom>
+        <nom>Voyager</nom>
+        <points class="java.util.Arrays$ArrayList">
+            <a class="java.lang.Integer-array">
+                <int>330</int>
+                <int>1700</int>
+                <int>1500</int>
+                <int>220</int>
+            </a>
+        </points>
+    </main.donnee.Client>
+    <main.donnee.Client>
+        <prenom>Paul</prenom>
+        <nom>Avion</nom>
+        <points class="java.util.Arrays$ArrayList">
+            <a class="java.lang.Integer-array">
+                <int>750</int>
+                <int>1700</int>
+                <int>1500</int>
+                <int>800</int>
+            </a>
+        </points>
+    </main.donnee.Client>
 </list>

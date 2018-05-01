@@ -24,24 +24,65 @@
 
 package main.donnee;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
+/**
+ * Représente un client
+ */
 public class Client {
-    private final int id;
+    private final String prenom;
+    private final String nom;
+    private final List<Integer> points;
 
-    @NotNull
-    private final ClientInfo info;
-
-    public Client(int id, @NotNull ClientInfo info) {
-        this.id = id;
-        this.info = info;
+    public Client(String prenom, String nom, List<Integer> points) {
+        this.prenom = prenom;
+        this.nom = nom;
+        this.points = points;
     }
 
-    public ClientInfo getInfo() {
-        return info;
+    public List<Integer> getPoints() {
+        return points;
     }
 
-    public int getId() {
-        return id;
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public int calculateSomme() {
+        int somme = 0;
+        for (Integer point : points) {
+            somme += point;
+        }
+
+        return somme;
+    }
+
+    public int calculateBonus(int somme) {
+        return somme > 5000 ? 1000 : 0;
+    }
+
+    public int calculateBonus() {
+        return calculateBonus(calculateSomme());
+    }
+
+    public int calculateTotal() {
+        int somme = calculateSomme();
+        return somme + calculateBonus(somme);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append(prenom).append(" ").append(nom).append(": ");
+
+        for (Integer point : points) {
+            string.append(point).append(", ");
+        }
+
+        return string.toString();
     }
 }

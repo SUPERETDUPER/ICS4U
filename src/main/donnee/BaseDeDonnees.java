@@ -28,24 +28,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Donne accès à une liste de clients
+ */
 public class BaseDeDonnees {
     private ObservableList<Client> clients = FXCollections.observableArrayList();
 
     private DataAccess dataAccess;
 
-    private int nextID = 0;
-
     public BaseDeDonnees(@NotNull DataAccess dataLoader) {
         this.dataAccess = dataLoader;
 
-        for (Client client : dataLoader.load()) {
-            clients.add(client);
-            nextID = Math.max(nextID, client.getId() + 1);
-        }
+        clients.addAll(dataLoader.load());
     }
 
-    public void ajouter(ClientInfo info) {
-        clients.add(new Client(nextID++, info));
+    public void ajouter(Client client) {
+        clients.add(client);
         dataAccess.write(clients);
     }
 

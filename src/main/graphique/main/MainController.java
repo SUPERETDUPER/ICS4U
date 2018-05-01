@@ -31,7 +31,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import main.donnee.BaseDeDonnees;
 import main.donnee.Client;
-import main.donnee.ClientInfo;
 import main.graphique.nouveauclient.AjouterClientDialog;
 
 import java.util.Optional;
@@ -76,29 +75,29 @@ public class MainController {
     private void initialize() {
         table.setItems(donnees.getClients());
 
-        colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getPrenom()));
+        colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPrenom()));
 //        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getInfo().getNom()));
+        colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getNom()));
 //        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(0)));
+        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(0)));
 //        colPSem1.setCellFactory(TextFieldTableCell.forTableColumn());
 
 
-        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(1)));
-        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(2)));
-        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().getPoints().get(3)));
-        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateSomme()));
-        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateBonus()));
-        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getInfo().calculateTotal()));
+        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(1)));
+        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(2)));
+        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(3)));
+        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateSomme()));
+        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateBonus()));
+        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateTotal()));
 
         buttonSupprimer.disableProperty().bind(Bindings.equal(table.getSelectionModel().selectedIndexProperty(), -1));
     }
 
     @FXML
     private void ajouter() {
-        Optional<ClientInfo> clientInfo = new AjouterClientDialog().showAndWait();
+        Optional<Client> clientInfo = new AjouterClientDialog().showAndWait();
 
         clientInfo.ifPresent(donnees::ajouter);
     }
