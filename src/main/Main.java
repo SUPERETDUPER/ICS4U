@@ -47,7 +47,7 @@ public class Main extends Application {
         FileAccess fileAccess = new FileAccess();
 
         BaseDeDonnees baseDeDonnees = fileAccess.load();
-        baseDeDonnees.setWriteFunction(fileAccess::write);
+        baseDeDonnees.setListener(fileAccess::write);
 
         //Créer l'interface
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));

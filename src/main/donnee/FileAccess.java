@@ -43,9 +43,7 @@ public class FileAccess {
         }
 
         try {
-            BaseDeDonnees baseDeDonnees = new BaseDeDonnees();
-            baseDeDonnees.readObject(new DataInputStream(new FileInputStream(file)));
-            return baseDeDonnees;
+            return new BaseDeDonnees(new DataInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Impossible de charger le fichier");

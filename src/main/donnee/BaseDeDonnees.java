@@ -25,58 +25,71 @@
 package main.donnee;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.function.Consumer;
 
 /**
- * Donne accès à une liste de clients.
- * Permet d'ajouter ou de supprimer des clients de la liste
+ * Contient la liste de clients
+ * Est capable de
  */
-public class BaseDeDonnees {
+public class BaseDeDonnees implements Serializable {
     /**
      * La liste de clients
      */
     private final ObservableList<Client> clients = FXCollections.observableArrayList();
 
-    /**
-     * La fonction a executer quand les données changent
-     */
-    private Consumer<BaseDeDonnees> writeFunction;
-
-    public void setWriteFunction(Consumer<BaseDeDonnees> writeFunction) {
-        this.writeFunction = writeFunction;
+    BaseDeDonnees() {
     }
 
+    BaseDeDonnees(DataInputStream dataInputStream) throws IOException{
+        readObject(dataInputStream);
+    }
+
+    /**
+     * Notifie un listener quand la liste change
+     * @param listener le listener qu'il faut notifier
+     */
+    public void setListener(Consumer<BaseDeDonnees> listener) {
+        clients.addListener((ListChangeListener<? super Client>) c -> listener.accept(this));
+    }
+
+    /**
+     * Ajoute un client à la base de données
+     */
     public void ajouter(Client client) {
         clients.add(client);
-        writeFunction.accept(this);
     }
 
+    /**
+     * Supprime un client de la liste
+     * @param index la position du client à supprimer
+     */
     public void supprimer(int index) {
         clients.remove(index);
-        writeFunction.accept(this);
     }
 
     public ObservableList<Client> getClients() {
         return clients;
     }
 
-    void writeObject(DataOutputStream outputStream) throws IOException {
-        outputStream.writeInt(clients.size());
+    //METHODES DE SERIALIZABLE POUR ECRIRE L'OBJET A UN FICHIER
+
+    @Override
+    public void writeObject(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(clients.size()); //Ecrit le nombre de clients
         for (Client client : clients) {
-            client.writeObject(outputStream);
+            client.writeObject(outputStream); //Ecrit chaque client
         }
     }
 
-    void readObject(DataInputStream inputStream) throws IOException {
-        int size = inputStream.readInt();
-
-        for (int i = 0; i < size; i++) {
-            Client client = new Client();
-            client.readObject(inputStream);
-            clients.add(client);
+    @Override
+    public void readObject(DataInputStream inputStream) throws IOException {
+        //Ajoute un client pour chaque client dans le fichier
+        for (int i = 0; i < inputStream.readInt(); i++) {
+            clients.add(new Client(inputStream));
         }
     }
 }

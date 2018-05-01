@@ -40,13 +40,10 @@ public class MainController {
 
     @FXML
     private TableView<Client> table;
-
     @FXML
     private TableColumn<Client, String> colPrenom;
-
     @FXML
     private TableColumn<Client, String> colNom;
-
     @FXML
     private TableColumn<Client, Integer> colPSem1;
     @FXML

@@ -34,7 +34,7 @@ import java.io.*;
 /**
  * Représente un client
  */
-public class Client {
+public class Client implements Serializable{
     private final SimpleStringProperty prenom = new SimpleStringProperty();
     private final SimpleStringProperty nom = new SimpleStringProperty();
     private final SimpleIntegerProperty semaineUn = new SimpleIntegerProperty();
@@ -45,9 +45,13 @@ public class Client {
     private final SimpleIntegerProperty bonus = new SimpleIntegerProperty();
     private final SimpleIntegerProperty total = new SimpleIntegerProperty();
 
-    public Client() {
+    public Client(DataInputStream dataInputStream) throws IOException {
+        readObject(dataInputStream);
     }
 
+    /**
+     * Créer un client avec toutes les charactéristiques
+     */
     public Client(String prenom, String nom, int semaineUn, int semaineDeux, int semaineTrois, int semaineQuatre) {
         this.prenom.set(prenom);
         this.nom.set(nom);
@@ -55,9 +59,21 @@ public class Client {
         this.semaineDeux.set(semaineDeux);
         this.semaineTrois.set(semaineTrois);
         this.semaineQuatre.set(semaineQuatre);
+
+        //La somme est automatiquement attaché aux points pour chaque semaine
         somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
+        //Le bonus est automatiquement attaché à la somme
         bonus.bind(Bindings.createIntegerBinding(() -> somme.get() > 5000 ? 1000 : 0, somme));
+        //Le total est l'addition de la somme et du bonus
         total.bind(this.somme.add(this.bonus));
+    }
+
+    public String getPrenom() {
+        return prenom.get();
+    }
+
+    public String getNom() {
+        return nom.get();
     }
 
     public int getSemaineUn() {
@@ -74,14 +90,6 @@ public class Client {
 
     public int getSemaineQuatre() {
         return semaineQuatre.get();
-    }
-
-    public String getNom() {
-        return nom.get();
-    }
-
-    public String getPrenom() {
-        return prenom.get();
     }
 
     public int getSomme() {
@@ -111,7 +119,7 @@ public class Client {
                 semaineQuatre;
     }
 
-    void writeObject(@NotNull DataOutputStream outputStream) throws IOException {
+    public void writeObject(@NotNull DataOutputStream outputStream) throws IOException {
         outputStream.writeUTF(prenom.get());
         outputStream.writeUTF(nom.get());
         outputStream.writeInt(semaineUn.get());
@@ -120,7 +128,7 @@ public class Client {
         outputStream.writeInt(semaineQuatre.get());
     }
 
-    void readObject(@NotNull DataInputStream inputStream) throws IOException{
+    public void readObject(@NotNull DataInputStream inputStream) throws IOException{
         prenom.set(inputStream.readUTF());
         nom.set(inputStream.readUTF());
         semaineUn.set(inputStream.readInt());
