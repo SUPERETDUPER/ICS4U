@@ -81,16 +81,16 @@ public class MainController {
         colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getNom()));
 //        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(0)));
+        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineUn()));
 //        colPSem1.setCellFactory(TextFieldTableCell.forTableColumn());
 
 
-        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(1)));
-        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(2)));
-        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getPoints().get(3)));
-        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateSomme()));
-        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateBonus()));
-        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().calculateTotal()));
+        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineDeux()));
+        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineTrois()));
+        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineQuatre()));
+        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSomme()));
+        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getBonus()));
+        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getTotal()));
 
         buttonSupprimer.disableProperty().bind(Bindings.equal(table.getSelectionModel().selectedIndexProperty(), -1));
     }

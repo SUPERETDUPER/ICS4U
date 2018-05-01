@@ -49,7 +49,11 @@ public class XMLAccess implements DataAccess {
 
     @Override
     public List<Client> load() {
-        return (List<Client>) xStream.fromXML(file.exists() ? file : new File(PATHNAME_DEFAULT));
+        File defaultFile = new File(PATHNAME_DEFAULT);
+
+        if (!file.exists()) return new ArrayList<>();
+
+        return (List<Client>) xStream.fromXML(this.file.exists() ? this.file : defaultFile);
     }
 
     @Override

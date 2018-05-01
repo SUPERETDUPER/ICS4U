@@ -24,65 +24,85 @@
 
 package main.donnee;
 
-import java.util.List;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Représente un client
  */
 public class Client {
-    private final String prenom;
-    private final String nom;
-    private final List<Integer> points;
+    private final SimpleStringProperty prenom;
+    private final SimpleStringProperty nom;
+    private final SimpleIntegerProperty semaineUn;
+    private final SimpleIntegerProperty semaineDeux;
+    private final SimpleIntegerProperty semaineTrois;
+    private final SimpleIntegerProperty semaineQuatre;
+    private final SimpleIntegerProperty somme = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty bonus = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty total = new SimpleIntegerProperty();
 
-    public Client(String prenom, String nom, List<Integer> points) {
-        this.prenom = prenom;
-        this.nom = nom;
-        this.points = points;
+    public Client(String prenom, String nom, int semaineUn, int semaineDeux, int semaineTrois, int semaineQuatre) {
+        this.prenom = new SimpleStringProperty(prenom);
+        this.nom = new SimpleStringProperty(nom);
+        this.semaineUn = new SimpleIntegerProperty(semaineUn);
+        this.semaineDeux = new SimpleIntegerProperty(semaineDeux);
+        this.semaineTrois = new SimpleIntegerProperty(semaineTrois);
+        this.semaineQuatre = new SimpleIntegerProperty(semaineQuatre);
+        somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
+        bonus.bind(Bindings.createIntegerBinding(() -> somme.get() > 5000 ? 1000 : 0, somme));
+        total.bind(this.somme.add(this.bonus));
     }
 
-    public List<Integer> getPoints() {
-        return points;
+    public int getSemaineUn() {
+        return semaineUn.get();
+    }
+
+    public int getSemaineDeux() {
+        return semaineDeux.get();
+    }
+
+    public int getSemaineTrois() {
+        return semaineTrois.get();
+    }
+
+    public int getSemaineQuatre() {
+        return semaineQuatre.get();
     }
 
     public String getNom() {
-        return nom;
+        return nom.get();
     }
 
     public String getPrenom() {
-        return prenom;
+        return prenom.get();
     }
 
-    public int calculateSomme() {
-        int somme = 0;
-        for (Integer point : points) {
-            somme += point;
-        }
-
-        return somme;
+    public int getSomme() {
+        return somme.get();
     }
 
-    public int calculateBonus(int somme) {
-        return somme > 5000 ? 1000 : 0;
+    public int getBonus() {
+        return bonus.get();
     }
 
-    public int calculateBonus() {
-        return calculateBonus(calculateSomme());
-    }
-
-    public int calculateTotal() {
-        int somme = calculateSomme();
-        return somme + calculateBonus(somme);
+    public int getTotal() {
+        return total.get();
     }
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder();
-        string.append(prenom).append(" ").append(nom).append(": ");
 
-        for (Integer point : points) {
-            string.append(point).append(", ");
-        }
-
-        return string.toString();
+        return prenom +
+                " " +
+                nom +
+                ": " +
+                semaineUn +
+                " " +
+                semaineDeux +
+                " " +
+                semaineTrois +
+                " " +
+                semaineQuatre;
     }
 }

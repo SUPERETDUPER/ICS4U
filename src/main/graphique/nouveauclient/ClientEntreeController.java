@@ -30,8 +30,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import main.donnee.Client;
 
-import java.util.Arrays;
-
 
 public class ClientEntreeController {
     @FXML
@@ -70,13 +68,14 @@ public class ClientEntreeController {
     }
 
     Client creerClient() {
-        return new Client(prenom.getValue(), nom.getValue(),
-                Arrays.asList(
-                        semaineUn.getValue(),
-                        semaineDeux.getValue(),
-                        semaineTrois.getValue(),
-                        semaineQuatre.getValue()
-                )
+        return new Client(
+                prenom.getValue(),
+                nom.getValue(),
+                semaineUn.getValue(),
+                semaineDeux.getValue(),
+                semaineTrois.getValue(),
+                semaineQuatre.getValue()
+
         );
     }
 }
