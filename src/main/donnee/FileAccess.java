@@ -26,14 +26,29 @@ package main.donnee;
 
 import java.io.*;
 
+/**
+ * Permet de sauvgarder et charge la base de donnée à un fichier.
+ * Si une base de donnée existe déja elle est utilisé. Sinon la base de donnée par défaut est utilisé
+ */
 public class FileAccess {
+    /**
+     * Base de données locale
+     */
     private static final String PATHNAME = "res/donneeClient.txt";
+    /**
+     * Base de données par défaut
+     */
     private static final String PATHNAME_DEFAULT = "res/donneeClient_default.txt";
 
-    private final File file = new File(PATHNAME);
+    private final File fichierDonneesLocale = new File(PATHNAME);
 
+    /**
+     * Lit la base de données du fichier
+     *
+     * @return la base de données du fichier
+     */
     public BaseDeDonnees read() {
-        File fichierAUtiliser = file;
+        File fichierAUtiliser = fichierDonneesLocale;
 
         if (!fichierAUtiliser.exists()) {
             fichierAUtiliser = new File(PATHNAME_DEFAULT);
@@ -48,17 +63,24 @@ public class FileAccess {
         }
     }
 
+    /**
+     * Sauvegarde la base de données au fichier
+     * @param donnees la base de données à sauvegarder
+     */
     public void write(BaseDeDonnees donnees) {
-        if (!file.exists()) {
+        //Si le fichier n'existe pas le créer
+        if (!fichierDonneesLocale.exists()) {
             try {
-                file.createNewFile();
+                //noinspection ResultOfMethodCallIgnored
+                fichierDonneesLocale.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
 
         try {
-            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(fichierDonneesLocale));
             donnees.writeObject(outputStream);
             outputStream.flush();
             outputStream.close();

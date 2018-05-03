@@ -28,7 +28,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
@@ -79,7 +82,6 @@ public class BaseDeDonnees implements Serializable {
 
     @Override
     public void writeObject(DataOutputStream outputStream) throws IOException {
-        outputStream.writeInt(clients.size()); //Ecrit le nombre de clients
         for (Client client : clients) {
             client.writeObject(outputStream); //Ecrit chaque client
         }
@@ -88,8 +90,13 @@ public class BaseDeDonnees implements Serializable {
     @Override
     public void readObject(DataInputStream inputStream) throws IOException {
         //Ajoute un client pour chaque client dans le fichier
-        for (int i = 0; i < inputStream.readInt(); i++) {
-            clients.add(new Client(inputStream));
+        try {
+            //noinspection InfiniteLoopStatement
+            while (true) {
+                clients.add(new Client(inputStream));
+            }
+        } catch (EOFException e) {
+            System.out.println("Fini de charger le fichier");
         }
     }
 }

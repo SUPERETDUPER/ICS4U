@@ -80,8 +80,6 @@ class ClientEntreeController {
 
     /**
      * Permet de créer le client avec les valeurs des entrées
-     *
-     * @return
      */
     Client creerClient() {
         return new Client(

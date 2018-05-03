@@ -37,6 +37,7 @@ public class NameField extends Field {
         super(nom);
 
         //Définit un formatter qui empêche les numéros
+        //noinspection RedundantCast
         field.setTextFormatter(
                 new TextFormatter(
                         //Si le changement est un ajout qui est entre 0 et 9 refuser le changement

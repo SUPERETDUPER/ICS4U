@@ -46,7 +46,6 @@ public class PointField extends Field {
             //Si c'est un ajout qui n'est pas entre 0 et 9 retourner null
             change -> change.isAdded() && change.getText().matches("[^0-9]") ? null : change
     );
-    ;
 
     public PointField(@NamedArg("nom") String nom) {
         super(nom);

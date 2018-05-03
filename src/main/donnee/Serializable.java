@@ -31,7 +31,7 @@ import java.io.IOException;
 /**
  * Un objet qui peut être écrit à un data output stream
  */
-public interface Serializable {
+interface Serializable {
     void writeObject(DataOutputStream outputStream) throws IOException;
     void readObject(DataInputStream inputStream) throws IOException;
 }

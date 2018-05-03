@@ -35,22 +35,24 @@ import main.graphique.main.MainController;
 public class Main extends Application {
     private static final String TITRE = "Gestionnaire de clients";
 
+    private static BaseDeDonnees baseDeDonnees;
+
     public static void main(String[] args) {
+        //Créer la class qui permet d'accéder les fichiers de données
+        FileAccess fileAccess = new FileAccess();
+
+        //Créer la base de données à partir des fichiers
+        baseDeDonnees = fileAccess.read();
+
+        //Définir la function qu'il faut appeler quand les données changent
+        baseDeDonnees.setListener(fileAccess::write);
+
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle(TITRE); //Mettre le titre
-
-        //Créer la class qui permet d'accéder les fichiers de données
-        FileAccess fileAccess = new FileAccess();
-
-        //Créer la base de données à partir des fichiers
-        BaseDeDonnees baseDeDonnees = fileAccess.read();
-
-        //Définir la function qu'il faut appeler quand les données changent
-        baseDeDonnees.setListener(fileAccess::write);
 
         //Créer l'interface
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
