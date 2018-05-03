@@ -31,6 +31,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import main.graphique.nouveauclient.*?>
+<!--L'interface pour ajouter un client. Contient les entrées de nom, prénom et points-->
 <VBox spacing="10" fx:id="root" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets topRightBottomLeft="30"/>

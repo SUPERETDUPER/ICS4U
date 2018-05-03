@@ -28,6 +28,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Text?>
+<!--Une zone qui contient une description et une boite de text-->
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml" type="HBox" spacing="10">
     <Text fx:id="description"/>

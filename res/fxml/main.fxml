@@ -32,16 +32,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<VBox spacing="20" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER">
+<!--L'interface principale qui contient le titre un tableau et les buttons ajouter et supprimer-->
+<VBox spacing="20" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
-        <Insets topRightBottomLeft="10"/>
+        <Insets topRightBottomLeft="30"/>
     </padding>
 
     <Text text="Clients">
         <font>
-            <Font size="20"/>
+            <Font size="40"/>
         </font>
     </Text>
+
     <HBox spacing="10">
         <TableView HBox.hgrow="SOMETIMES" fx:id="table">
             <columns>
@@ -63,6 +65,7 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
         </TableView>
+
         <VBox fx:id="imageContainer" prefWidth="30" spacing="10">
             <Button onAction="#ajouter">
                 <graphic>
