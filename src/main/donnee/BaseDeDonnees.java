@@ -38,7 +38,7 @@ import java.util.function.Consumer;
  * Contient la liste de clients
  * Est capable de
  */
-public class BaseDeDonnees implements Serializable {
+public class BaseDeDonnees {
     /**
      * La liste de clients
      */
@@ -78,17 +78,15 @@ public class BaseDeDonnees implements Serializable {
         return clients;
     }
 
-    //METHODES DE SERIALIZABLE POUR ECRIRE L'OBJET A UN FICHIER
+    //METHODES POUR ECRIRE L'OBJET A UN FICHIER
 
-    @Override
-    public void writeObject(DataOutputStream outputStream) throws IOException {
+    void writeObject(DataOutputStream outputStream) throws IOException {
         for (Client client : clients) {
             client.writeObject(outputStream); //Ecrit chaque client
         }
     }
 
-    @Override
-    public void readObject(DataInputStream inputStream) throws IOException {
+    private void readObject(DataInputStream inputStream) throws IOException {
         //Ajoute un client pour chaque client dans le fichier
         try {
             //noinspection InfiniteLoopStatement

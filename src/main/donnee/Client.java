@@ -36,7 +36,8 @@ import java.io.IOException;
 /**
  * Représente un client
  */
-public class Client implements Serializable {
+@SuppressWarnings("unused")
+public class Client {
     private static final int LIMITE_POUR_BONUS = 5000;
     private static final int BONUS = 1000;
 
@@ -50,21 +51,7 @@ public class Client implements Serializable {
     private final SimpleIntegerProperty bonus = new SimpleIntegerProperty();
     private final SimpleIntegerProperty total = new SimpleIntegerProperty();
 
-    public Client(DataInputStream dataInputStream) throws IOException {
-        readObject(dataInputStream);
-    }
-
-    /**
-     * Créer un client avec toutes les charactéristiques
-     */
-    public Client(String prenom, String nom, int semaineUn, int semaineDeux, int semaineTrois, int semaineQuatre) {
-        this.prenom.set(prenom);
-        this.nom.set(nom);
-        this.semaineUn.set(semaineUn);
-        this.semaineDeux.set(semaineDeux);
-        this.semaineTrois.set(semaineTrois);
-        this.semaineQuatre.set(semaineQuatre);
-
+    private Client() {
         //La somme est automatiquement attaché aux points pour chaque semaine
         somme.bind(this.semaineUn.add(this.semaineDeux).add(this.semaineTrois).add(this.semaineQuatre));
         //Le bonus est automatiquement attaché à la somme
@@ -73,20 +60,30 @@ public class Client implements Serializable {
         total.bind(this.somme.add(this.bonus));
     }
 
+    Client(DataInputStream dataInputStream) throws IOException {
+        this();
+        readObject(dataInputStream);
+    }
+
+    /**
+     * Créer un client avec toutes les charactéristiques
+     */
+    public Client(String prenom, String nom, int semaineUn, int semaineDeux, int semaineTrois, int semaineQuatre) {
+        this();
+        this.prenom.set(prenom);
+        this.nom.set(nom);
+        this.semaineUn.set(semaineUn);
+        this.semaineDeux.set(semaineDeux);
+        this.semaineTrois.set(semaineTrois);
+        this.semaineQuatre.set(semaineQuatre);
+    }
+
     public SimpleStringProperty prenomProperty() {
         return prenom;
     }
 
-    public String getPrenom() {
-        return prenom.get();
-    }
-
     public SimpleStringProperty nomProperty() {
         return nom;
-    }
-
-    public String getNom() {
-        return nom.get();
     }
 
     public SimpleIntegerProperty semaineUnProperty() {
@@ -117,34 +114,6 @@ public class Client implements Serializable {
         return total;
     }
 
-    public int getSemaineUn() {
-        return semaineUn.get();
-    }
-
-    public int getSemaineDeux() {
-        return semaineDeux.get();
-    }
-
-    public int getSemaineTrois() {
-        return semaineTrois.get();
-    }
-
-    public int getSemaineQuatre() {
-        return semaineQuatre.get();
-    }
-
-    public int getSomme() {
-        return somme.get();
-    }
-
-    public int getBonus() {
-        return bonus.get();
-    }
-
-    public int getTotal() {
-        return total.get();
-    }
-
     @Override
     public String toString() {
         return prenom +
@@ -160,7 +129,7 @@ public class Client implements Serializable {
                 semaineQuatre;
     }
 
-    public void writeObject(@NotNull DataOutputStream outputStream) throws IOException {
+    void writeObject(@NotNull DataOutputStream outputStream) throws IOException {
         outputStream.writeUTF(prenom.get());
         outputStream.writeUTF(nom.get());
         outputStream.writeInt(semaineUn.get());
@@ -169,7 +138,7 @@ public class Client implements Serializable {
         outputStream.writeInt(semaineQuatre.get());
     }
 
-    public void readObject(@NotNull DataInputStream inputStream) throws IOException {
+    private void readObject(@NotNull DataInputStream inputStream) throws IOException {
         prenom.set(inputStream.readUTF());
         nom.set(inputStream.readUTF());
         semaineUn.set(inputStream.readInt());
