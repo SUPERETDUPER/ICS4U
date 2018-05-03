@@ -26,26 +26,42 @@ package main.graphique.nouveauclient;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import main.donnee.Client;
 
 import java.io.IOException;
 
+/**
+ * Dialog personalisé qui retourne un object {@link Client}
+ */
 public class AjouterClientDialog extends Dialog<Client> {
     public AjouterClientDialog() {
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/clientEntree.fxml"));
 
-        this.setHeaderText("Ajouter un client");
+        this.setTitle("Ajouter un client");
+        this.setHeaderText("Nouveau client");
+
+        //Ajouter le contenu
+        final ClientEntreeController controller = new ClientEntreeController();
 
         try {
-            this.setDialogPane(fxmlLoader.load());
+            fxmlLoader.setController(controller);
+            this.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //Ajouter les buttons
+        this.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+        //Faire que le button soit gris si tout n'est pas rempli
+        this.getDialogPane().lookupButton(ButtonType.APPLY).disableProperty().bind(controller.toutRemplitProperty());
+
+        //Définir comment les résultats sont retenus
+        //Si le button APPLY a été appuyé retourner le client du controller. Sinon retourner null
         this.setResultConverter(param -> {
             if (param.getButtonData() == ButtonBar.ButtonData.APPLY) {
-                return ((ClientEntreeController) fxmlLoader.getController()).creerClient();
+                return controller.creerClient();
             } else {
                 return null;
             }

@@ -25,15 +25,17 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
+import javafx.scene.layout.VBox;
 import main.donnee.Client;
 
 
-public class ClientEntreeController {
+class ClientEntreeController {
     @FXML
-    private DialogPane root;
+    private VBox root;
 
     @FXML
     private ButtonType appliquer;
@@ -56,9 +58,14 @@ public class ClientEntreeController {
     @FXML
     private PointField semaineQuatre;
 
+    /**
+     * Défini si tous les fields on été remplit
+     */
+    private final ReadOnlyBooleanWrapper toutRemplit = new ReadOnlyBooleanWrapper(false);
+
     @FXML
     private void initialize() {
-        root.lookupButton(appliquer).disableProperty().bind(
+        toutRemplit.bind(
                 Bindings.or(prenom.isEmptyProperty(), nom.isEmptyProperty())
                         .or(semaineUn.isEmptyProperty())
                         .or(semaineDeux.isEmptyProperty())
@@ -67,6 +74,15 @@ public class ClientEntreeController {
         );
     }
 
+    ReadOnlyBooleanProperty toutRemplitProperty() {
+        return toutRemplit.getReadOnlyProperty();
+    }
+
+    /**
+     * Permet de créer le client avec les valeurs des entrées
+     *
+     * @return
+     */
     Client creerClient() {
         return new Client(
                 prenom.getValue(),

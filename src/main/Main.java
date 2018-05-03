@@ -33,7 +33,7 @@ import main.donnee.FileAccess;
 import main.graphique.main.MainController;
 
 public class Main extends Application {
-    private static final String TITRE = "Clients";
+    private static final String TITRE = "Gestionnaire de clients";
 
     public static void main(String[] args) {
         launch(args);
@@ -41,12 +41,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle(TITRE);
+        primaryStage.setTitle(TITRE); //Mettre le titre
 
         //Créer la class qui permet d'accéder les fichiers de données
         FileAccess fileAccess = new FileAccess();
 
+        //Créer la base de données à partir des fichiers
         BaseDeDonnees baseDeDonnees = fileAccess.read();
+
+        //Définir la function qu'il faut appeler quand les données changent
         baseDeDonnees.setListener(fileAccess::write);
 
         //Créer l'interface

@@ -25,18 +25,20 @@
 package main.graphique.main;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.donnee.BaseDeDonnees;
 import main.donnee.Client;
 import main.graphique.nouveauclient.AjouterClientDialog;
 
 import java.util.Optional;
 
+/**
+ * Contrôle l'interface graphique
+ */
 public class MainController {
-    private static final String MSG_CONFIRMER_SUPPRIMER = "Voulez-vous vraiment supprimer ce client?";
+    //DU FICHIER FXML
 
     @FXML
     private TableView<Client> table;
@@ -58,10 +60,12 @@ public class MainController {
     private TableColumn<Client, Integer> colPBonus;
     @FXML
     private TableColumn<Client, Integer> colPTotal;
-
     @FXML
     private Button buttonSupprimer;
 
+    /**
+     * La base de données de clients
+     */
     private final BaseDeDonnees donnees;
 
     public MainController(BaseDeDonnees donnees) {
@@ -70,41 +74,47 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        table.setItems(donnees.getClients());
+        table.setItems(donnees.getClients()); //Attacher la table aux clients
 
-        colPrenom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getPrenom()));
-//        colPrenom.setCellFactory(TextFieldTableCell.forTableColumn());
+        //Attacher les colonnes aux propriétés
+        colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colPSem1.setCellValueFactory(new PropertyValueFactory<>("semaineUn"));
+        colPSem2.setCellValueFactory(new PropertyValueFactory<>("semaineDeux"));
+        colPSem3.setCellValueFactory(new PropertyValueFactory<>("semaineTrois"));
+        colPSem4.setCellValueFactory(new PropertyValueFactory<>("semaineQuatre"));
+        colPSomme.setCellValueFactory(new PropertyValueFactory<>("somme"));
+        colPBonus.setCellValueFactory(new PropertyValueFactory<>("bonus"));
+        colPTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-        colNom.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getNom()));
-//        colNom.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        colPSem1.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineUn()));
-//        colPSem1.setCellFactory(TextFieldTableCell.forTableColumn());
-
-
-        colPSem2.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineDeux()));
-        colPSem3.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineTrois()));
-        colPSem4.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSemaineQuatre()));
-        colPSomme.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSomme()));
-        colPBonus.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getBonus()));
-        colPTotal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getTotal()));
-
+        //Faire que le button supprimer soit gris si aucune rangée n'est sélectionnée
         buttonSupprimer.disableProperty().bind(Bindings.equal(table.getSelectionModel().selectedIndexProperty(), -1));
     }
 
+    /**
+     * Ajoute un client aux données
+     */
     @FXML
     private void ajouter() {
+        //Montrer la fenêtre pour ajouter un client
         Optional<Client> clientInfo = new AjouterClientDialog().showAndWait();
 
+        //Si le resultat n'est pas null ajouter le client aux données
+        //Example de "Functional Programming". donnees::ajouter est une référence à une méthode
         clientInfo.ifPresent(donnees::ajouter);
     }
 
+    /**
+     * Supprime le client sélectionné
+     */
     @FXML
     private void supprimer() {
-        Optional<ButtonType> buttonType = new Alert(Alert.AlertType.CONFIRMATION, MSG_CONFIRMER_SUPPRIMER, (ButtonType[]) null).showAndWait();
+        //Montrer une alerte pour confirmer que l'utilisateur veut vraiment supprimer
+        Optional<ButtonType> resultat = new Alert(Alert.AlertType.CONFIRMATION).showAndWait();
 
-        if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
-            donnees.supprimer(table.getSelectionModel().getSelectedIndex());
+        //Si le resultat est OK et pas null supprimer le client
+        if (resultat.isPresent() && resultat.get() == ButtonType.OK) {
+            donnees.supprimer(table.getSelectionModel().getSelectedIndex()); //Supprimer le client en fonction de sa position
         }
     }
 }

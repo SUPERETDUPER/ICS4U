@@ -29,7 +29,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
  * Représente un client
@@ -71,12 +73,48 @@ public class Client implements Serializable {
         total.bind(this.somme.add(this.bonus));
     }
 
+    public SimpleStringProperty prenomProperty() {
+        return prenom;
+    }
+
     public String getPrenom() {
         return prenom.get();
     }
 
+    public SimpleStringProperty nomProperty() {
+        return nom;
+    }
+
     public String getNom() {
         return nom.get();
+    }
+
+    public SimpleIntegerProperty semaineUnProperty() {
+        return semaineUn;
+    }
+
+    public SimpleIntegerProperty semaineDeuxProperty() {
+        return semaineDeux;
+    }
+
+    public SimpleIntegerProperty semaineTroisProperty() {
+        return semaineTrois;
+    }
+
+    public SimpleIntegerProperty semaineQuatreProperty() {
+        return semaineQuatre;
+    }
+
+    public SimpleIntegerProperty sommeProperty() {
+        return somme;
+    }
+
+    public SimpleIntegerProperty bonusProperty() {
+        return bonus;
+    }
+
+    public SimpleIntegerProperty totalProperty() {
+        return total;
     }
 
     public int getSemaineUn() {

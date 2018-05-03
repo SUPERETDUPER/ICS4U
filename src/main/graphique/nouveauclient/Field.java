@@ -34,6 +34,10 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
+/**
+ * Une zone d'entrée de text
+ * Est le controller et l'objet en même temps
+ */
 class Field extends HBox {
     @FXML
     private Text description;
@@ -41,14 +45,18 @@ class Field extends HBox {
     @FXML
     protected TextField field;
 
-    @FXML
-    private Text warning;
-
+    /**
+     * Le nom de la zone de text
+     */
     private final String nom;
 
+    /**
+     * @param nom le nom qui peut être passé directement dans le FXML
+     */
     Field(@NamedArg("nom") String nom) {
         this.nom = nom;
 
+        //Charger du fxml
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/field.fxml"));
         loader.setController(this);
         loader.setRoot(this);
@@ -60,11 +68,17 @@ class Field extends HBox {
         }
     }
 
+    /**
+     * Inscrit le nom dans la boite de description
+     */
     @FXML
     private void initialize() {
         description.setText(nom);
     }
 
+    /**
+     * @return vrai Si la boite de text est vide
+     */
     BooleanBinding isEmptyProperty() {
         return field.textProperty().isEmpty();
     }

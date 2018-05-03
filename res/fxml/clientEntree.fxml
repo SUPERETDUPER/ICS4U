@@ -25,42 +25,28 @@
   -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import main.graphique.nouveauclient.*?>
-<DialogPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.graphique.nouveauclient.ClientEntreeController">
-    <content>
-        <VBox spacing="10">
-            <padding>
-                <Insets topRightBottomLeft="30"/>
-            </padding>
+<VBox spacing="10" fx:id="root" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets topRightBottomLeft="30"/>
+    </padding>
 
-            <Text text="Nouveau Client">
-                <font>
-                    <Font name="System Bold" size="20"/>
-                </font>
-            </Text>
-
-            <Separator/>
-
-            <NameField fx:id="prenom" nom="Prénom"/>
-            <NameField fx:id="nom" nom="Nom"/>
-            <Separator/>
-            <Text text="Points">
-                <font>
-                    <Font name="System Bold"/>
-                </font>
-            </Text>
-            <Separator/>
-            <PointField fx:id="semaineUn" nom="Première semaine"/>
-            <PointField fx:id="semaineDeux" nom="Deuxième semaine"/>
-            <PointField fx:id="semaineTrois" nom="Troisième semaine"/>
-            <PointField fx:id="semaineQuatre" nom="Quatrième semaine"/>
-        </VBox>
-    </content>
-    <ButtonType fx:id="appliquer" buttonData="APPLY" text="Ajouter"/>
-    <ButtonType buttonData="CANCEL_CLOSE" text="Annuler"/>
-</DialogPane>
+    <NameField fx:id="prenom" nom="Prénom"/>
+    <NameField fx:id="nom" nom="Nom"/>
+    <Region/>
+    <Text text="Points">
+        <font>
+            <Font name="System Bold"/>
+        </font>
+    </Text>
+    <Separator/>
+    <PointField fx:id="semaineUn" nom="Première semaine"/>
+    <PointField fx:id="semaineDeux" nom="Deuxième semaine"/>
+    <PointField fx:id="semaineTrois" nom="Troisième semaine"/>
+    <PointField fx:id="semaineQuatre" nom="Quatrième semaine"/>
+</VBox>

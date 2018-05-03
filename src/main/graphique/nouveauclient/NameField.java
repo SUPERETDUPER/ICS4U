@@ -25,12 +25,31 @@
 package main.graphique.nouveauclient;
 
 import javafx.beans.NamedArg;
+import javafx.scene.control.TextFormatter;
 
+import java.util.function.UnaryOperator;
+
+/**
+ * Un field qui n'accepte pas de numéro
+ */
 public class NameField extends Field {
     public NameField(@NamedArg("nom") String nom) {
         super(nom);
+
+        //Définit un formatter qui empêche les numéros
+        field.setTextFormatter(
+                new TextFormatter(
+                        //Si le changement est un ajout qui est entre 0 et 9 refuser le changement
+                        (UnaryOperator<TextFormatter.Change>) change ->
+                                change.isAdded() && change.getText().matches("[0-9]")
+                                        ? null : change
+                )
+        );
     }
 
+    /**
+     * Retourne la valeur de la zone de text
+     */
     String getValue() {
         return field.getText();
     }

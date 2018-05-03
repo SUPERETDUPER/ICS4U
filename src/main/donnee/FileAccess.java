@@ -33,20 +33,18 @@ public class FileAccess {
     private final File file = new File(PATHNAME);
 
     public BaseDeDonnees read() {
-        File file;
+        File fichierAUtiliser = file;
 
-        if (this.file.exists()){
-            file = this.file;
-        } else {
-            file = new File(PATHNAME_DEFAULT);
-            if (!file.exists()) return new BaseDeDonnees();
+        if (!fichierAUtiliser.exists()) {
+            fichierAUtiliser = new File(PATHNAME_DEFAULT);
+            if (!fichierAUtiliser.exists()) return new BaseDeDonnees();
         }
 
         try {
-            return new BaseDeDonnees(new DataInputStream(new FileInputStream(file)));
+            return new BaseDeDonnees(new DataInputStream(new FileInputStream(fichierAUtiliser)));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Impossible de charger le fichier");
+            return new BaseDeDonnees();
         }
     }
 
@@ -60,7 +58,10 @@ public class FileAccess {
         }
 
         try {
-            donnees.writeObject(new DataOutputStream(new FileOutputStream(file)));
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+            donnees.writeObject(outputStream);
+            outputStream.flush();
+            outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

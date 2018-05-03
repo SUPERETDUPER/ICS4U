@@ -28,18 +28,35 @@ import javafx.beans.NamedArg;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
+/**
+ * Une zone de text qui n'accepte que des chiffres
+ */
 public class PointField extends Field {
 
-    private final TextFormatter<Integer> textFormatter;
+    /**
+     * Définit un formatteur qui :
+     * 1. Converti le text en entier
+     * 2. A une valeur par défaut de zéro
+     * 3. N'accepte que les chiffres
+     */
+    private final TextFormatter<Integer> textFormatter = new TextFormatter<>(
+            new IntegerStringConverter(),
+            0,
+
+            //Si c'est un ajout qui n'est pas entre 0 et 9 retourner null
+            change -> change.isAdded() && change.getText().matches("[^0-9]") ? null : change
+    );
+    ;
 
     public PointField(@NamedArg("nom") String nom) {
         super(nom);
 
-        textFormatter = new TextFormatter<>(new IntegerStringConverter());
-        textFormatter.setValue(0);
         field.setTextFormatter(textFormatter);
     }
 
+    /**
+     * Retourne le nombre de points à l'aide du convertisseur de text en entier
+     */
     int getValue() {
         return textFormatter.getValue();
     }
