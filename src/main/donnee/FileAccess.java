@@ -24,6 +24,7 @@
 
 package main.donnee;
 
+
 import java.io.*;
 
 /**
@@ -50,16 +51,19 @@ public class FileAccess {
     public BaseDeDonnees read() {
         File fichierAUtiliser = fichierDonneesLocale;
 
+        //Si le fichier n'existe pas utiliser le défaut
         if (!fichierAUtiliser.exists()) {
             fichierAUtiliser = new File(PATHNAME_DEFAULT);
+
+            //Si le défaut n'existe pas construire une base de données vide
             if (!fichierAUtiliser.exists()) return new BaseDeDonnees();
         }
 
+        //Si il y a un problème dans le fichier lancer une erreur
         try {
             return new BaseDeDonnees(new DataInputStream(new FileInputStream(fichierAUtiliser)));
         } catch (IOException e) {
-            e.printStackTrace();
-            return new BaseDeDonnees();
+            throw new RuntimeException(e.toString());
         }
     }
 
@@ -75,7 +79,6 @@ public class FileAccess {
                 fichierDonneesLocale.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }
 
