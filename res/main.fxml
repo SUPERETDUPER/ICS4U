@@ -35,7 +35,7 @@
 <?import javafx.scene.text.*?>
 <?import java.lang.Integer?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="20">
+      xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="20" fillWidth="false">
     <fx:define>
         <Integer fx:id="HBOX_SPACING" fx:value="30"/>
     </fx:define>
@@ -75,5 +75,11 @@
 
     <Separator/>
 
-    <Text fx:id="txtResultat"/>
+    <StackPane minHeight="100">
+        <Text fx:id="txtResultat" textAlignment="CENTER" lineSpacing="20">
+            <font>
+                <Font size="20"/>
+            </font>
+        </Text>
+    </StackPane>
 </VBox>

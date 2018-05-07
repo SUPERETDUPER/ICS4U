@@ -42,7 +42,7 @@ class MainController {
     @FXML
     private TextField fieldReference;
     @FXML
-    private Text textResultat;
+    private Text txtResultat;
     @FXML
     private Button bouttonTrouver;
 
@@ -90,5 +90,11 @@ class MainController {
     private void handleTrouver() {
         Resultat resultat = rechercheur.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
         System.out.println(resultat);
+
+        if (resultat.isSuccess()) {
+            txtResultat.setText("Livre trouvé!\nNom: " + resultat.getLivre().getNom());
+        } else {
+            txtResultat.setText("Ce numéro de référence n'existe pas");
+        }
     }
 }
