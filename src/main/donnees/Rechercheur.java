@@ -42,6 +42,9 @@ public class Rechercheur {
             case LINEAIRE:
                 livreResultat = rechercheLineaire(reference);
                 break;
+            case BINAIRE_RECURSIVE:
+                livreResultat = rechercheBinaireRecursive(reference);
+                break;
             case BINAIRE:
                 livreResultat = rechercheBinaire(reference);
                 break;
@@ -63,16 +66,35 @@ public class Rechercheur {
     }
 
     private Livre rechercheBinaire(int referenceATrouver) {
-        return rechercheBinaire(0, baseDeDonnees.getSize(), referenceATrouver);
+        int minimum = 0;
+        int maximum = baseDeDonnees.getSize() - 1;
+
+        while (true) {
+            if (minimum >= maximum) return null;
+
+            int milieu = (int) Math.floor((minimum + maximum) / 2F);
+            Livre livre = baseDeDonnees.getLivre(milieu);
+//            System.out.println(minimum + " " + milieu + " " + maximum + " " + livre.getReference());
+            if (livre.getReference() == referenceATrouver) return livre;
+            else if (referenceATrouver > livre.getReference()) minimum = milieu + 1;
+            else maximum = milieu - 1;
+        }
     }
 
-    private Livre rechercheBinaire(int minimum, int maximum, int referenceATrouver) {
-        int milieu = (minimum + maximum) / 2;
+    private Livre rechercheBinaireRecursive(int referenceATrouver) {
+        return rechercheBinaireRecursive(0, baseDeDonnees.getSize() -1, referenceATrouver);
+    }
 
-        int referenceMilieu = baseDeDonnees.getLivre(milieu).getReference();
-        if (referenceMilieu == referenceATrouver) return baseDeDonnees.getLivre(milieu);
-        else if (minimum == maximum) return null;
-        else if (referenceATrouver > referenceMilieu) return rechercheBinaire(milieu + 1, maximum, referenceATrouver);
-        else return rechercheBinaire(minimum, milieu - 1, referenceATrouver);
+    private Livre rechercheBinaireRecursive(int minimum, int maximum, int referenceATrouver) {
+        if (minimum >= maximum) return null;
+
+        int milieu = (int) Math.floor((minimum + maximum) / 2F);
+
+        Livre livre = baseDeDonnees.getLivre(milieu);
+//        System.out.println(minimum + " " + milieu + " " + maximum + " " + livre.getReference());
+        if (livre.getReference() == referenceATrouver) return livre;
+        else if (referenceATrouver > livre.getReference())
+            return rechercheBinaireRecursive(milieu + 1, maximum, referenceATrouver);
+        else return rechercheBinaireRecursive(minimum, milieu - 1, referenceATrouver);
     }
 }

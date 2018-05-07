@@ -32,6 +32,13 @@ public enum MethodeDeRecherche {
         }
     },
 
+    BINAIRE_RECURSIVE {
+        @Override
+        public String toString() {
+            return "Recherche binaire recursive";
+        }
+    },
+
     BINAIRE {
         @Override
         public String toString() {
