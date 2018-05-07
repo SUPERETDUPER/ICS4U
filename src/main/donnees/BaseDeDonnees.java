@@ -22,11 +22,27 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnees;
 
-public class Rechercheur {
-    public Resultat rechercher(MethodeDeRecherche methode, int reference) {
-        //TODO
-        return null;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BaseDeDonnees {
+    private final List<Livre> livres;
+
+    public BaseDeDonnees(List<Livre> livres) {
+        this.livres = livres;
+    }
+
+    public BaseDeDonnees() {
+        livres = new ArrayList<>();
+    }
+
+    public int getSize() {
+        return livres.size();
+    }
+
+    public Livre getLivre(int index) {
+        return livres.get(index);
     }
 }

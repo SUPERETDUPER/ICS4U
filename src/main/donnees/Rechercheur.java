@@ -22,37 +22,36 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnees;
 
-import main.donnees.Livre;
+import main.MethodeDeRecherche;
+import main.Resultat;
+import org.jetbrains.annotations.Nullable;
 
-public class Resultat {
-    private final Livre livre;
-    private final boolean isSuccess;
-    private final String message;
+public class Rechercheur {
+    private BaseDeDonnees baseDeDonnees;
 
-    public Resultat(Livre livre, boolean isSuccess, String message) {
-        this.livre = livre;
-        this.isSuccess = isSuccess;
-        this.message = message;
+    public Rechercheur(BaseDeDonnees baseDeDonnees) {
+        this.baseDeDonnees = baseDeDonnees;
     }
 
-    public Livre getLivre() {
-        return livre;
+    public Resultat rechercher(MethodeDeRecherche methode, int reference) {
+        switch (methode) {
+            case LINEAIRE:
+                Livre livreResultat = rechercheLineaire(reference);
+                return new Resultat(livreResultat, livreResultat != null, null);
+            default:
+                throw new RuntimeException("Méthode de recherche inconnue");
+        }
     }
 
-    public String getMessage() {
-        return message;
-    }
+    @Nullable
+    private Livre rechercheLineaire(int referenceATrouver) {
+        for (int i = 0; i < baseDeDonnees.getSize(); i++) {
+            Livre livre = baseDeDonnees.getLivre(i);
+            if (livre.getReference() == referenceATrouver) return livre;
+        }
 
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    @Override
-    public String toString() {
-        return "Livre: " + livre +
-                "\nSuccess: " + isSuccess +
-                "\nMessage: " + message;
+        return null;
     }
 }

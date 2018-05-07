@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
+import main.donnees.Rechercheur;
 
 /**
  * Controlle toute l'interface graphique
@@ -88,6 +89,6 @@ class MainController {
     @FXML
     private void handleTrouver() {
         Resultat resultat = rechercheur.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
-        //TODO
+        System.out.println(resultat);
     }
 }

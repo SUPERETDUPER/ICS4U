@@ -22,37 +22,28 @@
  * SOFTWARE.
  */
 
-package main;
+package main.donnees;
 
-import main.donnees.Livre;
+public class Livre {
+    private final int reference;
+    private final String nom;
 
-public class Resultat {
-    private final Livre livre;
-    private final boolean isSuccess;
-    private final String message;
-
-    public Resultat(Livre livre, boolean isSuccess, String message) {
-        this.livre = livre;
-        this.isSuccess = isSuccess;
-        this.message = message;
+    public Livre(int reference, String nom) {
+        this.reference = reference;
+        this.nom = nom;
     }
 
-    public Livre getLivre() {
-        return livre;
+    public int getReference() {
+        return reference;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
+    public String getNom() {
+        return nom;
     }
 
     @Override
     public String toString() {
-        return "Livre: " + livre +
-                "\nSuccess: " + isSuccess +
-                "\nMessage: " + message;
+        return "Reference: " + reference +
+                "\nNom: " + nom;
     }
 }

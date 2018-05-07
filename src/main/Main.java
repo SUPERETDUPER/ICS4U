@@ -28,8 +28,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.donnees.BaseDeDonnees;
+import main.donnees.Livre;
+import main.donnees.Rechercheur;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Main extends Application {
+    private final static List<Livre> livres = Arrays.asList(
+            new Livre(2, "Pinocchio"),
+            new Livre(5, "Maria Chapdelaine")
+    );
 
     public static void main(String[] args) {
         launch(args);
@@ -38,7 +48,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setController(new MainController(new Rechercheur()));
+        fxmlLoader.setController(new MainController(new Rechercheur(new BaseDeDonnees(livres))));
 
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.show();
