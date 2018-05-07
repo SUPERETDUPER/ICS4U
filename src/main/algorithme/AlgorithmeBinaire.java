@@ -22,22 +22,38 @@
  * SOFTWARE.
  */
 
-package main.donnees;
+package main.algorithme;
 
-public class MethodeLineaire implements Methode {
-    BaseDeDonnees baseDeDonnees;
+import main.donnees.BaseDeDonnees;
+import main.donnees.Livre;
 
-    public MethodeLineaire(BaseDeDonnees baseDeDonnees) {
+import java.util.function.Function;
+
+public class AlgorithmeBinaire implements Function<Integer, Livre> {
+    private final BaseDeDonnees baseDeDonnees;
+
+    AlgorithmeBinaire(BaseDeDonnees baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 
     @Override
-    public Livre rechercher(int numeroDeReference) {
-        for (int i = 0; i < baseDeDonnees.getSize(); i++) {
-            Livre livre = baseDeDonnees.getLivre(i);
-            if (livre.getReference() == numeroDeReference) return livre;
-        }
+    public Livre apply(Integer numeroDeReference) {
+        int minimum = 0;
+        int maximum = baseDeDonnees.getSize() - 1;
 
-        return null;
+        while (true) {
+            if (minimum >= maximum) return null;
+
+            int milieu = (int) Math.floor((minimum + maximum) / 2F);
+            Livre livre = baseDeDonnees.getLivre(milieu);
+            if (livre.getReference() == numeroDeReference) return livre;
+            else if (numeroDeReference > livre.getReference()) minimum = milieu + 1;
+            else maximum = milieu - 1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Algorithm binaire non-recursif";
     }
 }

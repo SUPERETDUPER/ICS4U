@@ -24,7 +24,6 @@
 
 package main;
 
-import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -32,15 +31,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
-import main.donnees.ListeDeMethodes;
-import main.donnees.Methode;
+import main.algorithme.CollectionAlgorithmes;
+import main.donnees.Livre;
+
+import java.util.function.Function;
 
 /**
  * Controlle toute l'interface graphique
  */
 class MainController {
     @FXML
-    private ChoiceBox<MethodeDeRecherche> choiceBoxOptionsRecherche;
+    private ChoiceBox<Function<Integer, Livre>> choiceBoxOptionsRecherche;
     @FXML
     private TextField fieldReference;
     @FXML
@@ -51,7 +52,7 @@ class MainController {
     /**
      * Ce qui permet d'acceder aux données et d'obtenir des résultats
      */
-    private final ListeDeMethodes listeDeMethodes;
+    private final CollectionAlgorithmes collectionAlgorithmes;
 
     /**
      * Le formatter pour l'entrée de texte de la référence
@@ -62,19 +63,16 @@ class MainController {
             change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null
     );
 
-    MainController(ListeDeMethodes listeDeMethodes) {
-        this.listeDeMethodes = listeDeMethodes;
+    MainController(CollectionAlgorithmes collectionAlgorithmes) {
+        this.collectionAlgorithmes = collectionAlgorithmes;
     }
 
     @FXML
     private void initialize() {
         //Ajouter les options à la liste d'options
-        choiceBoxOptionsRecherche.setItems(new SimpleListProperty<Methode>(listeDeMethodes.getMethodes()));
-        for (MethodeDeRecherche methodeDeRecherche : MethodeDeRecherche.values()) {
-            choiceBoxOptionsRecherche.getItems().add(methodeDeRecherche);
-        }
+        choiceBoxOptionsRecherche.setItems(collectionAlgorithmes.getAlgorithmes());
 
-        choiceBoxOptionsRecherche.getSelectionModel().select(MethodeDeRecherche.BINAIRE_RECURSIVE);
+        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.methodeParDefaut());
 
         //Attacher le formatter
         fieldReference.setTextFormatter(textFormatter);
@@ -93,10 +91,10 @@ class MainController {
      */
     @FXML
     private void handleTrouver() {
-        Resultat resultat = listeDeMethodes.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
+        Livre livre = choiceBoxOptionsRecherche.getValue().apply(textFormatter.getValue());
 
-        if (resultat.isSuccess()) {
-            txtResultat.setText("Livre trouvé!\nNom: " + resultat.getLivre().getNom());
+        if (livre != null) {
+            txtResultat.setText("Livre trouvé!\nNom: " + livre.getNom());
         } else {
             txtResultat.setText("Ce numéro de référence n'existe pas");
         }

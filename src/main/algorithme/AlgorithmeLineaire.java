@@ -22,22 +22,34 @@
  * SOFTWARE.
  */
 
-package main.donnees;
+package main.algorithme;
 
-import java.util.List;
+import main.donnees.BaseDeDonnees;
+import main.donnees.Livre;
+import org.jetbrains.annotations.Nullable;
 
-public class BaseDeDonnees {
-    private final List<Livre> livres;
+import java.util.function.Function;
 
-    public BaseDeDonnees(List<Livre> livres) {
-        this.livres = livres;
+public class AlgorithmeLineaire implements Function<Integer, Livre> {
+    private final BaseDeDonnees baseDeDonnees;
+
+    AlgorithmeLineaire(BaseDeDonnees baseDeDonnees) {
+        this.baseDeDonnees = baseDeDonnees;
     }
 
-    public int getSize() {
-        return livres.size();
+    @Nullable
+    @Override
+    public Livre apply(Integer numeroDeReference) {
+        for (int i = 0; i < baseDeDonnees.getSize(); i++) {
+            Livre livre = baseDeDonnees.getLivre(i);
+            if (livre.getReference() == numeroDeReference) return livre;
+        }
+
+        return null;
     }
 
-    public Livre getLivre(int index) {
-        return livres.get(index);
+    @Override
+    public String toString() {
+        return "Algorithm linéaire";
     }
 }

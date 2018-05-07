@@ -22,8 +22,33 @@
  * SOFTWARE.
  */
 
-package main.donnees;
+package main.algorithme;
 
-public interface Methode {
-    Livre rechercher(int numeroDeReference);
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import main.donnees.BaseDeDonnees;
+import main.donnees.Livre;
+
+import java.util.function.Function;
+
+public class CollectionAlgorithmes {
+    private final AlgorithmeBinaireRecursif algorithmeDefaut;
+    private final ObservableList<Function<Integer, Livre>> algorithmes = FXCollections.observableArrayList();
+
+    public CollectionAlgorithmes(BaseDeDonnees baseDeDonnees) {
+        algorithmeDefaut = new AlgorithmeBinaireRecursif(baseDeDonnees);
+        algorithmes.addAll(
+                algorithmeDefaut,
+                new AlgorithmeLineaire(baseDeDonnees),
+                new AlgorithmeBinaire(baseDeDonnees)
+        );
+    }
+
+    public ObservableList<Function<Integer, Livre>> getAlgorithmes() {
+        return algorithmes;
+    }
+
+    public Function<Integer, Livre> methodeParDefaut() {
+        return algorithmeDefaut;
+    }
 }
