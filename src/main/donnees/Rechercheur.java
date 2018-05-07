@@ -36,13 +36,20 @@ public class Rechercheur {
     }
 
     public Resultat rechercher(MethodeDeRecherche methode, int reference) {
+        Livre livreResultat;
+
         switch (methode) {
             case LINEAIRE:
-                Livre livreResultat = rechercheLineaire(reference);
-                return new Resultat(livreResultat, livreResultat != null, null);
+                livreResultat = rechercheLineaire(reference);
+                break;
+            case BINAIRE:
+                livreResultat = rechercheBinaire(reference);
+                break;
             default:
                 throw new RuntimeException("Méthode de recherche inconnue");
         }
+
+        return new Resultat(livreResultat, livreResultat != null, null);
     }
 
     @Nullable
@@ -53,5 +60,19 @@ public class Rechercheur {
         }
 
         return null;
+    }
+
+    private Livre rechercheBinaire(int referenceATrouver) {
+        return rechercheBinaire(0, baseDeDonnees.getSize(), referenceATrouver);
+    }
+
+    private Livre rechercheBinaire(int minimum, int maximum, int referenceATrouver) {
+        int milieu = (minimum + maximum) / 2;
+
+        int referenceMilieu = baseDeDonnees.getLivre(milieu).getReference();
+        if (referenceMilieu == referenceATrouver) return baseDeDonnees.getLivre(milieu);
+        else if (minimum == maximum) return null;
+        else if (referenceATrouver > referenceMilieu) return rechercheBinaire(milieu + 1, maximum, referenceATrouver);
+        else return rechercheBinaire(minimum, milieu - 1, referenceATrouver);
     }
 }

@@ -89,7 +89,6 @@ class MainController {
     @FXML
     private void handleTrouver() {
         Resultat resultat = rechercheur.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
-        System.out.println(resultat);
 
         if (resultat.isSuccess()) {
             txtResultat.setText("Livre trouvé!\nNom: " + resultat.getLivre().getNom());
