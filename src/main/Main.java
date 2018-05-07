@@ -38,7 +38,19 @@ import java.util.List;
 public class Main extends Application {
     private final static List<Livre> livres = Arrays.asList(
             new Livre(2, "Pinocchio"),
-            new Livre(5, "Maria Chapdelaine")
+            new Livre(5, "Maria Chapdelaine"),
+            new Livre(7, "L'Homme Invisible"),
+            new Livre(10, "Contes fantastiques"),
+            new Livre(13, "L'Assassin habite au 21"),
+            new Livre(17, "L'agent secret"),
+            new Livre(22, "Robinson Crusoe"),
+            new Livre(25,"Les aventures d'Alice au pays des merveilles"),
+            new Livre(29,"Voyage au centre de la terre"),
+            new Livre(30,"Famille suisse Robinson"),
+            new Livre(31,"Trois mousquetaires"),
+            new Livre(35,"Aurélia"),
+            new Livre(36,"Les deux orphelines"),
+            new Livre(40,"Le joueur")
     );
 
     public static void main(String[] args) {
