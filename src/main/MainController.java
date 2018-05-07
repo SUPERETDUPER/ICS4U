@@ -71,6 +71,8 @@ class MainController {
             choiceBoxOptionsRecherche.getItems().add(methodeDeRecherche);
         }
 
+        choiceBoxOptionsRecherche.getSelectionModel().select(MethodeDeRecherche.BINAIRE_RECURSIVE);
+
         //Attacher le formatter
         fieldReference.setTextFormatter(textFormatter);
 
