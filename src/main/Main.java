@@ -60,7 +60,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setController(new MainController(new CollectionAlgorithmes(new BaseDeDonnees(livres))));
+        fxmlLoader.setController(new MainController(new CollectionAlgorithmes(new BaseDeDonnees<>(livres))));
 
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.show();

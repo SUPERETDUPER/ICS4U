@@ -31,9 +31,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
 
 public class AlgorithmeLineaire implements Function<Integer, Livre> {
-    private final BaseDeDonnees baseDeDonnees;
+    private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeLineaire(BaseDeDonnees baseDeDonnees) {
+    AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 

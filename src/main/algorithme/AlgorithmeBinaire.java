@@ -30,9 +30,9 @@ import main.donnees.Livre;
 import java.util.function.Function;
 
 public class AlgorithmeBinaire implements Function<Integer, Livre> {
-    private final BaseDeDonnees baseDeDonnees;
+    private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeBinaire(BaseDeDonnees baseDeDonnees) {
+    AlgorithmeBinaire(BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 

@@ -26,18 +26,18 @@ package main.donnees;
 
 import java.util.List;
 
-public class BaseDeDonnees {
-    private final List<Livre> livres;
+public class BaseDeDonnees<T> {
+    private final List<T> donnees;
 
-    public BaseDeDonnees(List<Livre> livres) {
-        this.livres = livres;
+    public BaseDeDonnees(List<T> donnees) {
+        this.donnees = donnees;
     }
 
     public int getSize() {
-        return livres.size();
+        return donnees.size();
     }
 
-    public Livre getLivre(int index) {
-        return livres.get(index);
+    public T getLivre(int index) {
+        return donnees.get(index);
     }
 }

@@ -35,7 +35,7 @@ public class CollectionAlgorithmes {
     private final AlgorithmeBinaireRecursif algorithmeDefaut;
     private final ObservableList<Function<Integer, Livre>> algorithmes = FXCollections.observableArrayList();
 
-    public CollectionAlgorithmes(BaseDeDonnees baseDeDonnees) {
+    public CollectionAlgorithmes(BaseDeDonnees<Livre> baseDeDonnees) {
         algorithmeDefaut = new AlgorithmeBinaireRecursif(baseDeDonnees);
         algorithmes.addAll(
                 algorithmeDefaut,
