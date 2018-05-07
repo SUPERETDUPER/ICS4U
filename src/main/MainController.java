@@ -24,6 +24,7 @@
 
 package main;
 
+import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -31,7 +32,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
-import main.donnees.Rechercheur;
+import main.donnees.ListeDeMethodes;
+import main.donnees.Methode;
 
 /**
  * Controlle toute l'interface graphique
@@ -49,7 +51,7 @@ class MainController {
     /**
      * Ce qui permet d'acceder aux données et d'obtenir des résultats
      */
-    private final Rechercheur rechercheur;
+    private final ListeDeMethodes listeDeMethodes;
 
     /**
      * Le formatter pour l'entrée de texte de la référence
@@ -60,13 +62,14 @@ class MainController {
             change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null
     );
 
-    MainController(Rechercheur rechercheur) {
-        this.rechercheur = rechercheur;
+    MainController(ListeDeMethodes listeDeMethodes) {
+        this.listeDeMethodes = listeDeMethodes;
     }
 
     @FXML
     private void initialize() {
         //Ajouter les options à la liste d'options
+        choiceBoxOptionsRecherche.setItems(new SimpleListProperty<Methode>(listeDeMethodes.getMethodes()));
         for (MethodeDeRecherche methodeDeRecherche : MethodeDeRecherche.values()) {
             choiceBoxOptionsRecherche.getItems().add(methodeDeRecherche);
         }
@@ -90,7 +93,7 @@ class MainController {
      */
     @FXML
     private void handleTrouver() {
-        Resultat resultat = rechercheur.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
+        Resultat resultat = listeDeMethodes.rechercher(choiceBoxOptionsRecherche.getValue(), textFormatter.getValue());
 
         if (resultat.isSuccess()) {
             txtResultat.setText("Livre trouvé!\nNom: " + resultat.getLivre().getNom());

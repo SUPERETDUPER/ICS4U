@@ -30,7 +30,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
-import main.donnees.Rechercheur;
+import main.donnees.ListeDeMethodes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +60,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-        fxmlLoader.setController(new MainController(new Rechercheur(new BaseDeDonnees(livres))));
+        fxmlLoader.setController(new MainController(new ListeDeMethodes(new BaseDeDonnees(livres))));
 
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.show();
