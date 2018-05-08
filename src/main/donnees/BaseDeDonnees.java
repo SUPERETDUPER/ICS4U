@@ -24,9 +24,12 @@
 
 package main.donnees;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
 import java.util.List;
 
-public class BaseDeDonnees<T> {
+public class BaseDeDonnees<T> implements Iterable<T>{
     private final List<T> donnees;
 
     public BaseDeDonnees(List<T> donnees) {
@@ -39,5 +42,11 @@ public class BaseDeDonnees<T> {
 
     public T getLivre(int index) {
         return donnees.get(index);
+    }
+
+    @NotNull
+    @Override
+    public Iterator<T> iterator() {
+        return donnees.iterator();
     }
 }

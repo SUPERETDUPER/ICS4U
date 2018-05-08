@@ -51,7 +51,7 @@
     </Text>
 
     <HBox spacing="${HBOX_SPACING}" alignment="CENTER">
-        <Text text="Méthode de recherche"/>
+        <Text text="Algorithme de recherche"/>
         <Region HBox.hgrow="SOMETIMES"/>
         <ChoiceBox fx:id="choiceBoxOptionsRecherche"/>
     </HBox>

@@ -40,8 +40,7 @@ class AlgorithmeLineaire implements Function<Integer, Livre> {
     @Nullable
     @Override
     public Livre apply(Integer numeroDeReference) {
-        for (int i = 0; i < baseDeDonnees.getSize(); i++) {
-            Livre livre = baseDeDonnees.getLivre(i);
+        for (Livre livre : baseDeDonnees) {
             if (livre.getReference() == numeroDeReference) return livre;
         }
 

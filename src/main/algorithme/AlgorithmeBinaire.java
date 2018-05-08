@@ -38,17 +38,21 @@ class AlgorithmeBinaire implements Function<Integer, Livre> {
 
     @Override
     public Livre apply(Integer numeroDeReference) {
-        int minimum = 0;
-        int maximum = baseDeDonnees.getSize() - 1;
+        int min = 0;
+        int max = baseDeDonnees.getSize() - 1;
 
         while (true) {
-            if (minimum >= maximum) return null;
+            if (!(min <= max)) return null; //Si Le minimum n'est plus plus petit que le maximum alors l'élément n'existe pas
 
-            int milieu =(minimum + maximum) / 2;
-            Livre livre = baseDeDonnees.getLivre(milieu);
-            if (livre.getReference() == numeroDeReference) return livre;
-            else if (numeroDeReference > livre.getReference()) minimum = milieu + 1;
-            else maximum = milieu - 1;
+            int milieu =(min + max) / 2;
+            Livre livreAuMilieu = baseDeDonnees.getLivre(milieu);
+
+            //Si le numéro de référence du livre du milieu est celui que l'on recherche nous le retournons
+            if (livreAuMilieu.getReference() == numeroDeReference) return livreAuMilieu;
+
+            //Sinon nous recommoncons avec un different max/min
+            if (numeroDeReference > livreAuMilieu.getReference()) min = milieu + 1;
+            else max = milieu - 1;
         }
     }
 

@@ -37,23 +37,28 @@ class AlgorithmeBinaireRecursif implements Function<Integer, Livre> {
         this.baseDeDonnees = baseDeDonnees;
     }
 
-    @Nullable
-    private Livre rechercher(int minimum, int maximum, int numeroDeReference) {
-        if (minimum >= maximum) return null;
-
-        int milieu = (int) Math.floor((minimum + maximum) / 2F);
-
-        Livre livre = baseDeDonnees.getLivre(milieu);
-//        System.out.println(minimum + " " + milieu + " " + maximum + " " + livre.getReference());
-        if (livre.getReference() == numeroDeReference) return livre;
-        else if (numeroDeReference > livre.getReference())
-            return rechercher(milieu + 1, maximum, numeroDeReference);
-        else return rechercher(minimum, milieu - 1, numeroDeReference);
-    }
-
     @Override
     public Livre apply(Integer numeroDeReference) {
         return rechercher(0, baseDeDonnees.getSize() - 1, numeroDeReference);
+    }
+
+    @Nullable
+    private Livre rechercher(int min, int max, int numeroDeReference) {
+        if (min <= max) {
+            int milieu = (min + max) / 2;
+
+            Livre livre = baseDeDonnees.getLivre(milieu);
+
+            //Si le numéro de référence du livre du milieu est celui que l'on recherche nous le retournons
+            if (livre.getReference() == numeroDeReference) return livre;
+
+            //Sinon nous retournons le resultat de l'algoritme avec un différent min/max
+            if (numeroDeReference > livre.getReference()) return rechercher(milieu + 1, max, numeroDeReference);
+            return rechercher(min, milieu - 1, numeroDeReference);
+        }
+
+        //Si le minimum n'est plus plus petit que le max le livre n'existe pas
+        return null;
     }
 
     @Override
