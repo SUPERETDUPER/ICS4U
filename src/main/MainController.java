@@ -40,6 +40,7 @@ import java.util.function.Function;
  * Controlle toute l'interface graphique
  */
 class MainController {
+    //DE FXML
     @FXML
     private ChoiceBox<Function<Integer, Livre>> choiceBoxOptionsRecherche;
     @FXML
@@ -55,7 +56,8 @@ class MainController {
     private final CollectionAlgorithmes collectionAlgorithmes;
 
     /**
-     * Le formatter pour l'entrée de texte de la référence
+     * Le formatter pour l'entrée de texte de la référence.
+     * Empêche les lettres autre que des chiffres
      */
     private final TextFormatter<Integer> textFormatter = new TextFormatter<>(
             new IntegerStringConverter(),
