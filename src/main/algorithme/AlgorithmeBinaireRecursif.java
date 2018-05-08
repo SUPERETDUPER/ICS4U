@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class AlgorithmeBinaireRecursif implements Function<Integer, Livre> {
+class AlgorithmeBinaireRecursif implements Function<Integer, Livre> {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
     AlgorithmeBinaireRecursif(BaseDeDonnees<Livre> baseDeDonnees) {

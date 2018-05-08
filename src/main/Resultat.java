@@ -26,7 +26,7 @@ package main;
 
 import main.donnees.Livre;
 
-public class Resultat {
+class Resultat {
     private final Livre livre;
     private final boolean isSuccess;
     private final String message;

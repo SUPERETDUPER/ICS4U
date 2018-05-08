@@ -24,7 +24,7 @@
 
 /**
  * Ce package contient tous les différents algorithmes utilisés pour recherche des livres dans le bases de données.
- * Chaque algorithm implement {@link java.util.function.Function< java.lang.Integer, main.donnees.Livre >}.
+ * Chaque algorithm implement {@link java.util.function.Function}.
  * C'est cette méthode qui sera appelé pour recherche un livre.
  * <p>
  * Tous les algorithmes sont créés et ajoutés à une liste dans {@link main.algorithme.CollectionAlgorithmes}.

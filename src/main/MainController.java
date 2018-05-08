@@ -57,7 +57,7 @@ class MainController {
     /**
      * Le formatter pour l'entrée de texte de la référence
      */
-    private TextFormatter<Integer> textFormatter = new TextFormatter<>(
+    private final TextFormatter<Integer> textFormatter = new TextFormatter<>(
             new IntegerStringConverter(),
             null,
             change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null

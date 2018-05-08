@@ -29,7 +29,7 @@ import main.donnees.Livre;
 
 import java.util.function.Function;
 
-public class AlgorithmeBinaire implements Function<Integer, Livre> {
+class AlgorithmeBinaire implements Function<Integer, Livre> {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
     AlgorithmeBinaire(BaseDeDonnees<Livre> baseDeDonnees) {
@@ -44,7 +44,7 @@ public class AlgorithmeBinaire implements Function<Integer, Livre> {
         while (true) {
             if (minimum >= maximum) return null;
 
-            int milieu = (int) Math.floor((minimum + maximum) / 2F);
+            int milieu =(minimum + maximum) / 2;
             Livre livre = baseDeDonnees.getLivre(milieu);
             if (livre.getReference() == numeroDeReference) return livre;
             else if (numeroDeReference > livre.getReference()) minimum = milieu + 1;

@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class AlgorithmeLineaire implements Function<Integer, Livre> {
+class AlgorithmeLineaire implements Function<Integer, Livre> {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
     AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
