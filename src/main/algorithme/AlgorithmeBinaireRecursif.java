@@ -26,17 +26,23 @@ package main.algorithme;
 
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * Algorithme de recherche binaire recursif
+ */
 class AlgorithmeBinaireRecursif implements Function<Integer, Livre> {
+    @NotNull
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeBinaireRecursif(BaseDeDonnees<Livre> baseDeDonnees) {
+    AlgorithmeBinaireRecursif(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 
+    @Nullable
     @Override
     public Livre apply(Integer numeroDeReference) {
         return rechercher(0, baseDeDonnees.getSize() - 1, numeroDeReference);
@@ -57,10 +63,11 @@ class AlgorithmeBinaireRecursif implements Function<Integer, Livre> {
             return rechercher(min, milieu - 1, numeroDeReference);
         }
 
-        //Si le minimum n'est plus plus petit que le max le livre n'existe pas
+        //Si le minimum n'est pas plus petit que le max le livre n'existe pas
         return null;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Algorithm binaire recursif";

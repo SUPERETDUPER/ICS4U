@@ -36,6 +36,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main extends Application {
+    /**
+     * La liste de livres à inclure dans la base de données
+     */
     private final static List<Livre> livres = Arrays.asList(
             new Livre(2, "Pinocchio"),
             new Livre(5, "Maria Chapdelaine"),

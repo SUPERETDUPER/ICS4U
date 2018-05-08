@@ -26,24 +26,32 @@ package main.algorithme;
 
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * Un algorithme de recherche binaire non-recursif.
+ */
 class AlgorithmeBinaire implements Function<Integer, Livre> {
+    @NotNull
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeBinaire(BaseDeDonnees<Livre> baseDeDonnees) {
+    /**
+     * @param baseDeDonnees la base de données à utiliser
+     */
+    AlgorithmeBinaire(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 
+    @Nullable
     @Override
     public Livre apply(Integer numeroDeReference) {
         int min = 0;
         int max = baseDeDonnees.getSize() - 1;
 
-        while (true) {
-            if (!(min <= max)) return null; //Si Le minimum n'est plus plus petit que le maximum alors l'élément n'existe pas
-
+        while (min <= max) {
             int milieu =(min + max) / 2;
             Livre livreAuMilieu = baseDeDonnees.getLivre(milieu);
 
@@ -54,8 +62,11 @@ class AlgorithmeBinaire implements Function<Integer, Livre> {
             if (numeroDeReference > livreAuMilieu.getReference()) min = milieu + 1;
             else max = milieu - 1;
         }
+
+        return null; //Si Le minimum n'est pas plus petit que le maximum alors l'élément n'existe pas
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Algorithm binaire non-recursif";

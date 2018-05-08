@@ -29,10 +29,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Une base de données, contient une liste d'objets
+ * @param <T> le type d'objet dans la base de donnée
+ */
 public class BaseDeDonnees<T> implements Iterable<T>{
+    @NotNull
     private final List<T> donnees;
 
-    public BaseDeDonnees(List<T> donnees) {
+    /**
+     * @param donnees la liste de données initiales
+     */
+    public BaseDeDonnees(@NotNull List<T> donnees) {
         this.donnees = donnees;
     }
 

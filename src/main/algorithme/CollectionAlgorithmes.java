@@ -31,6 +31,10 @@ import main.donnees.Livre;
 
 import java.util.function.Function;
 
+/**
+ * La collections de tous les algorithms possible.
+ * Contient une liste d'algorithmes
+ */
 public class CollectionAlgorithmes {
     private final AlgorithmeBinaireRecursif algorithmeDefaut;
     private final ObservableList<Function<Integer, Livre>> algorithmes = FXCollections.observableArrayList();
@@ -48,7 +52,7 @@ public class CollectionAlgorithmes {
         return algorithmes;
     }
 
-    public Function<Integer, Livre> methodeParDefaut() {
+    public Function<Integer, Livre> getAlgorithmeDefaut() {
         return algorithmeDefaut;
     }
 }

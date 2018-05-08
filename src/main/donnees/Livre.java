@@ -24,11 +24,18 @@
 
 package main.donnees;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Un livre
+ * Contient un nom et un numéro de référence
+ */
 public class Livre {
     private final int reference;
+    @NotNull
     private final String nom;
 
-    public Livre(int reference, String nom) {
+    public Livre(int reference, @NotNull String nom) {
         this.reference = reference;
         this.nom = nom;
     }
@@ -37,10 +44,12 @@ public class Livre {
         return reference;
     }
 
+    @NotNull
     public String getNom() {
         return nom;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Reference: " + reference +

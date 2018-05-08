@@ -26,6 +26,7 @@ package main;
 
 import main.donnees.Livre;
 
+@Deprecated
 class Resultat {
     private final Livre livre;
     private final boolean isSuccess;

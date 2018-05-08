@@ -72,7 +72,7 @@ class MainController {
         //Ajouter les options à la liste d'options
         choiceBoxOptionsRecherche.setItems(collectionAlgorithmes.getAlgorithmes());
 
-        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.methodeParDefaut());
+        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.getAlgorithmeDefaut());
 
         //Attacher le formatter
         fieldReference.setTextFormatter(textFormatter);

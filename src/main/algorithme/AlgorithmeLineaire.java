@@ -30,6 +30,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
+/**
+ * Algorithme de recherche linéaire. Vérifie tous les livres dans la liste pour le numéro de référence
+ */
 class AlgorithmeLineaire implements Function<Integer, Livre> {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
