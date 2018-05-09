@@ -53,35 +53,17 @@
     <HBox spacing="${HBOX_SPACING}" alignment="CENTER">
         <Text text="Algorithme de recherche"/>
         <ChoiceBox fx:id="choiceBoxOptionsRecherche"/>
-    </HBox>
-
-    <HBox spacing="20" alignment="CENTER">
-        <padding>
-            <Insets topRightBottomLeft="10"/>
-        </padding>
-        <border>
-            <Border>
-                <strokes>
-                    <BorderStroke>
-                        <topStyle>
-                            <BorderStrokeStyle fx:constant="SOLID"/>
-                        </topStyle>
-                        <widths>
-                            <BorderStroke fx:constant="MEDIUM"/>
-                        </widths>
-                    </BorderStroke>
-                </strokes>
-            </Border>
-        </border>
-        <ImageView preserveRatio="true" fitHeight="60">
-            <Image url="outline_info_black_48dp.png"/>
-        </ImageView>
-        <Text fx:id="txtDescription" textAlignment="CENTER" lineSpacing="5"/>
+        <Button onAction="#handleInfo">
+            <graphic>
+                <ImageView preserveRatio="true" fitHeight="${choiceBoxOptionsRecherche.height}">
+                    <Image url="outline_info_black_48dp.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
     </HBox>
 
     <HBox spacing="${HBOX_SPACING}" alignment="CENTER">
         <Text text="Numéro de référence"/>
-        <!--<Region HBox.hgrow="SOMETIMES"/>-->
         <TextField fx:id="fieldReference"/>
     </HBox>
 

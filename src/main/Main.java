@@ -64,7 +64,7 @@ public class Main extends Application {
     private static ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
-        final BaseDeDonnees<Livre> baseDeDonnees = new BaseDeDonnees<>(livres);
+        BaseDeDonnees<Livre> baseDeDonnees = new BaseDeDonnees<>(livres);
 
         algorithmes.addAll(
                 new AlgorithmeBinaireRecursif(baseDeDonnees),

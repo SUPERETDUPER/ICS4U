@@ -24,17 +24,16 @@
 
 package main;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import main.algorithme.Algorithme;
 import main.donnees.Livre;
+
+import java.io.IOException;
 
 /**
  * Controlle toute l'interface graphique
@@ -64,7 +63,7 @@ class MainController {
     private final TextFormatter<Integer> textFormatter = new TextFormatter<>(
             new IntegerStringConverter(),
             null,
-            change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null
+            change -> change.isAdded() && change.getText().matches("[^0-9]") ? null : change
     );
 
     MainController(ObservableList<Algorithme> algorithmes) {
@@ -87,11 +86,21 @@ class MainController {
                         fieldReference.textProperty().isEmpty()
                 )
         );
+    }
 
-        txtDescription.textProperty().bind(Bindings.createStringBinding(
-                () -> choiceBoxOptionsRecherche.getValue().getDescription(),
-                choiceBoxOptionsRecherche.valueProperty()
-        ));
+    @FXML
+    private void handleInfo() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/info.fxml"));
+            fxmlLoader.setController(new InfoController(choiceBoxOptionsRecherche.getValue().getDescription()));
+
+            Dialog dialog = new Dialog();
+            dialog.setTitle("Informations");
+            dialog.setDialogPane(fxmlLoader.load());
+            dialog.showAndWait();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
