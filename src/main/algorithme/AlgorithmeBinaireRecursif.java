@@ -33,21 +33,15 @@ import org.jetbrains.annotations.Nullable;
  * Algorithme de recherche binaire recursif
  */
 public class AlgorithmeBinaireRecursif implements Algorithme {
-    @NotNull
-    private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    public AlgorithmeBinaireRecursif(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
-        this.baseDeDonnees = baseDeDonnees;
-    }
 
     @Nullable
     @Override
-    public Livre rechercher(int numeroDeReference) {
-        return rechercher(0, baseDeDonnees.getSize() - 1, numeroDeReference);
+    public Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference) {
+        return rechercher(baseDeDonnees, numeroDeReference, 0, baseDeDonnees.getSize() - 1);
     }
 
-    @Nullable
-    private Livre rechercher(int min, int max, int numeroDeReference) {
+    private Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference, int min, int max) {
         if (min <= max) {
             int milieu = (min + max) / 2;
 
@@ -57,8 +51,8 @@ public class AlgorithmeBinaireRecursif implements Algorithme {
             if (livre.getReference() == numeroDeReference) return livre;
 
             //Sinon nous retournons le resultat de l'algoritme avec un différent min/max
-            if (numeroDeReference > livre.getReference()) return rechercher(milieu + 1, max, numeroDeReference);
-            return rechercher(min, milieu - 1, numeroDeReference);
+            if (numeroDeReference > livre.getReference()) return rechercher(baseDeDonnees, numeroDeReference, milieu + 1, max);
+            return rechercher(baseDeDonnees, numeroDeReference, min, milieu - 1);
         }
 
         //Si le minimum n'est pas plus petit que le max le livre n'existe pas

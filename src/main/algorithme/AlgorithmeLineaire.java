@@ -32,15 +32,10 @@ import org.jetbrains.annotations.Nullable;
  * Algorithme de recherche linéaire. Vérifie tous les livres dans la liste pour le numéro de référence
  */
 public class AlgorithmeLineaire implements Algorithme {
-    private final BaseDeDonnees<Livre> baseDeDonnees;
-
-    public AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
-        this.baseDeDonnees = baseDeDonnees;
-    }
 
     @Nullable
     @Override
-    public Livre rechercher(int numeroDeReference) {
+    public Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference) {
         for (Livre livre : baseDeDonnees) {
             if (livre.getReference() == numeroDeReference) return livre;
         }

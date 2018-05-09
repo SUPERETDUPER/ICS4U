@@ -33,19 +33,10 @@ import org.jetbrains.annotations.Nullable;
  * Un algorithme de recherche binaire non-recursif.
  */
 public class AlgorithmeBinaire implements Algorithme {
-    @NotNull
-    private final BaseDeDonnees<Livre> baseDeDonnees;
-
-    /**
-     * @param baseDeDonnees la base de données à utiliser
-     */
-    public AlgorithmeBinaire(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
-        this.baseDeDonnees = baseDeDonnees;
-    }
 
     @Nullable
     @Override
-    public Livre rechercher(int numeroDeReference) {
+    public Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference) {
         int min = 0;
         int max = baseDeDonnees.getSize() - 1;
 

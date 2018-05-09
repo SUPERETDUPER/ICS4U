@@ -24,7 +24,6 @@
 
 package main;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -54,7 +53,7 @@ class MainController {
     /**
      * La liste d'algorithme
      */
-    private final ObservableList<Algorithme> algorithmes;
+    private final Modele modele;
 
     /**
      * Le formatter pour l'entrée de texte de la référence.
@@ -66,14 +65,14 @@ class MainController {
             change -> change.isAdded() && change.getText().matches("[^0-9]") ? null : change
     );
 
-    MainController(ObservableList<Algorithme> algorithmes) {
-        this.algorithmes = algorithmes;
+    MainController(Modele modele) {
+        this.modele = modele;
     }
 
     @FXML
     private void initialize() {
         //Ajouter les options à la liste d'options
-        choiceBoxOptionsRecherche.setItems(algorithmes);
+        choiceBoxOptionsRecherche.setItems(modele.getAlgorithmes());
 
         choiceBoxOptionsRecherche.getSelectionModel().select(0);
 
@@ -109,7 +108,7 @@ class MainController {
      */
     @FXML
     private void handleTrouver() {
-        Livre livre = choiceBoxOptionsRecherche.getValue().rechercher(textFormatter.getValue());
+        Livre livre = choiceBoxOptionsRecherche.getValue().rechercher(modele.getBaseDeDonnees(), textFormatter.getValue());
 
         if (livre != null) {
             txtResultat.setText("Livre trouvé!\nNom: " + livre.getNom());

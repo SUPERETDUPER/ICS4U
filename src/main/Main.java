@@ -61,16 +61,16 @@ public class Main extends Application {
             new Livre(40,"Le joueur")
     );
 
-    private static ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList();
+    private final static ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList(
+            new AlgorithmeBinaireRecursif(),
+            new AlgorithmeLineaire(),
+            new AlgorithmeBinaire()
+    );
+
+    private static Modele modele;
 
     public static void main(String[] args) {
-        BaseDeDonnees<Livre> baseDeDonnees = new BaseDeDonnees<>(livres);
-
-        algorithmes.addAll(
-                new AlgorithmeBinaireRecursif(baseDeDonnees),
-                new AlgorithmeLineaire(baseDeDonnees),
-                new AlgorithmeBinaire(baseDeDonnees)
-        );
+        modele = new Modele(algorithmes, new BaseDeDonnees<>(livres));
 
 
         launch(args);
@@ -83,7 +83,7 @@ public class Main extends Application {
 
         //Attacher le controller avec la base de données
 
-        fxmlLoader.setController(new MainController(algorithmes));
+        fxmlLoader.setController(new MainController(modele));
 
         //Montrer l'interface
         primaryStage.setScene(new Scene(fxmlLoader.load()));

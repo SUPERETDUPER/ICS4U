@@ -22,12 +22,27 @@
  * SOFTWARE.
  */
 
-package main.algorithme;
+package main;
 
+import javafx.collections.ObservableList;
+import main.algorithme.Algorithme;
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
-public interface Algorithme {
-    Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference);
-    String getDescription();
+class Modele {
+    private final ObservableList<Algorithme> algorithmes;
+    private final BaseDeDonnees<Livre> baseDeDonnees;
+
+    Modele(ObservableList<Algorithme> algorithmes, BaseDeDonnees<Livre> baseDeDonnees) {
+        this.algorithmes = algorithmes;
+        this.baseDeDonnees = baseDeDonnees;
+    }
+
+    BaseDeDonnees<Livre> getBaseDeDonnees() {
+        return baseDeDonnees;
+    }
+
+    ObservableList<Algorithme> getAlgorithmes() {
+        return algorithmes;
+    }
 }
