@@ -64,6 +64,11 @@ public class AlgorithmeBinaire implements Algorithme {
         return null; //Si Le minimum n'est pas plus petit que le maximum alors l'élément n'existe pas
     }
 
+    @Override
+    public String getDescription() {
+        return "L'algorithme binaire non-recursif à un \"Big Theta\" de log(n).";
+    }
+
     @NotNull
     @Override
     public String toString() {

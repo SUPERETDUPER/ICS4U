@@ -24,6 +24,7 @@
 
 package main;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,6 +49,8 @@ class MainController {
     private Text txtResultat;
     @FXML
     private Button bouttonTrouver;
+    @FXML
+    private Text txtDescription;
 
     /**
      * La liste d'algorithme
@@ -84,6 +87,11 @@ class MainController {
                         fieldReference.textProperty().isEmpty()
                 )
         );
+
+        txtDescription.textProperty().bind(Bindings.createStringBinding(
+                () -> choiceBoxOptionsRecherche.getValue().getDescription(),
+                choiceBoxOptionsRecherche.valueProperty()
+        ));
     }
 
     /**

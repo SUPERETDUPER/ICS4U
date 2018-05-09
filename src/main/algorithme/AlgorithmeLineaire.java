@@ -49,6 +49,11 @@ public class AlgorithmeLineaire implements Algorithme {
     }
 
     @Override
+    public String getDescription() {
+        return this.toString();
+    }
+
+    @Override
     public String toString() {
         return "Algorithm linéaire";
     }

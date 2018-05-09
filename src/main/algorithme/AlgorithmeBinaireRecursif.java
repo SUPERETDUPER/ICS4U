@@ -65,9 +65,16 @@ public class AlgorithmeBinaireRecursif implements Algorithme {
         return null;
     }
 
+    @Override
+    public String getDescription() {
+        return "O(log(n))\n" +
+                "L'algorithme binaire consiste à diviser la base de données en demi, jusqu'à ce que l'on ait trouver notre objet.\n" +
+                "L'algorithme nécessite une base de données déjà en ordre croissant.";
+    }
+
     @NotNull
     @Override
     public String toString() {
-        return "Algorithm binaire recursif";
+        return "Algorithme binaire recursif";
     }
 }

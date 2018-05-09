@@ -28,4 +28,5 @@ import main.donnees.Livre;
 
 public interface Algorithme {
     Livre rechercher(int numeroDeReference);
+    String getDescription();
 }
