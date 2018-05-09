@@ -34,17 +34,13 @@ import main.algorithme.Algorithme;
 import main.algorithme.AlgorithmeBinaire;
 import main.algorithme.AlgorithmeBinaireRecursif;
 import main.algorithme.AlgorithmeLineaire;
-import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Main extends Application {
     /**
      * La liste de livres à inclure dans la base de données
      */
-    private final static List<Livre> livres = Arrays.asList(
+    private final static ObservableList<Livre> livres = FXCollections.observableArrayList(
             new Livre(2, "Pinocchio"),
             new Livre(5, "Maria Chapdelaine"),
             new Livre(7, "L'Homme Invisible"),
@@ -70,7 +66,7 @@ public class Main extends Application {
     private static Modele modele;
 
     public static void main(String[] args) {
-        modele = new Modele(algorithmes, new BaseDeDonnees<>(livres));
+        modele = new Modele(algorithmes, livres);
 
 
         launch(args);

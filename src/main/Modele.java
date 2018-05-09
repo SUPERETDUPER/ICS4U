@@ -24,21 +24,22 @@
 
 package main;
 
+import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import main.algorithme.Algorithme;
-import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
 class Modele {
     private final ObservableList<Algorithme> algorithmes;
-    private final BaseDeDonnees<Livre> baseDeDonnees;
+    private final ReadOnlyListWrapper<Livre> baseDeDonnees;
 
-    Modele(ObservableList<Algorithme> algorithmes, BaseDeDonnees<Livre> baseDeDonnees) {
+    Modele(ObservableList<Algorithme> algorithmes, ObservableList<Livre> baseDeDonnees) {
         this.algorithmes = algorithmes;
-        this.baseDeDonnees = baseDeDonnees;
+        this.baseDeDonnees = new ReadOnlyListWrapper<>(baseDeDonnees);
     }
 
-    BaseDeDonnees<Livre> getBaseDeDonnees() {
+    ReadOnlyListProperty<Livre> getBaseDeDonnees() {
         return baseDeDonnees;
     }
 

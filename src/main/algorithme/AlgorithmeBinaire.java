@@ -24,10 +24,11 @@
 
 package main.algorithme;
 
-import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * Un algorithme de recherche binaire non-recursif.
@@ -36,13 +37,13 @@ public class AlgorithmeBinaire implements Algorithme {
 
     @Nullable
     @Override
-    public Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference) {
+    public Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference) {
         int min = 0;
-        int max = baseDeDonnees.getSize() - 1;
+        int max = baseDeDonnees.size() - 1;
 
         while (min <= max) {
             int milieu =(min + max) / 2;
-            Livre livreAuMilieu = baseDeDonnees.getLivre(milieu);
+            Livre livreAuMilieu = baseDeDonnees.get(milieu);
 
             //Si le numéro de référence du livre du milieu est celui que l'on recherche nous le retournons
             if (livreAuMilieu.getReference() == numeroDeReference) return livreAuMilieu;

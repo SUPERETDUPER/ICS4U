@@ -24,10 +24,11 @@
 
 package main.algorithme;
 
-import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
+import java.util.List;
+
 public interface Algorithme {
-    Livre rechercher(BaseDeDonnees<Livre> baseDeDonnees, int numeroDeReference);
+    Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference);
     String getDescription();
 }
