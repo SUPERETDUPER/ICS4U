@@ -32,7 +32,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import main.algorithme.Algorithme;
-import main.algorithme.CollectionAlgorithmes;
+import main.donnees.CollectionAvecDefaut;
 import main.donnees.Livre;
 
 /**
@@ -52,7 +52,7 @@ class MainController {
     /**
      * Ce qui permet d'acceder aux données et d'obtenir des résultats
      */
-    private final CollectionAlgorithmes collectionAlgorithmes;
+    private final CollectionAvecDefaut<Algorithme> collectionAlgorithmes;
 
     /**
      * Le formatter pour l'entrée de texte de la référence.
@@ -64,16 +64,16 @@ class MainController {
             change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null
     );
 
-    MainController(CollectionAlgorithmes collectionAlgorithmes) {
+    MainController(CollectionAvecDefaut<Algorithme> collectionAlgorithmes) {
         this.collectionAlgorithmes = collectionAlgorithmes;
     }
 
     @FXML
     private void initialize() {
         //Ajouter les options à la liste d'options
-        choiceBoxOptionsRecherche.setItems(collectionAlgorithmes.getAlgorithmes());
+        choiceBoxOptionsRecherche.setItems(collectionAlgorithmes.getTousObjets());
 
-        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.getAlgorithmeDefaut());
+        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.getObjetDefaut());
 
         //Attacher le formatter
         fieldReference.setTextFormatter(textFormatter);

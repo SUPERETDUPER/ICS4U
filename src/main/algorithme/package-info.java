@@ -27,6 +27,6 @@
  * Chaque algorithm implement {@link java.util.function.Function}.
  * C'est cette méthode qui sera appelé pour recherche un livre.
  * <p>
- * Tous les algorithmes sont créés et ajoutés à une liste dans {@link main.algorithme.CollectionAlgorithmes}.
+ * Tous les algorithmes sont créés et ajoutés à une liste dans {@link main.donnees.CollectionAvecDefaut}.
  */
 package main.algorithme;

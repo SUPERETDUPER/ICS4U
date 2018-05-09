@@ -31,10 +31,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Algorithme de recherche linéaire. Vérifie tous les livres dans la liste pour le numéro de référence
  */
-class AlgorithmeLineaire implements Algorithme {
+public class AlgorithmeLineaire implements Algorithme {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
+    public AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 

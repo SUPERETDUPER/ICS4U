@@ -22,37 +22,37 @@
  * SOFTWARE.
  */
 
-package main.algorithme;
+package main.donnees;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
-import java.util.function.Function;
-
 /**
  * La collections de tous les algorithms possible.
- * Contient une liste d'algorithmes
+ * Contient une liste d'tousObjets
  */
-public class CollectionAlgorithmes {
-    private final AlgorithmeBinaireRecursif algorithmeDefaut;
-    private final ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList();
+public class CollectionAvecDefaut<T> {
+    private final T objetDefaut;
+    private final ObservableList<T> tousObjets;
 
-    public CollectionAlgorithmes(BaseDeDonnees<Livre> baseDeDonnees) {
-        algorithmeDefaut = new AlgorithmeBinaireRecursif(baseDeDonnees);
-        algorithmes.addAll(
-                algorithmeDefaut,
-                new AlgorithmeLineaire(baseDeDonnees),
-                new AlgorithmeBinaire(baseDeDonnees)
-        );
+    public CollectionAvecDefaut(T objetDefaut, T[] autresOptions) {
+        this.objetDefaut = objetDefaut;
+        this.tousObjets = FXCollections.observableArrayList(autresOptions);
+        this.tousObjets.add(objetDefaut);
+//        this.tousObjets.addAll(
+//                this.objetDefaut,
+//                new AlgorithmeLineaire(baseDeDonnees),
+//                new AlgorithmeBinaire(baseDeDonnees)
+//        );
     }
 
-    public ObservableList<Algorithme> getAlgorithmes() {
-        return algorithmes;
+    public ObservableList<T> getTousObjets() {
+        return tousObjets;
     }
 
-    public Algorithme getAlgorithmeDefaut() {
-        return algorithmeDefaut;
+    public T getObjetDefaut() {
+        return objetDefaut;
     }
 }

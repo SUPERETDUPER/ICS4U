@@ -32,11 +32,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Algorithme de recherche binaire recursif
  */
-class AlgorithmeBinaireRecursif implements Algorithme {
+public class AlgorithmeBinaireRecursif implements Algorithme {
     @NotNull
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
-    AlgorithmeBinaireRecursif(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
+    public AlgorithmeBinaireRecursif(@NotNull BaseDeDonnees<Livre> baseDeDonnees) {
         this.baseDeDonnees = baseDeDonnees;
     }
 
