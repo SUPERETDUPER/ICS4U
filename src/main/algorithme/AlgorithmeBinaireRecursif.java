@@ -24,7 +24,7 @@
 
 package main.algorithme;
 
-import main.donnees.Livre;
+import main.modele.Livre;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

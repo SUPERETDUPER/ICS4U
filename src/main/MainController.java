@@ -30,7 +30,8 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import main.algorithme.Algorithme;
-import main.donnees.Livre;
+import main.modele.Livre;
+import main.modele.Modele;
 
 import java.io.IOException;
 

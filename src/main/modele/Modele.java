@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-package main;
+package main.modele;
 
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import main.algorithme.Algorithme;
-import main.donnees.Livre;
 
-class Modele {
+public class Modele {
     private final ReadOnlyListWrapper<Algorithme> algorithmes;
     private final ReadOnlyListWrapper<Livre> baseDeDonnees;
 
-    Modele(ObservableList<Algorithme> algorithmes, ObservableList<Livre> baseDeDonnees) {
+    public Modele(ObservableList<Algorithme> algorithmes, ObservableList<Livre> baseDeDonnees) {
         this.algorithmes = new ReadOnlyListWrapper<>(algorithmes);
         this.baseDeDonnees = new ReadOnlyListWrapper<>(baseDeDonnees);
     }
 
-    ReadOnlyListProperty<Livre> getBaseDeDonnees() {
+    public ReadOnlyListProperty<Livre> getBaseDeDonnees() {
         return baseDeDonnees;
     }
 
-    ReadOnlyListProperty<Algorithme> getAlgorithmes() {
+    public ReadOnlyListProperty<Algorithme> getAlgorithmes() {
         return algorithmes;
     }
 }

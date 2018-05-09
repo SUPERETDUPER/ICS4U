@@ -24,7 +24,7 @@
 
 package main.algorithme;
 
-import main.donnees.Livre;
+import main.modele.Livre;
 
 import java.util.List;
 

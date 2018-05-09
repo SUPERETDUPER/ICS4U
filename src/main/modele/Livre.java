@@ -22,9 +22,37 @@
  * SOFTWARE.
  */
 
+package main.modele;
+
+import org.jetbrains.annotations.NotNull;
+
 /**
- * Définit le format des données
- * {@link main.donnees.Livre} définit le format d'un livre
- * {@link main.donnees.BaseDeDonnees} définit le format de la base de données de livres
+ * Un livre
+ * Contient un nom et un numéro de référence
  */
-package main.donnees;
+public class Livre {
+    private final int reference;
+    @NotNull
+    private final String nom;
+
+    public Livre(int reference, @NotNull String nom) {
+        this.reference = reference;
+        this.nom = nom;
+    }
+
+    public int getReference() {
+        return reference;
+    }
+
+    @NotNull
+    public String getNom() {
+        return nom;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Reference: " + reference +
+                "\nNom: " + nom;
+    }
+}

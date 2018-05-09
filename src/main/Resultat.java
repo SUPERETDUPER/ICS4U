@@ -24,7 +24,7 @@
 
 package main;
 
-import main.donnees.Livre;
+import main.modele.Livre;
 
 @Deprecated
 class Resultat {

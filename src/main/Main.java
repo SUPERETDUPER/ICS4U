@@ -34,7 +34,8 @@ import main.algorithme.Algorithme;
 import main.algorithme.AlgorithmeBinaire;
 import main.algorithme.AlgorithmeBinaireRecursif;
 import main.algorithme.AlgorithmeLineaire;
-import main.donnees.Livre;
+import main.modele.Livre;
+import main.modele.Modele;
 
 public class Main extends Application {
     /**
