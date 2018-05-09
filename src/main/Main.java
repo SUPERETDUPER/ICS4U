@@ -25,6 +25,8 @@
 package main;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -32,7 +34,6 @@ import main.algorithme.Algorithme;
 import main.algorithme.AlgorithmeBinaire;
 import main.algorithme.AlgorithmeBinaireRecursif;
 import main.algorithme.AlgorithmeLineaire;
-import main.donnees.CollectionAvecDefaut;
 import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
@@ -60,17 +61,16 @@ public class Main extends Application {
             new Livre(40,"Le joueur")
     );
 
-    private static Algorithme algorithmeParDefaut;
-    private static Algorithme[] autresAlgorithmes;
+    private static ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList();
 
     public static void main(String[] args) {
         final BaseDeDonnees<Livre> baseDeDonnees = new BaseDeDonnees<>(livres);
 
-        algorithmeParDefaut = new AlgorithmeBinaireRecursif(baseDeDonnees);
-        autresAlgorithmes = new Algorithme[]{
+        algorithmes.addAll(
+                new AlgorithmeBinaireRecursif(baseDeDonnees),
                 new AlgorithmeLineaire(baseDeDonnees),
                 new AlgorithmeBinaire(baseDeDonnees)
-        };
+        );
 
 
         launch(args);
@@ -83,7 +83,7 @@ public class Main extends Application {
 
         //Attacher le controller avec la base de données
 
-        fxmlLoader.setController(new MainController(new CollectionAvecDefaut<>(algorithmeParDefaut, autresAlgorithmes)));
+        fxmlLoader.setController(new MainController(algorithmes));
 
         //Montrer l'interface
         primaryStage.setScene(new Scene(fxmlLoader.load()));

@@ -24,6 +24,7 @@
 
 package main;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -32,7 +33,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import main.algorithme.Algorithme;
-import main.donnees.CollectionAvecDefaut;
 import main.donnees.Livre;
 
 /**
@@ -50,9 +50,9 @@ class MainController {
     private Button bouttonTrouver;
 
     /**
-     * Ce qui permet d'acceder aux données et d'obtenir des résultats
+     * La liste d'algorithme
      */
-    private final CollectionAvecDefaut<Algorithme> collectionAlgorithmes;
+    private final ObservableList<Algorithme> algorithmes;
 
     /**
      * Le formatter pour l'entrée de texte de la référence.
@@ -64,16 +64,16 @@ class MainController {
             change -> !change.isAdded() || change.getText().matches("[0-9]") ? change : null
     );
 
-    MainController(CollectionAvecDefaut<Algorithme> collectionAlgorithmes) {
-        this.collectionAlgorithmes = collectionAlgorithmes;
+    MainController(ObservableList<Algorithme> algorithmes) {
+        this.algorithmes = algorithmes;
     }
 
     @FXML
     private void initialize() {
         //Ajouter les options à la liste d'options
-        choiceBoxOptionsRecherche.setItems(collectionAlgorithmes.getTousObjets());
+        choiceBoxOptionsRecherche.setItems(algorithmes);
 
-        choiceBoxOptionsRecherche.getSelectionModel().select(collectionAlgorithmes.getObjetDefaut());
+        choiceBoxOptionsRecherche.getSelectionModel().select(0);
 
         //Attacher le formatter
         fieldReference.setTextFormatter(textFormatter);
