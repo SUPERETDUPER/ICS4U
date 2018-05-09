@@ -31,11 +31,11 @@ import main.algorithme.Algorithme;
 import main.donnees.Livre;
 
 class Modele {
-    private final ObservableList<Algorithme> algorithmes;
+    private final ReadOnlyListWrapper<Algorithme> algorithmes;
     private final ReadOnlyListWrapper<Livre> baseDeDonnees;
 
     Modele(ObservableList<Algorithme> algorithmes, ObservableList<Livre> baseDeDonnees) {
-        this.algorithmes = algorithmes;
+        this.algorithmes = new ReadOnlyListWrapper<>(algorithmes);
         this.baseDeDonnees = new ReadOnlyListWrapper<>(baseDeDonnees);
     }
 
@@ -43,7 +43,7 @@ class Modele {
         return baseDeDonnees;
     }
 
-    ObservableList<Algorithme> getAlgorithmes() {
+    ReadOnlyListProperty<Algorithme> getAlgorithmes() {
         return algorithmes;
     }
 }
