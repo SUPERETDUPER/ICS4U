@@ -29,12 +29,10 @@ import main.donnees.Livre;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
-
 /**
  * Un algorithme de recherche binaire non-recursif.
  */
-class AlgorithmeBinaire implements Function<Integer, Livre> {
+class AlgorithmeBinaire implements Algorithme {
     @NotNull
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
@@ -47,7 +45,7 @@ class AlgorithmeBinaire implements Function<Integer, Livre> {
 
     @Nullable
     @Override
-    public Livre apply(Integer numeroDeReference) {
+    public Livre rechercher(int numeroDeReference) {
         int min = 0;
         int max = baseDeDonnees.getSize() - 1;
 

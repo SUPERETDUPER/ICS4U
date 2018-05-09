@@ -24,35 +24,8 @@
 
 package main.algorithme;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 
-import java.util.function.Function;
-
-/**
- * La collections de tous les algorithms possible.
- * Contient une liste d'algorithmes
- */
-public class CollectionAlgorithmes {
-    private final AlgorithmeBinaireRecursif algorithmeDefaut;
-    private final ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList();
-
-    public CollectionAlgorithmes(BaseDeDonnees<Livre> baseDeDonnees) {
-        algorithmeDefaut = new AlgorithmeBinaireRecursif(baseDeDonnees);
-        algorithmes.addAll(
-                algorithmeDefaut,
-                new AlgorithmeLineaire(baseDeDonnees),
-                new AlgorithmeBinaire(baseDeDonnees)
-        );
-    }
-
-    public ObservableList<Algorithme> getAlgorithmes() {
-        return algorithmes;
-    }
-
-    public Algorithme getAlgorithmeDefaut() {
-        return algorithmeDefaut;
-    }
+public interface Algorithme {
+    Livre rechercher(int numeroDeReference);
 }

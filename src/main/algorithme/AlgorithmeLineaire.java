@@ -28,12 +28,10 @@ import main.donnees.BaseDeDonnees;
 import main.donnees.Livre;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
-
 /**
  * Algorithme de recherche linéaire. Vérifie tous les livres dans la liste pour le numéro de référence
  */
-class AlgorithmeLineaire implements Function<Integer, Livre> {
+class AlgorithmeLineaire implements Algorithme {
     private final BaseDeDonnees<Livre> baseDeDonnees;
 
     AlgorithmeLineaire(BaseDeDonnees<Livre> baseDeDonnees) {
@@ -42,7 +40,7 @@ class AlgorithmeLineaire implements Function<Integer, Livre> {
 
     @Nullable
     @Override
-    public Livre apply(Integer numeroDeReference) {
+    public Livre rechercher(int numeroDeReference) {
         for (Livre livre : baseDeDonnees) {
             if (livre.getReference() == numeroDeReference) return livre;
         }

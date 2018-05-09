@@ -31,10 +31,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
+import main.algorithme.Algorithme;
 import main.algorithme.CollectionAlgorithmes;
 import main.donnees.Livre;
-
-import java.util.function.Function;
 
 /**
  * Controlle toute l'interface graphique
@@ -42,7 +41,7 @@ import java.util.function.Function;
 class MainController {
     //DE FXML
     @FXML
-    private ChoiceBox<Function<Integer, Livre>> choiceBoxOptionsRecherche;
+    private ChoiceBox<Algorithme> choiceBoxOptionsRecherche;
     @FXML
     private TextField fieldReference;
     @FXML
@@ -93,7 +92,7 @@ class MainController {
      */
     @FXML
     private void handleTrouver() {
-        Livre livre = choiceBoxOptionsRecherche.getValue().apply(textFormatter.getValue());
+        Livre livre = choiceBoxOptionsRecherche.getValue().rechercher(textFormatter.getValue());
 
         if (livre != null) {
             txtResultat.setText("Livre trouvé!\nNom: " + livre.getNom());
