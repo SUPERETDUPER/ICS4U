@@ -31,7 +31,14 @@ import org.jetbrains.annotations.NotNull;
  * Contient un nom et un numéro de référence
  */
 public class Livre {
+    /**
+     * Le numéro de référence du livre
+     */
     private final int reference;
+
+    /**
+     * Le nom du livre
+     */
     @NotNull
     private final String nom;
 

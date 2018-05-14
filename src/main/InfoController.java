@@ -27,7 +27,9 @@ package main;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-
+/**
+ * Controle le pop-up d'info. Définit simplement le message dans la boîte
+ */
 class InfoController {
     @FXML
     private Text message;

@@ -62,8 +62,8 @@ public class AlgorithmeBinaireRecursif implements Algorithme {
 
     @Override
     public String getDescription() {
-        return "O(log(n))\n" +
-                "L'algorithme binaire consiste à diviser la base de données en demi, jusqu'à ce que l'on ait trouver notre objet.\n" +
+        return "L'algorithme binaire recursif a un \"Big Theta\" de O(log(n)).\n" +
+                "L'algorithme binaire consiste à diviser la base de données en demi, jusqu'à ce que on ait trouvé notre objet.\n" +
                 "L'algorithme nécessite une base de données déjà en ordre croissant.";
     }
 

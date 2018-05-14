@@ -42,7 +42,7 @@ public class AlgorithmeBinaire implements Algorithme {
         int max = baseDeDonnees.size() - 1;
 
         while (min <= max) {
-            int milieu =(min + max) / 2;
+            int milieu = (min + max) / 2;
             Livre livreAuMilieu = baseDeDonnees.get(milieu);
 
             //Si le numéro de référence du livre du milieu est celui que l'on recherche nous le retournons
@@ -58,7 +58,9 @@ public class AlgorithmeBinaire implements Algorithme {
 
     @Override
     public String getDescription() {
-        return "L'algorithme binaire non-recursif à un \"Big Theta\" de log(n).";
+        return "L'algorithme binaire non-recursif a un \"Big Theta\" de O(log(n)).\n" +
+                "L'algorithme binaire consiste à diviser la base de données en demi, jusqu'à ce que on ait trouvé notre objet.\n" +
+                "L'algorithme nécessite une base de données déjà en ordre croissant.";
     }
 
     @NotNull

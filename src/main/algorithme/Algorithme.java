@@ -28,7 +28,16 @@ import main.modele.Livre;
 
 import java.util.List;
 
+/**
+ * Un algorithme qui cherche un livre dans une base de donnée à l'aide d'un numéro de référence
+ */
 public interface Algorithme {
+    /**
+     * Recherche un livre
+     * @param baseDeDonnees la base de données à chercher
+     * @param numeroDeReference le numéro de référence
+     * @return Le livre trouvé
+     */
     Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference);
     String getDescription();
 }

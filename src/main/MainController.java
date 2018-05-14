@@ -72,33 +72,33 @@ class MainController {
 
     @FXML
     private void initialize() {
-        //Ajouter les options à la liste d'options
+        //Ajouter les options à la liste d'options et choisir la première option
         choiceBoxOptionsRecherche.setItems(modele.getAlgorithmes());
-
         choiceBoxOptionsRecherche.getSelectionModel().select(0);
 
-        //Attacher le formatter
+        //Attacher le formatter à la boite de text
         fieldReference.setTextFormatter(textFormatter);
 
-        //Faire que le button soit "disabled" si les cases ne sont pas toutes remplies
-        bouttonTrouver.disableProperty().bind(
-                choiceBoxOptionsRecherche.getSelectionModel().selectedItemProperty().isNull().or(
-                        fieldReference.textProperty().isEmpty()
-                )
-        );
+        //Faire que le button soit "disabled" si le text n'est pas remplie
+        bouttonTrouver.disableProperty().bind(fieldReference.textProperty().isEmpty());
     }
 
+    /**
+     * Appelé quand le button d'info est appuyé
+     */
     @FXML
     private void handleInfo() {
         try {
+            //Créer l'interface avec le message
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/info.fxml"));
             fxmlLoader.setController(new InfoController(choiceBoxOptionsRecherche.getValue().getDescription()));
 
+            //Créer le dialog
             Dialog dialog = new Dialog();
             dialog.setTitle("Informations");
-            dialog.setDialogPane(fxmlLoader.load());
-            dialog.showAndWait();
-        } catch (IOException e){
+            dialog.setDialogPane(fxmlLoader.load()); //Attacher l'interface
+            dialog.showAndWait(); //Montrer l'interface
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -109,8 +109,10 @@ class MainController {
      */
     @FXML
     private void handleTrouver() {
+        //Obtenir le resultat de la recherche
         Livre livre = choiceBoxOptionsRecherche.getValue().rechercher(modele.getBaseDeDonnees(), textFormatter.getValue());
 
+        //Afficher le résultat
         if (livre != null) {
             txtResultat.setText("Livre trouvé!\nNom: " + livre.getNom());
         } else {

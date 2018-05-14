@@ -58,6 +58,9 @@ public class Main extends Application {
             new Livre(40,"Le joueur")
     );
 
+    /**
+     * La liste d'algorithmes possibles
+     */
     private final static ObservableList<Algorithme> algorithmes = FXCollections.observableArrayList(
             new AlgorithmeBinaireRecursif(),
             new AlgorithmeLineaire(),
@@ -67,10 +70,9 @@ public class Main extends Application {
     private static Modele modele;
 
     public static void main(String[] args) {
-        modele = new Modele(algorithmes, livres);
+        modele = new Modele(algorithmes, livres); //Créer le model
 
-
-        launch(args);
+        launch(args); //Lancer l'interface
     }
 
     @Override
@@ -78,8 +80,7 @@ public class Main extends Application {
         //Préparer l'interface
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
 
-        //Attacher le controller avec la base de données
-
+        //Attacher le controller avec le modele
         fxmlLoader.setController(new MainController(modele));
 
         //Montrer l'interface

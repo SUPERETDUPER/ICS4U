@@ -46,7 +46,8 @@ public class AlgorithmeLineaire implements Algorithme {
 
     @Override
     public String getDescription() {
-        return this.toString();
+        return "L'algorithme linéaire a un \"Big Theta\" de O(n). \n"+
+                "L'algorithme linéaire vérifie tous les objets dans la liste un par un.";
     }
 
     @Override

@@ -29,6 +29,10 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import main.algorithme.Algorithme;
 
+/**
+ * Definit le modele.
+ * Le modele contient une liste d'algorithme et une liste de livres (la base de donnees)
+ */
 public class Modele {
     private final ReadOnlyListWrapper<Algorithme> algorithmes;
     private final ReadOnlyListWrapper<Livre> baseDeDonnees;
