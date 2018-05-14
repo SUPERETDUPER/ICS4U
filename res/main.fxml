@@ -56,7 +56,7 @@
         <Button onAction="#handleInfo">
             <graphic>
                 <ImageView preserveRatio="true" fitHeight="${choiceBoxOptionsRecherche.height}">
-                    <Image url="outline_info_black_48dp.png"/>
+                    <Image url="icon_info.png"/>
                 </ImageView>
             </graphic>
         </Button>
@@ -73,7 +73,7 @@
         </font>
         <graphic>
             <ImageView preserveRatio="true" fitHeight="50">
-                <Image url="ic_search_black_48dp_2x.png"/>
+                <Image url="icon_search.png"/>
             </ImageView>
         </graphic>
     </Button>
