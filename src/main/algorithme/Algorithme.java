@@ -31,13 +31,23 @@ import java.util.List;
 /**
  * Un algorithme qui cherche un livre dans une base de donnée à l'aide d'un numéro de référence
  */
-public interface Algorithme {
+public abstract class Algorithme {
     /**
      * Recherche un livre
-     * @param baseDeDonnees la base de données à chercher
+     *
+     * @param baseDeDonnees     la base de données à chercher
      * @param numeroDeReference le numéro de référence
      * @return Le livre trouvé
      */
-    Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference);
-    String getDescription();
+    public Resultat rechercher(List<Livre> baseDeDonnees, int numeroDeReference) {
+        long startTime = System.nanoTime();
+        Livre livre = trouverLivre(baseDeDonnees, numeroDeReference);
+
+        double temps = (System.nanoTime() - startTime) / 1000000.0;
+        return new Resultat(livre, temps);
+    }
+
+    abstract Livre trouverLivre(List<Livre> baseDeDonnees, int numeroDeReference);
+
+    public abstract String getDescription();
 }

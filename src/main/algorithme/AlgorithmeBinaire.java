@@ -26,18 +26,16 @@ package main.algorithme;
 
 import main.modele.Livre;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * Un algorithme de recherche binaire non-recursif.
  */
-public class AlgorithmeBinaire implements Algorithme {
+public class AlgorithmeBinaire extends Algorithme {
 
-    @Nullable
     @Override
-    public Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference) {
+    public Livre trouverLivre(List<Livre> baseDeDonnees, int numeroDeReference) {
         int min = 0;
         int max = baseDeDonnees.size() - 1;
 

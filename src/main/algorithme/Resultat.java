@@ -22,38 +22,37 @@
  * SOFTWARE.
  */
 
-package main;
+package main.algorithme;
 
 import main.modele.Livre;
+import org.jetbrains.annotations.Nullable;
 
-@Deprecated
-class Resultat {
+/**
+ * Le resultat d'une recherche
+ */
+public class Resultat {
+    /**
+     * Le livre trouvé
+     */
+    @Nullable
     private final Livre livre;
-    private final boolean isSuccess;
-    private final String message;
 
-    public Resultat(Livre livre, boolean isSuccess, String message) {
+    /**
+     * Le temps que la recherche a prit en milisecondes
+     */
+    private final double temps;
+
+    Resultat(@Nullable Livre livre, double temps) {
         this.livre = livre;
-        this.isSuccess = isSuccess;
-        this.message = message;
+        this.temps = temps;
     }
 
+    public double getTemps() {
+        return temps;
+    }
+
+    @Nullable
     public Livre getLivre() {
         return livre;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    @Override
-    public String toString() {
-        return "Livre: " + livre +
-                "\nSuccess: " + isSuccess +
-                "\nMessage: " + message;
     }
 }

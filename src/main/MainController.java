@@ -30,7 +30,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import main.algorithme.Algorithme;
-import main.modele.Livre;
+import main.algorithme.Resultat;
 import main.modele.Modele;
 
 import java.io.IOException;
@@ -39,6 +39,11 @@ import java.io.IOException;
  * Controlle toute l'interface graphique
  */
 class MainController {
+    private static final String MSG_LIVRE_NULL = "Ce numéro de référence n'existe pas";
+    private static final String MSG_LIVRE_TROUVE = "Livre trouvé!\nNom: %s";
+    private static final String MSG_DUREE = "Durée de la recherche: %f ms";
+    private static final String TITRE_FENETRE_INFO = "Informations";
+
     //DE FXML
     @FXML
     private ChoiceBox<Algorithme> choiceBoxOptionsRecherche;
@@ -95,7 +100,7 @@ class MainController {
 
             //Créer le dialog
             Dialog dialog = new Dialog();
-            dialog.setTitle("Informations");
+            dialog.setTitle(TITRE_FENETRE_INFO);
             dialog.setDialogPane(fxmlLoader.load()); //Attacher l'interface
             dialog.showAndWait(); //Montrer l'interface
         } catch (IOException e) {
@@ -110,13 +115,14 @@ class MainController {
     @FXML
     private void handleTrouver() {
         //Obtenir le resultat de la recherche
-        Livre livre = choiceBoxOptionsRecherche.getValue().rechercher(modele.getBaseDeDonnees(), textFormatter.getValue());
+        Resultat resultat = choiceBoxOptionsRecherche.getValue().rechercher(modele.getBaseDeDonnees(), textFormatter.getValue());
 
         //Afficher le résultat
-        if (livre != null) {
-            txtResultat.setText("Livre trouvé!\nNom: " + livre.getNom());
-        } else {
-            txtResultat.setText("Ce numéro de référence n'existe pas");
-        }
+
+        txtResultat.setText(
+                (resultat.getLivre() == null ? MSG_LIVRE_NULL : String.format(MSG_LIVRE_TROUVE, resultat.getLivre().getNom())) +
+                        "\n" +
+                        String.format(MSG_DUREE, resultat.getTemps())
+        );
     }
 }

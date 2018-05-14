@@ -25,18 +25,16 @@
 package main.algorithme;
 
 import main.modele.Livre;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * Algorithme de recherche linéaire. Vérifie tous les livres dans la liste pour le numéro de référence
  */
-public class AlgorithmeLineaire implements Algorithme {
+public class AlgorithmeLineaire extends Algorithme {
 
-    @Nullable
     @Override
-    public Livre rechercher(List<Livre> baseDeDonnees, int numeroDeReference) {
+    public Livre trouverLivre(List<Livre> baseDeDonnees, int numeroDeReference) {
         for (Livre livre : baseDeDonnees) {
             if (livre.getReference() == numeroDeReference) return livre;
         }

@@ -80,7 +80,7 @@
 
     <Separator/>
 
-    <StackPane minHeight="100">
+    <StackPane minHeight="200">
         <Text fx:id="txtResultat" textAlignment="CENTER" lineSpacing="20">
             <font>
                 <Font size="20"/>
